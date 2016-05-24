@@ -62,6 +62,7 @@ class HomeView(View):
     @auth.class_method
     @auth.manager_or_superadmin_required
     def post(request, *args, **kwargs):
+        raise Exception("break the tests")
         official = request.POST.getlist('official', '')
         uuid = request.POST.getlist('uuid', None)
 
