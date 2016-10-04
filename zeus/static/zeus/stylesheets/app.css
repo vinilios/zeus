@@ -2353,7 +2353,7 @@ ul.flyout li.active a, .nav-bar li ul li.active a {
   position: absolute;
   top: 0;
   left: -20px;
-  background: url('/images/foundation/orbit/rotator-black.png?1444643181') no-repeat;
+  background: url('/images/foundation/orbit/rotator-black.png?1484479965') no-repeat;
   z-index: 3;
 }
 .orbit-wrapper span.rotator.move {
@@ -2372,7 +2372,7 @@ ul.flyout li.active a, .nav-bar li ul li.active a {
 .orbit-wrapper span.mask.move {
   width: 40px;
   left: 0;
-  background: url('/images/foundation/orbit/timer-black.png?1444643181') repeat 0 0;
+  background: url('/images/foundation/orbit/timer-black.png?1484479965') repeat 0 0;
 }
 .orbit-wrapper span.pause {
   display: block;
@@ -2381,12 +2381,12 @@ ul.flyout li.active a, .nav-bar li ul li.active a {
   position: absolute;
   top: 0;
   left: 0;
-  background: url('/images/foundation/orbit/pause-black.png?1444643181') no-repeat;
+  background: url('/images/foundation/orbit/pause-black.png?1484479965') no-repeat;
   z-index: 4;
   opacity: 0;
 }
 .orbit-wrapper span.pause.active {
-  background: url('/images/foundation/orbit/pause-black.png?1444643181') no-repeat 0 -40px;
+  background: url('/images/foundation/orbit/pause-black.png?1484479965') no-repeat 0 -40px;
 }
 .orbit-wrapper .timer:hover span.pause, .orbit-wrapper .timer:focus span.pause, .orbit-wrapper span.pause.active {
   opacity: 1;
@@ -2427,21 +2427,21 @@ ul.flyout li.active a, .nav-bar li ul li.active a {
   cursor: pointer;
 }
 .orbit-wrapper .slider-nav span.right {
-  background: url('/images/foundation/orbit/right-arrow.png?1444643181');
+  background: url('/images/foundation/orbit/right-arrow.png?1484479965');
   background-size: 100%;
   right: 0;
 }
 .orbit-wrapper .slider-nav span.left {
-  background: url('/images/foundation/orbit/left-arrow.png?1444643181');
+  background: url('/images/foundation/orbit/left-arrow.png?1484479965');
   background-size: 100%;
   left: 0;
 }
 
 .lt-ie9 .orbit-wrapper .slider-nav span.right {
-  background: url('/images/foundation/orbit/right-arrow-small.png?1444643181');
+  background: url('/images/foundation/orbit/right-arrow-small.png?1484479965');
 }
 .lt-ie9 .orbit-wrapper .slider-nav span.left {
-  background: url('/images/foundation/orbit/left-arrow-small.png?1444643181');
+  background: url('/images/foundation/orbit/left-arrow-small.png?1484479965');
 }
 
 /* Bullet Nav ---------------------- */
@@ -2460,7 +2460,7 @@ ul.orbit-bullets li {
   cursor: pointer;
   color: #999999;
   text-indent: -9999px;
-  background: url('/images/foundation/orbit/bullets.jpg?1444643181') no-repeat 4px 0;
+  background: url('/images/foundation/orbit/bullets.jpg?1484479965') no-repeat 4px 0;
   width: 13px;
   height: 12px;
   overflow: hidden;
@@ -5787,6 +5787,150 @@ form#upload_form select {
 
 .voter-weight {
   margin-bottom: -29px;
+}
+
+.forum .forum-dates {
+  margin-bottom: 10px;
+}
+.forum .forum-description {
+  clear: both;
+  padding: 15px;
+  border: 1px solid #ddd;
+  background-color: #efefef;
+}
+.forum .forum-description.warning {
+  clear: both;
+  margin-top: 20px;
+  background-color: #a52a2a;
+  color: #fff;
+}
+.forum .forum-posts {
+  margin-top: 20px;
+  clear: both;
+  padding-top: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.forum .forum-posts .back {
+  margin-bottom: 10px;
+  display: inline-block;
+}
+.forum .forum-posts .back i {
+  vertical-align: -2px;
+}
+.forum .forum-posts h4 {
+  margin-top: 0px;
+}
+.forum .forum-posts .posts-list {
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.forum .forum-posts .forum-post {
+  margin-bottom: 15px;
+  border: 1px solid #efefef;
+}
+.forum .forum-posts .forum-post form {
+  margin: 0;
+}
+.forum .forum-posts .forum-post .post-actions {
+  padding: 5px 10px;
+  padding-bottom: 0;
+  padding-top: 0;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #aaa;
+}
+.forum .forum-posts .forum-post .post-actions .action.post-replies {
+  float: left;
+  background-color: #112291;
+}
+.forum .forum-posts .forum-post .post-actions .action {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  font-weight: bold;
+  border: none;
+  float: right;
+}
+.forum .forum-posts .forum-post .post-actions .action.delete {
+  background-color: #c60f13;
+}
+.forum .forum-posts .forum-post .post-actions .action:first-child {
+  margin-right: 0;
+}
+.forum .forum-posts .forum-post .replies {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.forum .forum-posts .forum-post .replies .forum-post {
+  border-left: 3px solid #ccc;
+}
+.forum .forum-posts .forum-post .replies .forum-post:hover {
+  border-left: 3px solid #2ba6cb !important;
+}
+.forum .forum-posts .forum-post .top {
+  background-color: #efefef;
+  font-weight: bold;
+  border-bottom: 2px solid #444;
+  padding: 10px;
+}
+.forum .forum-posts .forum-post .top .perma {
+  float: right;
+  font-size: 1.5rem;
+}
+.forum .forum-posts .forum-post .top .date {
+  color: #444;
+  margin-left: 10px;
+  font-size: 1rem;
+}
+.forum .forum-posts .forum-post a.readmore {
+  font-size: 1rem;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  padding: 5px;
+  background-color: #79cae3;
+  color: #fff;
+  text-align: center;
+}
+.forum .forum-posts .forum-post a.readmore:hover {
+  background-color: #2ba6cb;
+}
+.forum .forum-posts .forum-post a.readmore i {
+  vertical-align: -2px;
+}
+.forum .forum-posts .forum-post.deleted {
+  opacity: 0.3;
+  background-color: #444;
+}
+.forum .forum-posts .forum-post.deleted:hover {
+  opacity: 0.6;
+}
+.forum .forum-posts .forum-post.deleted .top * {
+  font-size: 1rem !important;
+}
+.forum .forum-posts .forum-post.deleted .body {
+  font-size: 1rem;
+  color: #fff !important;
+}
+.forum .forum-posts .forum-post .body {
+  padding: 10px;
+}
+.forum .forum-posts .forum-post .body h1, .forum .forum-posts .forum-post .body h2, .forum .forum-posts .forum-post .body h3, .forum .forum-posts .forum-post .body h4, .forum .forum-posts .forum-post .body h5, .forum .forum-posts .forum-post .body h6 {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+.forum .forum-posts .forum-post .body ul {
+  margin-left: 20px;
+}
+.forum .create-comment {
+  margin-top: 25px;
+}
+
+.CodeMirror, .CodeMirror-scroll {
+  min-height: 150px !important;
+  margin-bottom: 20px;
 }
 
 /* Base Type Styles Using Modular Scale ---------------------- */

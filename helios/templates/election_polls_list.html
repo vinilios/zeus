@@ -43,6 +43,7 @@
         <th>{% trans "votes" %}</th>
         <th>{% trans "last vote" %}</th>
         {% endif %}
+        <th>{% trans "poll forum" %}</th>
         <th>{% trans "select action" %}</th>
       </tr>
     </thead>
@@ -78,7 +79,14 @@
       {% if user.superadmin_p %}
       <td>{{ poll.cast_votes.count }}</td>
       <td>{{ poll.last_cast_date }}</td>
+
       {% endif %}
+      {% if poll.feature_forum_visible %}
+      <td><a href="{% url "election_poll_forum" election.uuid poll.uuid %}">{% trans "visit poll forum" %}</a></td>
+      {% else %}
+      <td>{% trans "forum disabled" %}</td>
+      {% endif %}
+
       <td>
           <div href="#" class="button tiny dropdown" style="">
               {% trans "Actions" %}&nbsp;
@@ -124,6 +132,7 @@
     <td></td>
     {% endif %}
     <td>{{ election.cast_votes.filter.distinct_voter.count }}</td>
+    <td></td>
     <td></td>
 </tfoot>
 </table>

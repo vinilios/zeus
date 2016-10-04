@@ -191,6 +191,32 @@ $(function(){
         confirmation_field.val(urls[type][2])
         
     });
+  
+  var forum_desc = $(".form-field textarea#id_forum_description").parent();
+  var forum_starts_at = $(".form-field input#id_forum_starts_at_0").parent().parent().parent();
+  var forum_ends_at = $(".form-field input#id_forum_ends_at_0").parent().parent().parent();
+  var forum_extended_until = $(".form-field input#id_forum_extended_until_0").parent().parent().parent();
+  var forum_enabled = $(".form-field input#id_forum_enabled");
+
+  function checkForumFieldsVisible(e) {
+    if (forum_enabled.is(':checked')) {
+      forum_desc.show();
+      forum_starts_at.show();
+      forum_ends_at.show();
+      forum_extended_until.show();
+      if (e) { forum_desc_field.find("textarea").focus(); }
+    } else {
+      forum_desc.hide();
+      forum_starts_at.hide();
+      forum_ends_at.hide();
+      forum_extended_until.hide();
+    }
+  }
+  forum_enabled.click(checkForumFieldsVisible);
+  checkForumFieldsVisible();
+
+  $(".datepicker[readonly!=readonly]").datepicker({ dateFormat: 'yy-mm-dd' });
+  $("[readonly]").addClass("field-readonly");
 });
 </script>
 {% endif %}

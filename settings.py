@@ -103,8 +103,10 @@ INSTALLED_APPS = (
     'heliosauth',
     'helios',
     'zeus',
+    'zeus_forum',
     'server_ui',
-    'account_administration'
+    'account_administration',
+    'mptt'
 )
 
 
@@ -124,6 +126,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
   "zeus.context_processors.prefix"
 )
 
+TEST_RUNNER = "django.test.runner.DiscoverRunner"
+
 ##
 ## HELIOS
 ##
@@ -132,6 +136,7 @@ MEDIA_ROOT = MEDIA_ROOT
 
 # a relative path where voter upload files are stored
 VOTER_UPLOAD_REL_PATH = "voters/%Y/%m/%d"
+
 
 # Change your email settings
 DEFAULT_FROM_EMAIL = get_from_env('DEFAULT_FROM_EMAIL', 'elections@zeus.minedu.gov.gr')

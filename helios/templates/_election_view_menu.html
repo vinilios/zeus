@@ -6,6 +6,13 @@
   {% trans "Election information" %}
 </a></dd>
 
+{% if poll and poll.feature_forum_visible %}
+<dd class="{% if menu_active == "forum" %}active{% endif %}"><a 
+  href="{% url "election_poll_forum" election.uuid poll.uuid %}">
+  {% trans "Forum" %}
+</a></dd>
+{% endif %}
+
 {% if election.feature_completed and not election.feature_canceled and poll.feature_public_results %}
 <dd class="{% if menu_active == "results" %}active{% endif %}"><a 
   href="{% url "election_poll_results" election.uuid poll.uuid %}">
@@ -31,6 +38,7 @@
 {% endif %}
 
 {% else %}
+
 {% if admin and election.feature_can_edit %}
 <dd class="{% if menu_active == "election_edit" %}active{% endif %}"><a 
   href="{% url "election_edit" election.uuid %}">
@@ -43,7 +51,6 @@
   {% if user.is_admin %}{% trans "Election admin actions" %}{% else %}
   {% trans "Information" %}{% endif %}
 </a></dd>
-
 
 <dd class="{% if menu_active == "polls" %}active{% endif %}"><a 
   href="{% url "election_polls_list" election.uuid %}">

@@ -5,6 +5,7 @@ Forms for Zeus
 import uuid
 import copy
 import json
+import types
 
 from collections import defaultdict
 from datetime import datetime, timedelta
@@ -50,7 +51,8 @@ INVALID_CHAR_MSG = _("%s is not a valid character.") % "%"
 
 def election_form_formfield_cb(f, **kwargs):
     if f.name in ['voting_starts_at', 'voting_ends_at',
-                  'voting_extended_until']:
+                  'voting_extended_until', 'forum_starts_at', 'forum_ends_at',
+                  'forum_extended_until']:
         widget = JqSplitDateTimeWidget(attrs={'date_class': 'datepicker',
                                               'time_class': 'timepicker'})
         return JqSplitDateTimeField(label=f.verbose_name,
@@ -61,6 +63,53 @@ def election_form_formfield_cb(f, **kwargs):
     return f.formfield()
 
 
+def setup_editable_fields(form, **value_overrides):
+    """
+    Django versions prior to 1.9 do not support disabled form fields. This
+    injects fields and associated widgets in order for values of non editable
+    fields to be displayed as non editable and also to not get validated and
+    updated even if changed in form data. Disabling fields is based on
+    FIELD_REQUIRED_FEATURES mapping which maps field names to model features.
+    A field is editable only when all required model features resolve to True.
+    """
+    for name, features in form.FIELD_REQUIRED_FEATURES.iteritems():
+        editable = all([form.instance.check_feature(f) for \
+                        f in features])
+
+        field = form.fields.get(name)
+        widget = field.widget
+        if not editable:
+            widget.attrs['readonly'] = True
+            field.disabled = True # Django 1.9 only
+
+            # creates a value_from_datadict which returns instance value instead
+            # of form data one
+            def _mk_readonly(widget, name, form, override=None):
+                def readonly_value_from_datadict(self, *args, **kwargs):
+                    if override:
+                        value = override(form)
+                    else:
+                        value = getattr(form.instance, name)
+                    if hasattr(widget, 'decompress'):
+                        value = widget.decompress(value)
+                    return value
+                return types.MethodType(readonly_value_from_datadict, widget)
+
+            widget.__dict__['value_from_datadict'] = \
+                _mk_readonly(widget, name, form, value_overrides.get(name, None))
+
+
+            def _mk_dummy_clean(form, name):
+                def _dummy_clean(self, *args, **kwargs):
+                    return self.cleaned_data.get(name)
+                return types.MethodType(_dummy_clean, form)
+
+            form.__dict__['clean_%s' % name] = _mk_dummy_clean(form, name)
+
+            if isinstance(widget, forms.CheckboxInput):
+                widget.attrs['disabled'] = True
+
+
 class ElectionForm(forms.ModelForm):
 
     formfield_callback = election_form_formfield_cb
@@ -68,8 +117,6 @@ class ElectionForm(forms.ModelForm):
     trustees = forms.CharField(label=_('Trustees'), required=False,
                                widget=forms.Textarea,
                                help_text=help.trustees)
-
-
     remote_mixes = forms.BooleanField(label=_('Multiple mixnets'),
                                       required=False,
                                       help_text=help.remote_mixes)
@@ -129,15 +176,15 @@ class ElectionForm(forms.ModelForm):
             self.fields.get('remote_mixes').initial = \
                 bool(self.instance.mix_key)
 
-        for field, features in self.FIELD_REQUIRED_FEATURES.iteritems():
-            editable = all([self.instance.check_feature(f) for \
-                            f in features])
-
-            widget = self.fields.get(field).widget
-            if not editable:
-                self.fields.get(field).widget.attrs['readonly'] = True
-                if isinstance(widget, forms.CheckboxInput):
-                    self.fields.get(field).widget.attrs['disabled'] = True
+        def _clean_trustees(form):
+            return election_trustees_to_text(form.instance)
+        def _clean_remote_mixes(form):
+            return bool(form.instance.mix_key)
+        value_overrides= {
+            'trustees': _clean_trustees,
+            'remote_mixes': _clean_remote_mixes
+        }
+        setup_editable_fields(self, **value_overrides)
 
         if not self.instance.frozen_at:
             self.fields.pop('voting_extended_until')
@@ -147,19 +194,6 @@ class ElectionForm(forms.ModelForm):
         self.clean_voting_dates(data.get('voting_starts_at'),
                                 data.get('voting_ends_at'),
                                 data.get('voting_extended_until'))
-        for field, features in self.FIELD_REQUIRED_FEATURES.iteritems():
-            if not self.instance.pk:
-                continue
-            editable = all([self.instance.check_feature(f) for \
-                            f in features])
-            if not editable and field in self.cleaned_data:
-                if field == 'trustees':
-                    self.cleaned_data[field] = \
-                        election_trustees_to_text(self.instance)
-                elif field == 'remote_mixes':
-                    self.cleaned_data[field] = bool(self.instance.mix_key)
-                else:
-                    self.cleaned_data[field] = getattr(self.instance, field)
 
         return data
 
@@ -176,6 +210,16 @@ class ElectionForm(forms.ModelForm):
         return cleaned_deps
 
     def clean_voting_dates(self, starts, ends, extension):
+        # WARN: skip live validation here. warn user during freeze instead.
+        #final_ends = extension or ends
+        #if self.instance and self.instance.polls.count():
+            #for poll in self.instance.polls.filter():
+                #if not poll.forum_enabled:
+                    #continue
+                #if starts and poll.forum_starts_at < starts:
+                    #raise forms.ValidationError(_("Invalid voting start date. Check poll forum access dates."))
+                #if final_ends and poll.forum_ends_at > final_ends:
+                    #raise forms.ValidationError(_("Invalid voting end date. Check poll forum access dates."))
         if starts and ends:
             if ends < datetime.now() and self.instance.feature_edit_voting_ends_at:
                 raise forms.ValidationError(_("Invalid voting end date"))
@@ -534,6 +578,7 @@ class StvForm(QuestionBaseForm):
         except ValueError:
             raise forms.ValidationError(message)
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(label=_('Username'),
                                max_length=50)
@@ -561,6 +606,20 @@ class LoginForm(forms.Form):
 
 
 class PollForm(forms.ModelForm):
+
+    FIELD_REQUIRED_FEATURES = {
+        'forum_enabled': ['edit_forum'],
+        'forum_ends_at': ['edit_forum'],
+        'forum_description': ['edit_forum'],
+        'forum_starts_at': ['edit_forum'],
+        'forum_extended_until': ['edit_forum_extension']
+    }
+
+    formfield_callback = election_form_formfield_cb
+
+    forum_enabled = forms.BooleanField(label=_('Poll forum enabled'),
+                                       required=False,
+                                       help_text=help.forum_enabled)
 
     def __init__(self, *args, **kwargs):
         self.election = kwargs.pop('election', None)
@@ -613,10 +672,13 @@ class PollForm(forms.ModelForm):
                                     initial="https://graph.facebook.com/v2.2/me",
                                     required=False)
 
-        if self.initial:
+        if self.initial is not None:
             shib = self.initial.get('shibboleth_constraints', None)
             if shib is not None and isinstance(shib, dict):
                 self.initial['shibboleth_constraints'] = json.dumps(shib)
+            self.initial['forum_starts_at'] = self.election.voting_starts_at
+            self.initial['forum_ends_at'] = self.election.voting_ends_at
+
         if self.election.feature_frozen:
             self.fields['name'].widget.attrs['readonly'] = True
 
@@ -640,6 +702,8 @@ class PollForm(forms.ModelForm):
             self.fields[field].widget.attrs['field_class'] = 'fieldset-auth'
             if field == 'jwt_auth':
                 self.fields[field].widget.attrs['field_class'] = 'clearfix last'
+        setup_editable_fields(self)
+
 
     class Meta:
         model = Poll
@@ -649,11 +713,54 @@ class PollForm(forms.ModelForm):
                   'oauth2_client_type', 'oauth2_client_id',
                   'oauth2_client_secret', 'oauth2_code_url',
                   'oauth2_exchange_url', 'oauth2_confirmation_url',
-                  'shibboleth_auth', 'shibboleth_constraints')
+                  'shibboleth_auth', 'shibboleth_constraints',
+                  'forum_enabled', 'forum_description', 'forum_starts_at',
+                  'forum_ends_at', 'forum_extended_until')
 
     def iter_fieldset(self, name):
         for field in self.fieldsets[name][2]:
             yield self[field]
+
+    def clean_forum_starts_at(self):
+        # forum start date should be set on a date after current date.
+        enabled = self.cleaned_data.get('forum_enabled')
+        starts_at = self.cleaned_data.get('forum_starts_at')
+        if enabled and not starts_at:
+            raise forms.ValidationError(_("This field is required."))
+        return starts_at
+
+    def clean_forum_ends_at(self):
+        # forum end date should be set if forum is enabled and should be set to
+        # a date after current date and after forum start date
+        enabled = self.cleaned_data.get('forum_enabled')
+        starts_at = self.cleaned_data.get('forum_starts_at')
+        ends_at = self.cleaned_data.get('forum_ends_at')
+
+        if enabled and not ends_at:
+            raise forms.ValidationError(_("This field is required."))
+
+        if all([enabled, ends_at, starts_at]) and (ends_at <= starts_at):
+            raise forms.ValidationError(_("Invalid forum access end date"))
+
+        return ends_at
+
+    def clean_forum_description(self):
+        desc = self.cleaned_data.get('forum_description') or ''
+        enabled = self.cleaned_data.get('forum_enabled')
+
+        desc = desc.strip()
+        if enabled and not desc:
+            raise forms.ValidationError(_("This field is required."))
+        return desc
+
+    def clean_forum_extended_until(self):
+        date = self.cleaned_data.get('forum_extended_until')
+        enabled = self.cleaned_data.get('forum_enabled')
+        forum_ends_at = self.instance.forum_ends_at
+
+        if enabled and date and (date <= forum_ends_at):
+            raise forms.ValidationError(_("Invalid forum extension date."))
+        return date
 
     def clean_shibboleth_constraints(self):
         value = self.cleaned_data.get('shibboleth_constraints', None)
@@ -662,6 +769,7 @@ class PollForm(forms.ModelForm):
         return value
 
     def clean(self):
+        super(PollForm, self).clean()
 
         data = self.cleaned_data
         election_polls = self.election.polls.all()

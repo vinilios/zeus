@@ -81,6 +81,16 @@ def election_view(check_access=True):
     return wrapper
 
 
+def poll_voter_or_admin_required(func):
+    @election_view()
+    @wraps(func)
+    def wrapper(request, *args, **kwargs):
+        if not request.zeususer.is_voter and not request.zeususer.is_admin:
+            raise PermissionDenied("Voter or admin can only access this view.")
+        return func(request, *args, **kwargs)
+    return wrapper
+
+
 def poll_voter_required(func):
     @election_view()
     @wraps(func)

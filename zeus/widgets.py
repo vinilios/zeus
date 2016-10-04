@@ -42,11 +42,15 @@ class JqSplitDateTimeWidget(MultiWidget):
 
     def decompress(self, value):
         if value:
-            d = strftime("%Y-%m-%d", value.timetuple())
-            timeofday = strftime("%H:%M", value.timetuple())
+            if isinstance(value, tuple):
+                return value[:2]
+
+            timetuple = value.timetuple()
+            d = strftime("%Y-%m-%d", timetuple)
+            timeofday = strftime("%H:%M", timetuple)
             if not timeofday in dict(hour_selections).keys():
-                timeofday = strftime("%H:00", value.timetuple())
-            return (d, timeofday)
+                timeofday = strftime("%H:00",timetuple)
+            return [d, timeofday]
         else:
             return (None, None, None, None)
 

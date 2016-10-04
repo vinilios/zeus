@@ -667,7 +667,6 @@ class PollManager(models.Manager):
 
 
 class Poll(PollTasks, HeliosModel, PollFeatures):
-
   link_id = models.CharField(_('Poll link group'), max_length=255,
                              default='')
   linked_ref = models.CharField(_('Poll reference id'), max_length=255,
@@ -733,6 +732,28 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
   # shibboleth authentication
   shibboleth_auth = models.BooleanField(default=False, verbose_name=_("Shibboleth login"))
   shibboleth_constraints = JSONField(default=None, null=True, blank=True)
+
+  forum_enabled = models.BooleanField(_('Election forum enabled'), default=False)
+  forum_description = models.TextField(_('Forum description'), blank=True, null=True)
+  forum_starts_at = models.DateTimeField(_("Forum access starts at"),
+                                            auto_now_add=False,
+                                            null=True,
+                                            blank=True,
+                                            default=None,
+                                            help_text=help.forum_starts_at)
+  forum_ends_at = models.DateTimeField(_("Forum access ends at"),
+                                            auto_now_add=False,
+                                            null=True,
+                                            blank=True,
+                                            default=None,
+                                            help_text=help.forum_ends_at)
+  forum_extended_until = models.DateTimeField(_("Forum extension date"),
+                                            auto_now_add=False,
+                                            null=True,
+                                            blank=True,
+                                            default=None,
+                                            help_text=help.forum_ends_at)
+
 
   objects = PollManager()
 
@@ -1379,6 +1400,10 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
         count += 1
     super(Poll, self).save(*args, **kwargs)
 
+  @property
+  def forum_end_date(self):
+    return self.forum_extended_until or self.forum_ends_at
+
 
 
 class ElectionLog(models.Model):
@@ -1713,6 +1738,11 @@ class Voter(HeliosModel, VoterFeatures):
     return u"%s %s %s (%s)" % (self.voter_name, self.voter_surname,
                                self.voter_fathername or '', self.voter_email)
 
+  @property
+  def forum_name(self):
+    return u"%s %s, %s" % (self.voter_name, self.voter_surname,
+                               self.voter_fathername or '')
+
   def init_audit_passwords(self):
     if not self.audit_passwords:
       passwords = ""
@@ -1894,6 +1924,10 @@ class Voter(HeliosModel, VoterFeatures):
 
   def last_cast_vote(self):
     return CastVote(vote = self.vote, vote_hash = self.vote_hash, cast_at = self.cast_at, voter=self)
+
+  @property
+  def forum_display(self):
+      return self.forum_name
 
 
 class CastVoteQuerySet(QuerySet):

@@ -251,6 +251,47 @@ class PollFeatures(FeaturesMixin):
 
     features_ns = 'poll'
 
+    # Forum related features
+    @poll_feature()
+    def _feature_edit_forum(self):
+        return not self.feature_frozen
+
+    @poll_feature()
+    def _feature_edit_forum_extension(self):
+        return self.feature_frozen and not self.election.feature_closed
+
+    @poll_feature()
+    def _feature_forum_closed(self):
+        return not self.election.feature_closed
+
+    @poll_feature()
+    def _feature_forum_visible(self):
+        return self.forum_enabled
+
+    @poll_feature()
+    def _feature_forum_started(self):
+        return self.feature_forum_visible and \
+            self.forum_starts_at <= datetime.datetime.now()
+
+    @poll_feature()
+    def _feature_forum_posts_visible(self):
+        return self.feature_forum_started
+
+    @poll_feature()
+    def _feature_forum_ended(self):
+        return self.forum_end_date < datetime.datetime.now()
+
+    @poll_feature()
+    def _feature_forum_can_post(self):
+        return self.feature_forum_started and not self.feature_forum_ended
+
+    @poll_feature()
+    def _feature_forum_open(self):
+        return self.feature_forum_visible and \
+            self.feature_frozen
+
+    # END forum related features
+
     @poll_feature()
     def _feature_can_manage_questions(self):
         return not self.feature_voting_started

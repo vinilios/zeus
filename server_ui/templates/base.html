@@ -103,7 +103,7 @@
             {% endblock %}
             {% endblock %}
             {% if messages %}
-            <div class="messages">
+            <div id="site-messages" class="messages">
               {% for message in messages %}
               <div class="label medium {{ message.tags }}">{{ message }}</div>
               {% endfor %}

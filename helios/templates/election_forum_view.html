@@ -1,0 +1,103 @@
+{% extends "election_page.html" %}
+{% load i18n zeus_tags %}
+
+{% block page_css %}election-page{% endblock %}
+
+{% block extra_title %}
+{{ block.super }}
+{% endblock %}
+
+{% block tabs_menu %}
+{% include "_election_view_menu.html" %}
+{% endblock %}
+
+{% block extra_menu %}
+{% include "_election_poll_admin_actions.html" %}
+{% endblock %}
+
+{% block extra-head %}
+    <link rel="stylesheet" href="/static/zeus/editor/simplemde.min.css?20160830">
+    <script src="/static/zeus/editor/simplemde.min.js?20160830"></script>
+    <script src="/static/zeus/editor/readmore.min.js?20160830"></script>
+    <script>
+        function mk_editor(selector, content) {
+            var editor = new SimpleMDE({
+                spellChecker: false,
+                element: selector[0],
+                lineWrapping: true,
+                status: false,
+                autofocus: {% if relpy %}true{% else %}false{% endif %},
+                autosave: { 
+                    enabled: false,
+                },
+                toolbar: ["bold", "italic", "heading", "|", "code", "quote", "unordered-list", "ordered-list", "|", "link", "|", "preview", "side-by-side", "fullscreen", "guide"]
+            });
+            return editor;
+        }
+
+        $(document).ready(function(){
+            var el = $(".create-comment textarea");
+            if (el.length) {
+                var editor = mk_editor($(".create-comment textarea"));
+                window.editor = editor;
+                {% if not edit %}editor.value('');{% endif %}
+                setTimeout(function() {
+                });
+            }
+            $(".forum-post .body").readmore({
+                embedCSS: false,
+                collapsedHeight: 400,
+                moreLink: '<a href="#" class="readmore more"><i class="general foundicon-down-arrow"></i> {% trans "Read more" %} <i class="general foundicon-down-arrow"></i></a>',
+                lessLink: '<a href="#" class="readmore less"><i class="general foundicon-up-arrow"></i> {% trans "Read less" %} <i class="general foundicon-up-arrow"></i></a>'
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+
+{% if election.voting_extended_until %}
+<div class="columns twelve">
+<div class="alert-box alert">
+{% blocktrans with ends_at=poll.forum_ends_at extended=poll.forum_extended_until %}
+Forum was initially scheduled until {{ ends_at }}, <br />
+but was extended until {{ extended }}
+{% endblocktrans %}
+</div>
+</div>
+{% endif %}
+
+<div class="columns twelve forum">
+
+    {% if poll.forum_description %}
+    <p>
+        {{ poll.forum_description }}
+    </p>
+    {% endif %}
+
+
+    <div class="election-dates forum-dates columns twelve">
+    <div class="columns six top left">
+    <i>{% trans "Forum access starts at" %}: </i> <b>{{ poll.forum_starts_at}}</b>
+    </div>
+    <div class="columns six top right">
+    <i>{% trans "Forum access ends at" %}: </i> <b>{{ poll.forum_end_date }}</b>
+    </div>
+
+    <div class="columns six bottom left">
+    <i>{% trans "Posts count" %}: </i><b>124214</b>
+    </div>
+    <div class="columns six bottom left">
+    <i>{% trans "Forum participants" %}: </i><b>124214</b>
+    </div>
+    </div>
+
+    {% if poll.feature_forum_posts_visible %}
+        {% include "_election_forum_posts.html" %}
+    {% else %}
+        <div class="forum-description warning">
+            {% blocktrans %}Forum is closed.{% endblocktrans %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
