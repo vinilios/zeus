@@ -1,0 +1,131 @@
+@import "settings";
+
+.forum {
+  .forum-dates {
+    margin-bottom: 10px;
+  }
+
+  .forum-description {
+    clear: both;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #efefef;
+
+    &.warning {
+      clear: both;
+      margin-top: 20px;
+      background-color: #a52a2a;
+      color: #fff;
+    }
+  }
+
+  .forum-posts {
+    .back { margin-bottom: 10px; display: inline-block; i { vertical-align: -2px; }}
+    margin-top: 20px;
+    h4 { margin-top: 0px; }
+    .posts-list {
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #aaa;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+    clear: both;
+    padding-top: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    .forum-post {
+      form { margin: 0 }
+      margin-bottom: 15px;
+      border: 1px solid #efefef;
+      //&.even {
+        //background-color: #f5fde7;
+      //}
+      .post-actions {
+        padding: 5px 10px;
+        padding-bottom:0;
+        padding-top: 0;
+        background-color: lighten(#dcd9d9, 10%);
+        border-bottom: 1px solid #aaa;
+        .action.post-replies {
+          float: left;
+          background-color: #112291
+        }
+        .action {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          margin-right: 5px;
+          font-weight: bold;
+          border: none;
+          float: right;
+          &.delete { background-color: $alertColor; }
+          &:first-child {
+            margin-right: 0;
+          }
+        }
+      }
+      .replies {
+        margin-left: 20px;
+        margin-top: 20px;
+        .forum-post {
+          border-left: 3px solid #ccc;
+          &:hover {
+            border-left: 3px solid $mainColor !important;
+          }
+        }
+      }
+      .top {
+        background-color: #efefef;
+        font-weight: bold;
+        border-bottom: 2px solid #444;
+        padding: 10px;
+        .perma {
+          float: right;
+          font-size: 1.5rem;
+        }
+        .date {
+          color: #444;
+          margin-left: 10px;
+          font-size: 1rem;
+        }
+      }
+      a.readmore {
+        font-size: 1rem;
+        font-weight: bold;
+        display: block;
+        width: 100%;
+        padding: 5px;
+        background-color: lighten(#2ba6cb, 20%);
+        color: #fff;
+        text-align: center;
+        &:hover {
+          background-color: lighten(#2ba6cb, 0%);
+        }
+        i { vertical-align: -2px; }
+      }
+      &.deleted {
+        opacity: 0.3;
+        &:hover {
+          opacity: 0.6;
+        }
+        .top * { font-size: 1rem !important; }
+        .body { font-size: 1rem; color: #fff !important; }
+        background-color: #444;
+      }
+      .body {
+        padding: 10px; 
+        h1, h2, h3, h4, h5, h6 { font-size: 1.6rem; font-weight: bold }
+        ul { margin-left: 20px; }
+      }
+    }
+  }
+
+  .create-comment {
+    margin-top: 25px;
+  }
+
+}
+
+.CodeMirror, .CodeMirror-scroll {
+  min-height: 150px !important;
+  margin-bottom: 20px;
+}

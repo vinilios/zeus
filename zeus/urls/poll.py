@@ -1,4 +1,5 @@
 from django.conf.urls import include, patterns, url
+from zeus.urls.forum import urlpatterns as forum_patterns
 
 poll_patterns = patterns('',
     url(r'^get-randomness$', 'zeus.views.shared.get_randomness'),
@@ -56,6 +57,7 @@ urlpatterns = patterns('zeus.views.poll',
     url(r'^$', 'list', name='election_polls_list'),
     url(r'^add$', 'add_edit', name='election_polls_add'),
     url(r'^(?P<poll_uuid>[^/]+)/', include(poll_patterns)),
+    url(r'^(?P<poll_uuid>[^/]+)/forum/', include(forum_patterns)),
     url(r'^(?P<poll_uuid>[^/]+).json', 'to_json',
         name='election_poll_json'),
 )

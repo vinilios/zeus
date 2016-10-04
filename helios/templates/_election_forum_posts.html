@@ -1,0 +1,79 @@
+{% load i18n zeus_tags pagination_tags %}
+<div class="clearfix"></div>
+<div class="forum-posts" id="forum">
+    {% if post or edit %}
+        <a class="back secondary tiny" href="./#forum"><i class="general foundicon-left-arrow"></i> {% trans "back to forum" %}</a>
+    {% endif %}
+    <h4 class="post">
+        {% if post %}
+            {% blocktrans with author=post.voter.forum_display date=post.post_date %}Forum post of {{author}} at {{date}}{% endblocktrans %}
+        {% else %}
+            {% trans "Forum posts" %}
+        {% endif %}
+    </h4>
+    {% if paginate %}
+        {% autopaginate posts paginate_by %}
+        {% paginate hashtag="#forum" %}
+    {% endif %}
+    <div class="posts-list">
+    {% if not posts|length %}
+        {% trans "no posts exist yet" %}
+    {% else %}
+        {% with parent=post %}
+            {% for post in posts %}
+                {% cycle '' 'even' as loopcls silent %}
+                {% include "_election_forum_post.html" %}
+            {% endfor %}
+        {% endwith %}
+    {% endif %}
+    {% if paginate %}
+        {% paginate hashtag="#forum" %}
+    {% endif %}
+    </div>
+</div>
+
+{% if poll.feature_forum_can_post and voter %}
+<div class="create-comment" id="post">
+    {% if edit %}
+        {% if edit.parent %}
+        <h5 class="post">{% trans "Edit reply" %}</h5>
+        {% else %}
+        <h5 class="post">{% trans "Edit post" %}</h5>
+        {% endif %}
+    {% elif post %}
+        <h5 class="post">{% trans "Reply" %}</h5>
+    {% else %}
+        <h5 class="post">{% trans "Post" %}</h5>
+    {% endif %}
+    <h4 style="display: none" class="reply">{% trans "reply to post" %}</h4>
+    {% if form and not form.is_valid %}
+        {{ form.errors }}
+    {% endif %}
+    <form class="create-comment-form" 
+            method="post" 
+            action="{% url "election_poll_forum_post" election.uuid poll.uuid %}{% if post_id %}?post_id={{ post_id }}{% endif %}#post">
+        {% csrf_token %}
+
+        <input type="hidden" name="ref" value="{% if post and not edit %}{{ post.id }}{% endif %}" />
+        <input type="hidden" name="edit" value="{% if edit %}{{ edit.id }}{% endif %}" />
+
+        <textarea 
+            name="body"
+            class="comment-input">{% if edit %}{{ edit.body }}{% endif %}</textarea>
+
+        <button type="submit" 
+                class="comment-button button success medium">
+            {% trans "publish comment" %}
+        </button>
+        <a href="./{% if post_id and not reply %}?post_id={{ post_id }}{% endif %}#forum" class="button comment-button button alert medium" style="float: right">
+            {% trans "cancel" %}
+        </a>
+    </form>
+</div>
+{% else %}
+{% if poll.feature_forum_ended %}
+    <div class="forum-description warning">
+        {% blocktrans %}Forum is closed.{% endblocktrans %}
+    </div>
+{% endif %}
+{% endif %}

@@ -11,6 +11,9 @@ from django.template.loader import render_to_string
 from django.template import Template
 from django.utils.html import escape
 
+from zeus_forum.util import parse_markdown
+
+
 register = template.Library()
 
 
@@ -237,6 +240,11 @@ def escape_plus(value):
 
 
 @register.filter
+def markdown_to_html(value):
+    return parse_markdown(value)
+
+
+@register.filter
 def negate(value):
     return not value
 
@@ -300,4 +308,10 @@ def fieldset_fields(context, form, fieldset, name='fieldset_'):
     context[name + 'fields'] = list(form.iter_fieldset(fieldset))
     context[name + 'helptext'] = form.fieldsets[fieldset][1]
     context[name + 'name'] = form.fieldsets[fieldset][0]
+    return ''
+
+
+@register.simple_tag(takes_context=True)
+def post_replies(context, post):
+    context['replies'] = post.replies
     return ''
