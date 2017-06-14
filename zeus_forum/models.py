@@ -3,6 +3,7 @@ import datetime
 from django.db import models, transaction
 from mptt.models import MPTTModel, TreeForeignKey, TreeManager
 from django.utils.translation import ugettext_lazy as _
+from zeus_forum.util import lock_atomic
 
 
 USER_TYPE_CHOCIES = (
@@ -23,39 +24,41 @@ class PostManager(TreeManager):
     def delete_post(self, user, post):
         pass
 
-    @transaction.atomic
     def mk_post_for_zeususer(self, user, post):
 
-        # handle post update. create a new entry instead of updating entry
-        # fields.
-        if post.pk:
-            old_post = Post.objects.get(pk=post.pk)
-            old_post.pk = None
-            old_post.deleted = True
-            old_post.deleted_at = datetime.datetime.now()
-            old_post.is_replaced = True
-            old_post.save()
+        with lock_atomic(post.poll.pk):
+            # handle post update. create a new entry instead of updating entry
+            # fields.
+            if post.pk:
+                old_post = Post.objects.get(pk=post.pk)
+                old_post.pk = None
+                old_post.deleted = True
+                old_post.deleted_at = datetime.datetime.now()
+                old_post.is_replaced = True
+                old_post.save()
 
-            post.replaces = old_post
-            post.is_modification = True
-            post.save()
-            return post
+                post.replaces = old_post
+                post.is_modification = True
+                post.save()
+                return post
 
-        post.voter = None
-        post.admin = None
+            post.voter = None
+            post.admin = None
+            post.post_index = Post.objects.filter(poll=post.poll,
+                                                 election=post.election).count()
 
-        utype = None
-        _user = user._user
-        if user.is_voter:
-            utype = 'voter'
-            post.voter = _user
+            utype = None
+            _user = user._user
+            if user.is_voter:
+                utype = 'voter'
+                post.voter = _user
 
-        if user.is_admin:
-            utype = 'admin'
-            post.admin = _user
+            if user.is_admin:
+                utype = 'admin'
+                post.admin = _user
 
-        post.user_type = utype
-        return post.save()
+            post.user_type = utype
+            return post.save()
 
 
 class Post(MPTTModel):

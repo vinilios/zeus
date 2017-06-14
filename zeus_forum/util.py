@@ -1,6 +1,10 @@
 import markdown
 import bleach
 
+from contextlib import contextmanager
+from django.db import connection, transaction
+
+
 bleach.sanitizer.ALLOWED_TAGS = [u'h1', u'h2', u'h3', u'a', u'abbr', u'acronym', u'b', u'blockquote', u'code', u'em', u'i', u'li', u'ol', u'strong', u'ul', u'p']
 bleach.sanitizer.ALLOWED_ATTRIBUTES = {u'a': [u'href', u'title'], u'acronym': [u'title'], u'abbr': [u'title']}
 bleach.sanitizer.ALLOWED_PROTOCOLS = [u'http', u'https']
@@ -13,3 +17,20 @@ def parse_markdown(text):
     html = md.convert(text)
     result = bleach.clean(html, tags=bleach.sanitizer.ALLOWED_TAGS)
     return result
+
+
+# https://stackoverflow.com/a/41831049
+from django.conf import settings
+from django.db import DEFAULT_DB_ALIAS
+from django.db.transaction import Atomic, get_connection
+
+
+@contextmanager
+def lock_atomic(lock_id=1):
+    cursor = connection.cursor()
+    try:
+        cursor.execute("SELECT pg_advisory_lock({})".format(lock_id))
+        with transaction.atomic():
+            yield
+    finally:
+        cursor.execute("SELECT pg_advisory_unlock({})".format(lock_id))

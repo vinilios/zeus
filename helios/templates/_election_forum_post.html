@@ -3,7 +3,7 @@
   {% if not post.deleted %}
   <div class="top clearfix">
       <span class="user">{{ post.user.forum_display }}</span><span class="date">{% blocktrans with date=post.post_date %}at {{date}}{% endblocktrans %}</span>
-      <a class="perma" href="#{{post.id}}"><i class="general foundicon-paper-clip"></i></a>
+      <a class="perma" href="#{{post.id}}">#{{ post.post_id }}</a>
   </div>
     <div class="body">
         {{ post.body|markdown_to_html|safe }}
