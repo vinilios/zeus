@@ -765,6 +765,14 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
       self._logger = None
       super(Poll, self).__init__(*args, **kwargs)
 
+  @property
+  def forum_posts(self):
+      return self.post_set.filter(is_replaced=False)
+
+  @property
+  def forum_voters_count(self):
+      return self.post_set.filter().distinct('voter').count()
+
   def get_shibboleth_constraints(self):
     defaults = {
         'assert_idp_key': 'REMOTE_USER',

@@ -97,10 +97,10 @@
         </div>
 
         <div class="columns six bottom left">
-        <i>{% trans "Posts count" %}: </i><b>124214</b>
+        <i>{% trans "Posts count" %}: </i><b>{{ poll.forum_posts.count }}</b>
         </div>
         <div class="columns six bottom left">
-        <i>{% trans "Forum participants" %}: </i><b>124214</b>
+            <i>{% trans "Forum participants" %}: </i><b>{{ poll.forum_voters_count }} / {{ poll.voters.count }}</b>
         </div>
         </div>
     {% endif %}
