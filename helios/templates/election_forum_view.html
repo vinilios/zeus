@@ -64,41 +64,46 @@
 
 {% if election.voting_extended_until %}
 <div class="columns twelve">
-<div class="alert-box alert">
-{% blocktrans with ends_at=poll.forum_ends_at extended=poll.forum_extended_until %}
-Forum was initially scheduled until {{ ends_at }}, <br />
-but was extended until {{ extended }}
-{% endblocktrans %}
-</div>
-</div>
-{% endif %}
+
+    {% if not post %}
+        <div class="alert-box alert">
+        {% blocktrans with ends_at=poll.forum_ends_at extended=poll.forum_extended_until %}
+        Forum was initially scheduled until {{ ends_at }}, <br />
+        but was extended until {{ extended }}
+        {% endblocktrans %}
+        </div>
+        </div>
+        {% endif %}
+    {% endif %}
 
 <div class="columns twelve forum">
 
-    {% if poll.forum_description %}
-    <div class="forum-text">
-      <p>
-        {{ poll.forum_description|linebreaks|safe }}
-      </p>
-    </div>
+    {% if not post %}
+        {% if poll.forum_description %}
+        <div class="forum-text">
+        <p>
+            {{ poll.forum_description|linebreaks|safe }}
+        </p>
+        </div>
+        {% endif %}
+
+
+        <div class="election-dates forum-dates columns twelve">
+        <div class="columns six top left">
+        <i>{% trans "Forum access starts at" %}: </i> <b>{{ poll.forum_starts_at}}</b>
+        </div>
+        <div class="columns six top right">
+        <i>{% trans "Forum access ends at" %}: </i> <b>{{ poll.forum_end_date }}</b>
+        </div>
+
+        <div class="columns six bottom left">
+        <i>{% trans "Posts count" %}: </i><b>124214</b>
+        </div>
+        <div class="columns six bottom left">
+        <i>{% trans "Forum participants" %}: </i><b>124214</b>
+        </div>
+        </div>
     {% endif %}
-
-
-    <div class="election-dates forum-dates columns twelve">
-    <div class="columns six top left">
-    <i>{% trans "Forum access starts at" %}: </i> <b>{{ poll.forum_starts_at}}</b>
-    </div>
-    <div class="columns six top right">
-    <i>{% trans "Forum access ends at" %}: </i> <b>{{ poll.forum_end_date }}</b>
-    </div>
-
-    <div class="columns six bottom left">
-    <i>{% trans "Posts count" %}: </i><b>124214</b>
-    </div>
-    <div class="columns six bottom left">
-    <i>{% trans "Forum participants" %}: </i><b>124214</b>
-    </div>
-    </div>
 
     {% if poll.feature_forum_posts_visible %}
         {% include "_election_forum_posts.html" %}
