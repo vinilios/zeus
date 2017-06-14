@@ -1,1 +1,30 @@
-{% load i18n %}
+{% load i18n zeus_tags pagination_tags %}
+<div class="post-actions clearfix">
+  {% if user.is_admin or post.voter == voter %}
+      {% if poll.feature_forum_can_post and post.can_delete %}
+      <div class="action delete">
+        <form method="post"
+              action="{% url "election_poll_forum_post_delete" election.uuid poll.uuid %}">
+        <input type="hidden" name="post" value="{{ post.id }}" />
+        {% csrf_token %}
+        <button class="button tiny alert" type="submit"><i class="general foundicon-trash"></i> {% trans "delete" %}</button>
+        </form>
+      </div>
+      {% endif %}
+  {% endif %}
+  {% if voter and poll.feature_forum_can_post and post.can_edit and post.voter == voter %}
+      <div class="action reply">
+        <a class="button tiny" href="{% url "election_poll_forum" election.uuid poll.uuid %}?edit={{ post.id }}#post"><i class="general foundicon-edit"></i> {% trans "edit" %}</a>
+      </div>
+  {% endif %}
+  {% if voter and poll.feature_forum_can_post and post.level <= max_level %}
+      <div class="action reply">
+        <a class="button tiny" href="{% url "election_poll_forum" election.uuid poll.uuid %}?reply=1&post_id={{ post.id }}#post"><i class="general foundicon-refresh"></i> {% trans "reply" %}</a>
+      </div>
+  {% endif %}
+  {% if not post_id %}
+    <div class="action post-replies">
+        <a class="button tiny" href="{% url "election_poll_forum" election.uuid poll.uuid %}?&post_id={{ post.id }}#replies-{{ post.id }}"><i class="general foundicon-people"></i> {% trans "replies" %} ({{ post.has_active_children }})</a>
+    </div>
+  {% endif %}
+</div>
