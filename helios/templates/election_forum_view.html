@@ -44,6 +44,12 @@
                 setTimeout(function() {
                 });
             }
+            $(".forum-text").readmore({
+                embedCSS: false,
+                collapsedHeight: 100,
+                moreLink: '<a href="#" class="more more-text button tiny">{% trans "Read more" %}</a>',
+                lessLink: ''
+            })
             $(".forum-post .body").readmore({
                 embedCSS: false,
                 collapsedHeight: 400,
@@ -70,9 +76,11 @@ but was extended until {{ extended }}
 <div class="columns twelve forum">
 
     {% if poll.forum_description %}
-    <p>
-        {{ poll.forum_description }}
-    </p>
+    <div class="forum-text">
+      <p>
+        {{ poll.forum_description|linebreaks|safe }}
+      </p>
+    </div>
     {% endif %}
 
 
