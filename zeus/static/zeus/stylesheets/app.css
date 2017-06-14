@@ -5792,6 +5792,9 @@ form#upload_form select {
 .forum .forum-dates {
   margin-bottom: 10px;
 }
+.forum .more-text {
+  margin: 10px 0 !important;
+}
 .forum .forum-description {
   clear: both;
   padding: 15px;
