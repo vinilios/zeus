@@ -83,8 +83,13 @@ class Post(MPTTModel):
 
     deleted = models.BooleanField(default=False, db_index=True)
     deleted_by_admin = models.ForeignKey('heliosauth.User', null=True, default=None, related_name='deleted_posts')
+    post_index = models.PositiveIntegerField(null=True, default=None)
 
     objects = PostManager()
+
+    @property
+    def post_id(self):
+        return (self.post_index + 1) if self.post_index is not None else self.id
 
     @property
     def can_edit(self):
