@@ -3,6 +3,8 @@ import datetime
 import json
 import os
 
+from math import ceil
+
 try:
   from collections import OrderedDict
 except ImportError:
@@ -26,6 +28,7 @@ from django.core import serializers
 from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_http_methods
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
 from helios.view_utils import render_template
 from helios.models import Election, Poll, CastVote, Voter
@@ -35,12 +38,24 @@ from zeus_forum.forms import PostForm
 from zeus_forum.models import Post
 
 
+PAGINATE_BY = getattr(settings, 'ZEUS_FORUM_PAGINATE_BY', 10)
+
+
+def _last_page(count, paginate_by=PAGINATE_BY):
+    page = int(ceil(count / float(paginate_by)))
+    return 1 if page == 0 else page
+
 
 def _index(request, election, poll, extra=None):
     extra = extra or {}
     post = None
     post_id = request.GET.get('post_id', None)
     reply = request.GET.get('reply', None)
+    page = request.GET.get('page', None)
+    try:
+        page = int(page)
+    except (TypeError, ValueError):
+        page = None
     user = request.zeususer
     voter = None
 
@@ -57,7 +72,7 @@ def _index(request, election, poll, extra=None):
     if edit_id and request.method == 'GET':
         edit = get_object_or_404(Post, id=edit_id, voter=voter, poll=poll,
                                  election=election)
-        if edit.get_active_children().count():
+        if edit.can_edit:
             messages.error(request,
                            _("You cannot modify a post with existing replies"))
             return HttpResponseRedirect(forum_url + "#")
@@ -77,6 +92,9 @@ def _index(request, election, poll, extra=None):
     paginate = not post_id
     paginate_replies = True
 
+    if paginate and page and (_last_page(posts.count()) < page):
+        return HttpResponseRedirect(forum_url + "#forum")
+
     context = {
         'election' : election,
         'poll': poll,
@@ -86,7 +104,7 @@ def _index(request, election, poll, extra=None):
         'post': post,
         'max_level': 0,
         'reply': reply,
-        'paginate_by': 10,
+        'paginate_by': PAGINATE_BY,
         'paginate': paginate,
         'paginate_replies': paginate_replies
     }
@@ -188,7 +206,7 @@ def post(request, election, poll):
     })
 
     forum_url = reverse('election_poll_forum', args=(election.uuid, poll.uuid))
-    if edit and edit.get_active_children().count():
+    if edit and edit.can_edit:
         messages.error(request,
                        _("You cannot modify a post with existing replies"))
         return HttpResponseRedirect(forum_url + "#")
@@ -197,10 +215,17 @@ def post(request, election, poll):
     if form.is_valid():
         post = form.save(user)
         url = reverse('election_poll_forum', args=(election.uuid, poll.uuid))
+
         if parent:
-            url = url + '?post_id={}'.format(parent.id)
+            page = _last_page(parent.get_active_children().count())
+            url = url + '?post_id={}&page={}'.format(parent.id, int(page))
         elif edit and post.parent:
-            url = url + '?post_id={}'.format(post.parent.id)
+            page = _last_page(post.parent.get_active_children().count())
+            url = url + '?post_id={}&page={}'.format(post.parent.id, int(page))
+        else:
+            page = _last_page(Post.objects.active_posts(poll=post.poll, level=0).count())
+            url = url + '?page={}'.format(int(page))
+
         url += "#{}".format(post.id)
         return HttpResponseRedirect(url)
     else:

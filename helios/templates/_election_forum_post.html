@@ -22,6 +22,9 @@
           {% include "_election_forum_post.html" %}
         {% endfor %}
       {% endwith %}
+      {% if paginate_replies %}
+          {% paginate hashtag="#replies-"|add:post_id %}
+      {% endif %}
     </div>
     {% endif %}
   {% else %}
