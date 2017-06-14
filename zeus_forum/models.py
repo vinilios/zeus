@@ -96,7 +96,7 @@ class Post(MPTTModel):
 
     @property
     def can_edit(self):
-        return self.get_active_children().count() == 0
+        return self.get_non_deleted_children().count() == 0
 
     @property
     def can_delete(self):
@@ -104,7 +104,7 @@ class Post(MPTTModel):
 
     @property
     def replies(self):
-        return self.get_children().filter(is_replaced=False)
+        return self.get_active_children()
 
     @property
     def user(self):
@@ -120,12 +120,19 @@ class Post(MPTTModel):
             return _('election admin')
         return self.voter.forum_display
 
-    def get_active_children(self):
+    def get_non_deleted_children(self):
         return self.get_children().filter(deleted=False)
 
     @property
+    def has_non_deleted_children(self):
+        return self.get_non_deleted_children().count()
+
+    def get_active_children(self):
+        return self.get_children().filter(is_replaced=False)
+
+    @property
     def has_active_children(self):
-        return self.get_active_children().count()
+        return self.get_non_deleted_children().count()
 
     @property
     def find_latest(self):
