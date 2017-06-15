@@ -95,6 +95,10 @@ def _index(request, election, poll, extra=None):
     if paginate and page and (_last_page(posts.count()) < page):
         return HttpResponseRedirect(forum_url + "#forum")
 
+    expand = request.GET.get('expand')
+    paginate = False if expand else paginate
+    paginate_replies = False if expand else paginate_replies
+
     context = {
         'election' : election,
         'poll': poll,
@@ -106,6 +110,7 @@ def _index(request, election, poll, extra=None):
         'reply': reply,
         'paginate_by': PAGINATE_BY,
         'paginate': paginate,
+        'expand': expand,
         'paginate_replies': paginate_replies
     }
     context.update(extra)
