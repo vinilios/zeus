@@ -1,20 +1,27 @@
 {% load i18n zeus_tags pagination_tags %}
 <div class="clearfix"></div>
 <div class="forum-posts" id="forum">
-    {% if post or edit %}
-        <a class="back secondary tiny" href="./#forum"><i class="general foundicon-left-arrow"></i> {% trans "back to forum" %}</a>
-    {% endif %}
-    <h4 class="post">
-        {% if post %}
-            {% blocktrans with author=post.voter.forum_display date=post.post_date %}Forum post of {{author}} at {{date}}{% endblocktrans %}
-        {% else %}
-            {% trans "Forum posts" %}
+    <div class="head">
+        {% if post or edit %}
+            <a class="back secondary tiny" href="./#forum"><i class="general foundicon-left-arrow"></i> {% trans "back to forum" %}</a>
         {% endif %}
-    </h4>
-    {% if paginate %}
-        {% autopaginate posts paginate_by %}
-        {% paginate hashtag="#forum" %}
-    {% endif %}
+        {% if not post %}
+        <h4 class="post">
+            {% trans "Forum posts" %}
+        </h4>
+        {% endif %}
+        <div class="actions clearfix">
+            {% if not post %}
+            {% include "_election_forum_posts_sort.html" %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="pagination">
+        {% if paginate %}
+            {% autopaginate posts paginate_by %}
+            {% paginate hashtag="#forum" %}
+        {% endif %}
+    </div>
     <div class="posts-list">
     {% if not posts|length %}
         {% trans "no posts exist yet" %}
@@ -59,7 +66,7 @@
 
         <textarea 
             name="body"
-            class="comment-input">{% if edit %}{{ edit.body }}{% endif %}</textarea>
+            class="comment-input">{{ post_body }}</textarea>
 
         <button type="submit" 
                 class="comment-button button success medium">

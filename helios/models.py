@@ -1752,8 +1752,10 @@ class Voter(HeliosModel, VoterFeatures):
 
   @property
   def forum_name(self):
-    return u"%s %s, %s" % (self.voter_name, self.voter_surname,
-                               self.voter_fathername or '')
+    if self.voter_fathername:
+        return u"%s %s, %s" % (self.voter_name, self.voter_surname,
+                               self.voter_fathername)
+    return u"%s %s" % (self.voter_name, self.voter_surname)
 
   def init_audit_passwords(self):
     if not self.audit_passwords:

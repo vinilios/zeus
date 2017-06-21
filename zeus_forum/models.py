@@ -70,13 +70,13 @@ class Post(MPTTModel):
     deleted_at = models.DateTimeField(null=True, default=None)
 
     is_modification = models.BooleanField(default=False)
-    is_replaced = models.BooleanField(default=False)
+    is_replaced = models.BooleanField(default=False, db_index=True)
 
     replaces = models.ForeignKey('self', null=True, default=None,
                                  related_name='replaced_by')
 
-    election = models.ForeignKey('helios.Election')
-    poll = models.ForeignKey('helios.Poll', null=True, default=None, blank=True)
+    election = models.ForeignKey('helios.Election', db_index=True)
+    poll = models.ForeignKey('helios.Poll', null=True, default=None, blank=True, db_index=True)
     title = models.CharField(max_length=300, null=True, default=None)
     body = models.TextField()
 
@@ -140,3 +140,6 @@ class Post(MPTTModel):
         while latest.replaces:
             latest = latest.replaces
         return latest
+
+    def voter_excluded(self):
+        return bool(self.voter.excluded_at)

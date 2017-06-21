@@ -108,6 +108,11 @@ def _action(context, label, url, icon="", cls="", extra_cls="",
 
 
 @register.simple_tag(takes_context=True)
+def debugger(context, *args, **kwargs):
+    import pdb; pdb.set_trace()
+    return ''
+
+@register.simple_tag(takes_context=True)
 def action(context, *args, **kwargs):
     return _action(context, *args, **kwargs)
 
@@ -308,10 +313,4 @@ def fieldset_fields(context, form, fieldset, name='fieldset_'):
     context[name + 'fields'] = list(form.iter_fieldset(fieldset))
     context[name + 'helptext'] = form.fieldsets[fieldset][1]
     context[name + 'name'] = form.fieldsets[fieldset][0]
-    return ''
-
-
-@register.simple_tag(takes_context=True)
-def post_replies(context, post):
-    context['replies'] = post.replies
     return ''

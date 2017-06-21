@@ -247,8 +247,7 @@ class ZeusUser(object):
             self.is_trustee = True
 
         if isinstance(self._user, Voter):
-            if not self._user.excluded_at:
-                self.is_voter = True
+            self.is_voter = True
 
     @property
     def user_id(self):

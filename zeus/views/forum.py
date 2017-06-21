@@ -38,12 +38,18 @@ from zeus_forum.forms import PostForm
 from zeus_forum.models import Post
 
 
-PAGINATE_BY = getattr(settings, 'ZEUS_FORUM_PAGINATE_BY', 10)
+PAGINATE_BY = getattr(settings, 'ZEUS_FORUM_PAGINATE_BY', 20)
 
 
 def _last_page(count, paginate_by=PAGINATE_BY):
     page = int(ceil(count / float(paginate_by)))
     return 1 if page == 0 else page
+
+
+def _get_edit_post_or_404(id, voter, poll, election, **kwargs):
+    return get_object_or_404(Post, id=id, voter=voter, poll=poll,
+                             election=election, is_replaced=False,
+                             deleted=False, voter__excluded_at__isnull=True)
 
 
 def _index(request, election, poll, extra=None):
@@ -66,20 +72,20 @@ def _index(request, election, poll, extra=None):
     if request.zeususer.is_voter:
         voter = request.zeususer._user
 
-    posts = Post.objects.active_posts(election=election, poll=poll, level=0)
+    posts = Post.objects.filter(election=election, poll=poll, level=0)
     edit_id = request.GET.get('edit')
     edit = None
     if edit_id and request.method == 'GET':
-        edit = get_object_or_404(Post, id=edit_id, voter=voter, poll=poll,
-                                 election=election)
-        if edit.can_edit:
+        edit = _get_edit_post_or_404(edit_id, voter, poll, election)
+        if not edit.can_edit:
             messages.error(request,
                            _("You cannot modify a post with existing replies"))
-            return HttpResponseRedirect(forum_url + "#")
+            return HttpResponseRedirect(forum_url + "#site-messages")
 
         if not voter or (edit.voter != voter):
             raise PermissionDenied()
         extra['edit'] = edit
+        extra['post_body'] = edit.body
         post_id = edit.parent.pk if edit.parent else edit_id
 
     if post_id:
@@ -99,6 +105,31 @@ def _index(request, election, poll, extra=None):
     paginate = False if expand else paginate
     paginate_replies = False if expand else paginate_replies
 
+    SORT_FIELDS = {
+        'date': 'posted_at',
+        'voter': 'voter__voter_surname',
+        'id': 'id',
+        'replies': 'num_replies'
+    }
+
+    sort_by = request.GET.get('sort_by', 'id')
+    if sort_by not in SORT_FIELDS:
+        sort_by = 'id'
+
+    #if sort_by == 'replies':
+        #posts = posts.annotate(num_replies=Count('tree_id'))
+
+    sort_by = SORT_FIELDS.get(sort_by, 'id')
+    sort_type = request.GET.get('sort_type', 'asc')
+    if sort_type == 'desc':
+        sort_by = '-' + sort_by
+
+    posts = posts.order_by(sort_by).filter(is_replaced=False).select_related('voter') # exclude replaced
+
+    replies = None
+    if post:
+        replies = post.replies.order_by(sort_by).select_related('voter')
+
     context = {
         'election' : election,
         'poll': poll,
@@ -111,7 +142,8 @@ def _index(request, election, poll, extra=None):
         'paginate_by': PAGINATE_BY,
         'paginate': paginate,
         'expand': expand,
-        'paginate_replies': paginate_replies
+        'paginate_replies': paginate_replies,
+        'replies': replies
     }
     context.update(extra)
     if poll:
@@ -190,8 +222,7 @@ def post(request, election, poll):
     edit_id = request.POST.get('edit')
     edit = None
     if edit_id:
-        edit = get_object_or_404(Post, poll=poll, election=election, id=edit_id,
-                                 voter=voter, deleted=False)
+        edit = _get_edit_post_or_404(edit_id, voter, poll, election)
         if not voter or (edit.voter != voter):
             raise PermissionDenied()
         parent = edit.parent
@@ -207,14 +238,15 @@ def post(request, election, poll):
     data.update({
         'parent': parent and parent.id,
         'election': election.id,
-        'poll': poll.id
+        'poll': poll.id,
+        'post_body': edit.body if edit else None
     })
 
     forum_url = reverse('election_poll_forum', args=(election.uuid, poll.uuid))
-    if edit and edit.can_edit:
+    if edit and not edit.can_edit:
         messages.error(request,
                        _("You cannot modify a post with existing replies"))
-        return HttpResponseRedirect(forum_url + "#")
+        return HttpResponseRedirect(forum_url + "#site-messages")
 
     form = PostForm(data, instance=edit, poll=poll)
     if form.is_valid():
@@ -236,6 +268,7 @@ def post(request, election, poll):
     else:
         context = {
             'form': form,
-            'edit': edit
+            'edit': edit,
+            'post_body': form.data.get('body', edit.body)
         }
         return _index(request, election, poll, context)

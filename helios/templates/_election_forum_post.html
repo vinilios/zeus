@@ -1,9 +1,23 @@
 {% load i18n zeus_tags pagination_tags %}
-<div class="forum-post {% if post.deleted %}deleted{% endif %} {{ loopcls }}" id="{{ post.id }}">
-  {% if not post.deleted %}
+<div class="forum-post {% if post.deleted or post.voter_excluded %}deleted{% endif %} {{ loopcls }}" id="{{ post.id }}">
+  {% if not post.deleted and not post.voter_excluded %}
   <div class="top clearfix">
-      <span class="user">{{ post.user.forum_display }}</span><span class="date">{% blocktrans with date=post.post_date %}at {{date}}{% endblocktrans %}</span>
+      <span class="user">{{ post.user.forum_display }}</span>
+        <span class="date">
+            {% blocktrans with created=post.posted_at modified=post.updated_at %}at {{ created }}{% endblocktrans %}
+            {% if post.is_modification %}
+            &nbsp;|&nbsp;<span class="modified">
+            {% blocktrans with modified=post.updated_at %}modified at {{ modified }}{% endblocktrans %}
+            </span>
+            {% endif %}
+        </span>
       <a class="perma" href="#{{post.id}}">#{{ post.post_id }}</a>
+      {% if is_reply %}
+      <div class="reply-to">
+          {% blocktrans with name=post.parent.user.forum_display %}in reply to {{ name }}{% endblocktrans %}
+          <a class="reply-perma" href="#{{post.parent.id}}">#{{ post.parent.post_id }}</a>
+      </div>
+      {% endif %}
   </div>
     <div class="body">
         {{ post.body|markdown_to_html|safe }}
@@ -11,25 +25,38 @@
     {% include "_election_forum_post_actions.html" %}
     {% if expand or parent and not edit %}
     <div class="replies" id="replies-{{ parent.id }}">
-      {% post_replies post %}
+      <div class="replies-actions clearfix">
       {% if paginate_replies %}
           {% autopaginate replies paginate_by %}
           {% paginate hashtag="#replies-"|add:post_id %}
       {% endif %}
+      {% include "_election_forum_posts_sort.html" %}
+      </div>
       {% with parent=None %}
         {% for post in replies %}
           {% cycle '' 'even' as loopcls silent %}
+          {% with is_reply=True %}
           {% include "_election_forum_post.html" %}
+          {% endwith %}
         {% endfor %}
       {% endwith %}
+      <div class="replies-actions clearfix">
       {% if paginate_replies %}
           {% paginate hashtag="#replies-"|add:post_id %}
       {% endif %}
+      </div>
     </div>
     {% endif %}
   {% else %}
-    <div class="body">
-        {% blocktrans with author=post.deleted_by date=post.deleted_at %}Message deleted by {{author}} at {{date}}{% endblocktrans %}
+    <div class="body clearfix">
+        {% if post.deleted %}
+            {% blocktrans with author=post.deleted_by date=post.deleted_at %}Message deleted by {{author}} at {{date}}{% endblocktrans %}
+            <a class="perma" href="#{{post.id}}">#{{ post.post_id }}</a>
+        {% endif %}
+        {% if post.voter_excluded %}
+            {% blocktrans with excluded_at=post.voter.excluded_at %}Voter excluded at {{excluded_at}}{% endblocktrans %}
+            <a class="perma" href="#{{post.id}}">#{{ post.post_id }}</a>
+        {% endif %}
     </div>
   {% endif %}
 </div>
