@@ -762,7 +762,7 @@ def voter_delete(request, election, poll, voter_uuid):
         except Voter.DoesNotExist:
             poll.logger.error("Cannot remove voter '%s'. Does not exist.",
                              voter_uuid)
-        if voter and voter.voted:
+        if voter and (voter.voted or voter.participated_in_forum):
             raise PermissionDenied('36')
         if voter:
             voter.delete()
