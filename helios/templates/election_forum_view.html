@@ -26,7 +26,7 @@
                 element: selector[0],
                 lineWrapping: true,
                 status: false,
-                autofocus: {% if reply %}true{% else %}false{% endif %},
+                autofocus: {% if reply or edit %}true{% else %}false{% endif %},
                 autosave: { 
                     enabled: false,
                 },
@@ -40,7 +40,7 @@
             if (el.length) {
                 var editor = mk_editor($(".create-comment textarea"));
                 window.editor = editor;
-                {% if not edit %}editor.value('');{% endif %}
+                {% if not edit and not not form.is_valid %}editor.value('');{% endif %}
                 setTimeout(function() {
                 });
             }
@@ -52,11 +52,22 @@
             })
             $(".forum-post .body").readmore({
                 embedCSS: false,
-                collapsedHeight: 400,
+                collapsedHeight: 200,
                 moreLink: '<a href="#" class="readmore more"><i class="general foundicon-down-arrow"></i> {% trans "Read more" %} <i class="general foundicon-down-arrow"></i></a>',
                 lessLink: '<a href="#" class="readmore less"><i class="general foundicon-up-arrow"></i> {% trans "Read less" %} <i class="general foundicon-up-arrow"></i></a>'
             });
         });
+        function quotePost(id, e) {
+            let quote = $(".post-quote-" + id).text().trim();
+            editor.codemirror.setValue(quote);
+            editor.codemirror.setSelection({line: 0, ch: 0}, {line: 100000000, ch: 10000000});
+            editor.toggleBlockquote();
+            editor.codemirror.setValue('\n\n' + editor.codemirror.getValue());
+            editor.codemirror.setCursor(0);
+            window.setTimeout(function() {
+                editor.codemirror.focus();
+            }, 50);
+        }
     </script>
 {% endblock %}
 
@@ -72,8 +83,8 @@
         but was extended until {{ extended }}
         {% endblocktrans %}
         </div>
+    {% endif %}
         </div>
-        {% endif %}
     {% endif %}
 
 <div class="columns twelve forum">

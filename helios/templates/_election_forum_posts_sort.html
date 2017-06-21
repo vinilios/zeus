@@ -1,0 +1,30 @@
+{% load i18n %}
+<div href="#" class="sort button small dropdown" style="float:right;">
+    {% trans "Sort posts by" %}&nbsp;
+    <ul>
+        <li>
+            <a style=""
+            class="foundicon-mail" 
+            href="{% url "election_poll_forum" election.uuid poll.uuid %}?sort_by=date&sort_type=asc{% if post %}&post_id={{ post.id }}{% endif %}#forum">
+                &nbsp;{% trans "Date (asc)" %}</a>
+        </li>
+        <li>
+            <a style=""
+            class="foundicon-mail" 
+            href="{% url "election_poll_forum" election.uuid poll.uuid %}?sort_by=date&sort_type=desc{% if post %}&post_id={{ post.id }}{% endif %}#forum">
+                &nbsp;{% trans "Date (desc)" %}</a>
+        </li>
+        <li>
+            <a style=""
+            class="foundicon-mail" 
+            href="{% url "election_poll_forum" election.uuid poll.uuid %}?sort_by=voter&sort_type=asc{% if post %}&post_id={{ post.id }}{% endif %}#forum">
+                &nbsp;{% trans "Voter (asc)" %}</a>
+        </li>
+        <li>
+            <a style=""
+            class="foundicon-mail" 
+            href="{% url "election_poll_forum" election.uuid poll.uuid %}?sort_by=voter&sort_type=desc{% if post %}&post_id={{ post.id }}{% endif %}#forum">
+                &nbsp;{% trans "Voter (desc)" %}</a>
+        </li>
+    </ul>
+</div>

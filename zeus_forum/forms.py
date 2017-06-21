@@ -1,9 +1,12 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
+from django.conf import settings
 
 from zeus_forum.models import Post
 from zeus_forum.util import parse_markdown
 
+
+BODY_LIMIT = getattr(settings, 'ZEUS_FORUM_POST_LIMIT', 100000)
 
 class PostForm(forms.ModelForm):
 
@@ -20,6 +23,8 @@ class PostForm(forms.ModelForm):
     def clean_body(self):
         body = self.cleaned_data.get('body')
         body = body and body.strip()
+        if len(body) > BODY_LIMIT:
+            raise forms.ValidationError(_("post content too long"))
         if not body:
             raise forms.ValidationError(_("empty post content"))
 

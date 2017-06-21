@@ -7,7 +7,7 @@
               action="{% url "election_poll_forum_post_delete" election.uuid poll.uuid %}">
         <input type="hidden" name="post" value="{{ post.id }}" />
         {% csrf_token %}
-        <button class="button tiny alert" type="submit"><i class="general foundicon-trash"></i> {% trans "delete" %}</button>
+        <button class="button tiny alert" onclick="return confirm('{% trans "Are you sure?" %}')" type="submit"><i class="general foundicon-trash"></i> {% trans "delete" %}</button>
         </form>
       </div>
       {% endif %}
@@ -15,6 +15,14 @@
   {% if voter and poll.feature_forum_can_post and post.can_edit and post.voter == voter %}
       <div class="action reply">
         <a class="button tiny" href="{% url "election_poll_forum" election.uuid poll.uuid %}?edit={{ post.id }}#post"><i class="general foundicon-edit"></i> {% trans "edit" %}</a>
+      </div>
+  {% endif %}
+  {% if voter and poll.feature_forum_can_post and post %}
+      <div class="action quote">
+        <a class="button tiny" onclick="quotePost({{ post.id }})" href="#post"><i class="general foundicon-quote"></i> {% trans "quote" %}</a>
+        <div class="post-quote-{{ post.id }}" style="display: none">{% blocktrans with voter=post.voter.forum_display date=post.post_date %} {{ voter }} at {{ date }}{% endblocktrans %}
+
+{{ post.body }}</div>
       </div>
   {% endif %}
   {% if voter and poll.feature_forum_can_post and post.level <= max_level %}
