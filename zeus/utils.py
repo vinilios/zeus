@@ -227,6 +227,7 @@ VOTER_TABLE_HEADERS = OrderedDict([
     ('voter_mobile', _('Mobile phone')),
     ('voter_weight', _('Vote weight')),
     ('cast_votes__id', _('Has voted')),
+    ('forum', _('Forum')),
     ('last_booth_invitation_send_at', _('Booth invitation sent at')),
     ('last_visit', _('Last visit')),
     ('actions', _('Actions'))

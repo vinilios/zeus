@@ -349,6 +349,9 @@ def voters_list(request, election, poll):
         table_headers.pop('voter_weight')
     display_weight_col = 'voter_weight' in table_headers
 
+    if not poll.forum_enabled:
+        table_headers.pop('forum')
+
     validate_hash = request.GET.get('vote_hash', "").strip()
     hash_invalid = None
     hash_valid = None
