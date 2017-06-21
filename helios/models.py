@@ -1741,6 +1741,14 @@ class Voter(HeliosModel, VoterFeatures):
       return self.cast_votes.count() > 0
 
   @property
+  def participated_in_forum(self):
+      return self.post_set.count() > 0
+
+  @property
+  def forum_posts_count(self):
+      return self.post_set.count()
+
+  @property
   def zeus_string(self):
     return u"%s %s %s %s <%s>" % (self.voter_name, self.voter_surname,
                                   self.voter_fathername or '',
