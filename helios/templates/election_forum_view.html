@@ -20,6 +20,18 @@
     <script src="/static/zeus/editor/simplemde.min.js?20160830"></script>
     <script src="/static/zeus/editor/readmore.min.js?20160830"></script>
     <script>
+        var IS_ADMIN = {% if user.is_admin %}true{% else %}false{% endif %};
+        function confirmPostDelete(e) {
+            if (IS_ADMIN) {
+                let msg = prompt("{% trans "Provide a reason for post deletion" %}");
+                if (msg === null) { return false; }
+                if (msg) {
+                    msg = msg.trim();
+                    $(e).next().val(msg);
+                }
+            }
+            return confirm("{% trans "Are you sure?" %}");
+        }
         function mk_editor(selector, content) {
             var editor = new SimpleMDE({
                 spellChecker: false,
