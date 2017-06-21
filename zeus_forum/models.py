@@ -85,6 +85,7 @@ class Post(MPTTModel):
     admin = models.ForeignKey('heliosauth.User', null=True, default=None)
 
     deleted = models.BooleanField(default=False, db_index=True)
+    deleted_reason = models.TextField(null=True, blank=True)
     deleted_by_admin = models.ForeignKey('heliosauth.User', null=True, default=None, related_name='deleted_posts')
     post_index = models.PositiveIntegerField(null=True, default=None)
 

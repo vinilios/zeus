@@ -186,6 +186,8 @@ def delete(request, election, poll):
     post.deleted_at = datetime.datetime.now()
     if admin:
         post.deleted_by_admin = admin
+        post.deleted_reason = request.POST.get('reason', None)
+
     post.save()
     messages.success(request, _("Forum post deleted successfully."))
     url = reverse('election_poll_forum', args=(election.uuid, poll.uuid))

@@ -51,6 +51,7 @@
     <div class="body clearfix">
         {% if post.deleted %}
             {% blocktrans with author=post.deleted_by date=post.deleted_at %}Message deleted by {{author}} at {{date}}{% endblocktrans %}
+            {% if post.deleted_reason %}({{ post.deleted_reason }}){% endif %}
             <a class="perma" href="#{{post.id}}">#{{ post.post_id }}</a>
         {% endif %}
         {% if post.voter_excluded %}

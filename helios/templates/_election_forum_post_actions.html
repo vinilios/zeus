@@ -7,7 +7,8 @@
               action="{% url "election_poll_forum_post_delete" election.uuid poll.uuid %}">
         <input type="hidden" name="post" value="{{ post.id }}" />
         {% csrf_token %}
-        <button class="button tiny alert" onclick="return confirm('{% trans "Are you sure?" %}')" type="submit"><i class="general foundicon-trash"></i> {% trans "delete" %}</button>
+        <button class="button tiny alert" onclick="return confirmPostDelete(this);" type="submit"><i class="general foundicon-trash"></i> {% trans "delete" %}</button>
+        <input type="hidden" name="reason" value="" />
         </form>
       </div>
       {% endif %}
