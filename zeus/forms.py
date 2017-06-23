@@ -676,8 +676,9 @@ class PollForm(forms.ModelForm):
             shib = self.initial.get('shibboleth_constraints', None)
             if shib is not None and isinstance(shib, dict):
                 self.initial['shibboleth_constraints'] = json.dumps(shib)
-            self.initial['forum_starts_at'] = self.election.voting_starts_at
-            self.initial['forum_ends_at'] = self.election.voting_ends_at
+            if not self.instance or not self.instance.pk:
+                self.initial['forum_starts_at'] = self.election.voting_starts_at
+                self.initial['forum_ends_at'] = self.election.voting_ends_at
 
         if self.election.feature_frozen:
             self.fields['name'].widget.attrs['readonly'] = True
