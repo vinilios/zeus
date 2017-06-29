@@ -276,7 +276,7 @@ class PollFeatures(FeaturesMixin):
 
     @poll_feature()
     def _feature_forum_closed(self):
-        return not self.election.feature_closed
+        return self.election.feature_closed
 
     @poll_feature()
     def _feature_forum_visible(self):
