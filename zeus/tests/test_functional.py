@@ -193,6 +193,14 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
         r = self.c.get(edit_url)
         form = r.context['form']
         data = form.initial
+        for key in ['forum_starts_at', 'forum_ends_at']:
+            if key in data:
+                date = data[key]
+                del data[key]
+                if not date:
+                    continue
+                data['%s_0' % key] = date.strftime('%Y-%m-%d')
+                data['%s_1' % key] = date.strftime('%H:%M')
         r = self.c.post(edit_url, data)
         expected_url = '/elections/{}/polls/'.format(self.e_uuid)
         self.assertRedirects(r, expected_url)
@@ -276,6 +284,15 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
         form = r.context['form']
         data = form.initial
         data['name'] = 'changed_poll_name'
+        for key in ['forum_starts_at', 'forum_ends_at']:
+            if key in data:
+                date = data[key]
+                if not date:
+                    continue
+                del data[key]
+                data['%s_0' % key] = date.strftime('%Y-%m-%d')
+                data['%s_1' % key] = date.strftime('%H:%M')
+
         self.c.post(edit_url, data)
         poll = Poll.objects.get(uuid=p_uuid)
         self.assertEqual(poll.name, 'changed_poll_name')
@@ -806,6 +823,18 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
                     self.assertTrue(email.subject in admin_messages)
         mail.outbox = []
 
+    def before_freeze(self, e):
+        pass
+
+    def after_freeze(self, e):
+        pass
+
+    def before_close(self, e):
+        pass
+
+    def after_results(self, e):
+        pass
+
     def election_process(self):
         self.election_form_with_wrong_dates()
         self.admin_can_submit_election_form()
@@ -823,12 +852,19 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
         self.submit_voters_file()
         self.submit_questions()
         self.voter_cannot_vote_before_freeze()
+
         e = Election.objects.get(uuid=self.e_uuid)
+        self.before_freeze(e)
+
         self.assertEqual(e.election_issues_before_freeze, [])
         self.assertTrue(self.freeze_election())
         self.admin_notified_for_freeze()
         self.create_poll_after_freeze()
         self.edit_poll_name_after_freeze()
+
+        e = Election.objects.get(uuid=self.e_uuid)
+        self.after_freeze(e)
+
         e = Election.objects.get(uuid=self.e_uuid)
         e.voting_starts_at = datetime.datetime.now()
         e.save()
@@ -837,10 +873,16 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
         self.admin_notified_for_extension()
         self.submit_vote_for_each_voter(voters_urls)
         self.voters_received_voting_receipt()
+
+        e = Election.objects.get(uuid=self.e_uuid)
+        self.before_close(e)
+
         self.close_election()
         self.emails_after_election_close()
         self.voter_cannot_vote_after_close()
+
         e = Election.objects.get(uuid=self.e_uuid)
+
         self.assertTrue(e.feature_mixing_finished)
         self.decrypt_with_trustees(pks)
         self.decryption_and_result_admin_mails()
@@ -849,6 +891,10 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
         self.check_docs_exist(self.doc_exts)
         self.view_returns_result_files(self.doc_exts)
         self.zip_contains_files(self.doc_exts)
+
+        e = Election.objects.get(uuid=self.e_uuid)
+        self.after_results(e)
+
         if self.local_verbose:
             print self.celebration
 
@@ -1309,3 +1355,148 @@ class TestThirdPartyShibboleth(TestSimpleElection):
             'shibboleth_auth': True,
             'shibboleth_constraints': '{"assert_idp_key": "MAIL"}'
         }
+
+class TestPartyForumElection(TestSimpleElection):
+
+    def _test_invalid_poll_data(self, e):
+        self.c.get(self.locations['logout'])
+        self.c.post(self.locations['login'], self.login_data)
+        location = '/elections/%s/polls/add' % self.e_uuid
+        post_data = {
+            'name': 'invalid-poll',
+            'forum_enabled': 1
+        }
+        form = self.c.post(location, post_data).context['form']
+        self.assertFalse(form.is_valid());
+
+        post_data['forum_description'] = 'forum description'
+        # invalid forum dates
+        post_data.update({
+            'forum_starts_at_0': form.initial.get('forum_ends_at').strftime('%Y-%m-%d'),
+            'forum_starts_at_1': form.initial.get('forum_ends_at').strftime('%H:%M'),
+            'forum_ends_at_0': form.initial.get('forum_starts_at').strftime('%Y-%m-%d'),
+            'forum_ends_at_1': form.initial.get('forum_starts_at').strftime('%H:%M'),
+        })
+        form = self.c.post(location, post_data).context['form']
+        self.assertFalse(form.is_valid());
+        self.assertTrue('forum_ends_at' in form.errors);
+
+    def _forum_params(self, e):
+        for poll in e.polls.all():
+            yield {
+                'forum_url': '/elections/%s/polls/%s/forum' % (e.uuid, poll.uuid),
+                'post_url': '/elections/%s/polls/%s/forum/post' % (e.uuid, poll.uuid),
+                'delete_url': '/elections/%s/polls/%s/forum/post/delete' % (e.uuid, poll.uuid),
+                'poll': poll,
+                'voters': Voter.objects.filter(poll=poll)
+            }
+
+    def _get_poll_params(self, poll_index, poll=None):
+        e = Election.objects.all()[0]
+        starts_at = e.voting_starts_at - timedelta(hours=2)
+        ends_at = e.voting_starts_at
+        return {
+            'forum_enabled': 1,
+            'forum_description': 'forum description',
+            'forum_starts_at_0': starts_at.strftime('%Y-%m-%d'),
+            'forum_starts_at_1': starts_at.strftime('%H:%M'),
+            'forum_ends_at_0': ends_at.strftime('%Y-%m-%d'),
+            'forum_ends_at_1': ends_at.strftime('%H:%M'),
+        }
+
+    def before_freeze(self, e):
+        self._test_invalid_poll_data(e)
+
+    def after_freeze(self, e):
+        all_params = list(self._forum_params(e))
+
+        # per poll assertions
+        for params in all_params:
+            pass
+
+        # single poll assertions
+        params = all_params[0]
+        poll = params.get('poll')
+        voter = params.get('voters')[0]
+        self.c.get(self.locations['logout'])
+        self.c.get(voter.get_quick_login_url())
+
+        # assert forum view content based on starts_at, ends_at dates
+        resp = self.c.get(params.get('forum_url'), follow=True)
+        self.assertContains(resp, 'Forum is closed.')
+        poll.forum_ends_at = datetime.datetime.now() + timedelta(minutes=10)
+        poll.save()
+        resp = self.c.get(params.get('forum_url'), follow=True)
+        self.assertContains(resp, 'Forum is closed.')
+        poll.forum_starts_at = datetime.datetime.now()
+        poll.save()
+
+        # forum opened, assert voter actions
+        resp = self.c.get(params.get('forum_url'), follow=True)
+        self.assertContains(resp, 'no posts exist yet')
+        post_url = params.get('post_url')
+        # a new post
+        resp = self.c.post(post_url, {'body': 'first post'}, follow=True)
+        self.assertContains(resp, 'first post');
+
+        # edit post
+        resp = self.c.post(post_url, {'edit': 1, 'body': 'first post edited'}, follow=True)
+        self.assertContains(resp, 'first post edited');
+
+        # reply to post
+        resp = self.c.post(post_url, {'ref': '1', 'body': 'first post reply'}, follow=True)
+        self.assertTrue('post_id=1' in resp.redirect_chain[0][0])
+        self.assertContains(resp, 'first post edited')
+        self.assertContains(resp, 'first post reply')
+        self.assertContains(resp, 'in reply to')
+
+        # cannot edit replied post
+        resp = self.c.post(post_url, {'edit': 1, 'body': 'first post edited'}, follow=True)
+        self.assertContains(resp, 'You cannot modify a post with existing replies')
+        self.assertEqual(poll.post_set.filter(is_replaced=False).count(), 2)
+
+        self.c.get(self.locations['logout'])
+
+        # another voter login
+        voter2 = params.get('voters')[1]
+        self.c.get(voter2.get_quick_login_url())
+        resp = self.c.get(params.get('forum_url'), follow=True)
+        # can view other posts
+        self.assertContains(resp, 'first post edited')
+        resp = self.c.post(post_url, {'ref': '1', 'body': 'first post reply another voter'}, follow=True)
+        self.assertContains(resp, 'first post reply another voter')
+
+        # cannot edit another voter reply
+        resp = self.c.post(post_url, {'edit': '3', 'body': 'invalid edit'}, follow=True)
+        self.assertEqual(poll.post_set.filter(is_replaced=False).count(), 3)
+
+        # can edit own reply
+        resp = self.c.post(post_url, {'edit': '4', 'body': 'voter2 valid edit'}, follow=True)
+        self.assertEqual(poll.post_set.filter(is_replaced=False).count(), 3)
+        self.assertContains(resp, 'voter2 valid edit')
+
+        poll2_forum = all_params[1].get('forum_url')
+        resp = self.c.get(poll2_forum, follow=True)
+        self.assertEqual(resp.status_code, 403)
+        poll2_post = all_params[1].get('post_url')
+        resp = self.c.post(poll2_post, {'body': 'a new post'}, follow=True)
+        self.assertEqual(resp.status_code, 403)
+
+        # can delete reply
+        delete_url = params.get('delete_url')
+        resp = self.c.post(delete_url, {'post': 4}, follow=True)
+        self.assertContains(resp, 'Message deleted by')
+        self.assertEqual(poll.post_set.filter(is_replaced=False, deleted=False).count(), 2)
+
+        # admin moderation
+        self.c.get(self.locations['logout'])
+        self.c.post(self.locations['login'], self.login_data)
+
+        # admin can delete any post
+        resp = self.c.post(delete_url, {'post': '1', 'reason': 'spam reason'}, follow=True)
+        self.assertContains(resp, 'Forum post deleted successfully')
+        self.assertContains(resp, 'spam reason')
+
+        # cannot delete a reply of a deleted post
+        resp = self.c.post(delete_url, {'post': '3', 'reason': 'spam reason'}, follow=True)
+        self.assertEqual(resp.status_code, 403)
