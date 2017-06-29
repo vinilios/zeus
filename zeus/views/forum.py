@@ -160,13 +160,6 @@ def index(request, election, poll=None):
     return _index(request, election, poll)
 
 
-@auth.election_user_required
-@auth.requires_poll_features('forum_can_post')
-@require_http_methods(["POST"])
-def edit(request, election, post_id=None):
-    pass
-
-
 @auth.poll_voter_or_admin_required
 @auth.requires_poll_features('forum_can_post')
 @require_http_methods(["POST"])
