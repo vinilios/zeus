@@ -4,7 +4,7 @@
   <div class="top clearfix">
       <span class="user">{{ post.user.forum_display }}</span>
         <span class="date">
-            {% blocktrans with created=post.posted_at modified=post.updated_at %}at {{ created }}{% endblocktrans %}
+            {% blocktrans with created=post.posted_at modified=post.updated_at %}posted at {{ created }}{% endblocktrans %}
             {% if post.is_modification %}
             &nbsp;|&nbsp;<span class="modified">
             {% blocktrans with modified=post.updated_at %}modified at {{ modified }}{% endblocktrans %}

@@ -23,7 +23,7 @@
         var IS_ADMIN = {% if user.is_admin %}true{% else %}false{% endif %};
         function confirmPostDelete(e) {
             if (IS_ADMIN) {
-                let msg = prompt("{% trans "Provide a reason for post deletion" %}");
+                let msg = prompt("{% trans "Provide a reason to delete this post." %}");
                 if (msg === null) { return false; }
                 if (msg) {
                     msg = msg.trim();

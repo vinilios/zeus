@@ -24,7 +24,7 @@ def _confirm_action(context, label, url, confirm_msg="", icon="",
     form_cls = ""
 
     if not confirm_msg:
-        confirm_msg = _("Are you sure ?")
+        confirm_msg = _("Are you sure?")
 
     if icon == "remove" and cls == "":
         cls += " alert"

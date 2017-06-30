@@ -18,6 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+msgid "Username"
+msgstr "Όνομα χρήστη"
+
+msgid "Password"
+msgstr "Κωδικός χρήστη"
+
 msgid "Current password"
 msgstr "Κωδικός χρήστη"
 
@@ -32,12 +38,6 @@ msgstr "Λάθος κωδικός"
 
 msgid "Passwords don't match"
 msgstr "Οι κωδικοί δεν ταιρίαζουν"
-
-msgid "Username"
-msgstr "Όνομα χρήστη"
-
-msgid "Password"
-msgstr "Κωδικός χρήστη"
 
 #~ msgid "Change password"
 #~ msgstr "Αλλαγή κωδικού"

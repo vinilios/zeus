@@ -18,6 +18,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+msgid "Simple election with one or more questions"
+msgstr "Απλή ψηφοφορία με μία ή περισσότερες ερωτήσεις"
+
+msgid "Ballot"
+msgstr "Ψηφοδέλτιο"
+
+msgid "Question"
+msgstr "Ερώτηση"
+
+msgid "Answer"
+msgstr "Απάντηση"
+
+msgid "Add questions to the election"
+msgstr "Προσθήκη ερωτήσεων στην ψηφοφορία"
+
+msgid "Too many choices"
+msgstr "Περισσότερες επιλογές από το επιτρεπτό"
+
+#, python-brace-format
+msgid "Question '{0}' requires at least {1} choices."
+msgstr "Η ερώτηση '{0}' απαιτεί τουλάχιστον {1} επιλογές."
+
+msgid "Results"
+msgstr "Αποτελέσματα"
+
+msgid "Party lists election"
+msgstr "Ψηφοφορία με συνδυασμούς"
+
+msgid "Candidate"
+msgstr "Υποψήφιος"
+
+msgid "Party"
+msgstr "Συνδυασμός"
+
+msgid "Score voting election"
+msgstr "Ψηφοφορία με βαθμολογία"
+
+msgid "Manage questions"
+msgstr "Διαχείριση ερωτήσεων"
+
+msgid "No questions set"
+msgstr "Δεν υπάρχουν ερωτήσεις ακόμη"
+
+msgid "Single transferable vote election"
+msgstr "Ψηφοφορία με ταξινομική ψήφο"
+
+msgid "Candidates List"
+msgstr "Λίστα υποψηφίων"
+
 #, python-format
 msgid "%s is not a valid character."
 msgstr "το %s είναι μή αποδεκτός χαρακτήρας."
@@ -64,9 +113,6 @@ msgstr "Μη έγκυρη λίστα μελών εφορευτικής επιτ�
 
 msgid "Choice"
 msgstr "Επιλογή"
-
-msgid "Question"
-msgstr "Ερώτηση"
 
 msgid "Min answers"
 msgstr "Ελάχιστος αριθμός επιλογών"
@@ -129,12 +175,21 @@ msgstr "Μη έγκυρος χρήστης ή συνθηματικό"
 msgid "Your account is disabled"
 msgstr "Ο λογαριασμός είναι απενεργοποιημένος"
 
+msgid "Poll forum enabled"
+msgstr ""
+
 msgid "2-factor authentication"
 msgstr "Ταυτοποίηση 2-factor"
 
 msgid "2-factor authentication help text"
 msgstr ""
 "Προαιρετικά επιλέξτε μέθοδο 2ου βήματος/παράγοντα ταυτοποίησης ψηφοφόρων"
+
+msgid "Invalid forum access end date"
+msgstr ""
+
+msgid "Invalid forum extension date."
+msgstr ""
 
 msgid "Duplicate poll names are not allowed"
 msgstr "Δεν επιτρέπονται κάλπες με ίδιο όνομα"
@@ -311,6 +366,15 @@ msgstr ""
 "Οι ψηφοφόροι θα πρέπει να αποδεχθούν το παρακάτω κείμενο προκειμένου να "
 "μπορέσουν να καταθέσουν την ψήφο τους."
 
+msgid "Whether or not to enable election forum"
+msgstr ""
+
+msgid "Forum access starts at"
+msgstr ""
+
+msgid "Forum access ends at"
+msgstr ""
+
 msgid ""
 "Confirm voter removal: {{ voter.voter_name}} {{ voter.voter_surname }} "
 "{{ voter.voter_fathername }} ({{ voter.voter_contact_field_display }})"
@@ -409,9 +473,6 @@ msgstr "Τμήματα"
 msgid "Round "
 msgstr "Γύρος "
 
-msgid "Candidate"
-msgstr "Υποψήφιος"
-
 msgid "Votes"
 msgstr "Ψήφοι"
 
@@ -480,9 +541,6 @@ msgstr "Λευκά: %d"
 msgid "Zeus Elections - Poll Results"
 msgstr "Ηλεκτρονικές Ψηφοφορίες «Ζευς» — Αποτελέσματα"
 
-msgid "Results"
-msgstr "Αποτελέσματα"
-
 #, python-format
 msgid "Start: %(date)s"
 msgstr "Έναρξη: %(date)s"
@@ -494,6 +552,42 @@ msgstr "Λήξη: %(date)s"
 #, python-format
 msgid "Extension: %(date)s"
 msgstr "Παράταση: %(date)s"
+
+#, python-format
+msgid "%(election_name)s - vote cast"
+msgstr "%(election_name)s - ψήφος ελήφθη"
+
+#, python-format
+msgid ""
+"You have successfully cast a vote in\n"
+"\n"
+"%(election_name)s\n"
+"%(poll_name)s\n"
+"\n"
+"as\n"
+"\n"
+"%(voter_name)s %(voter_surname)s\n"
+"with registration ID: %(reg_id)s\n"
+"\n"
+"you can find your encrypted vote attached in this mail.\n"
+msgstr ""
+"Η ψήφος σας καταχωρίσθηκε επιτυχώς για την ψηφοφορία\n"
+"\n"
+"%(election_name)s\n"
+"%(poll_name)s\n"
+"\n"
+"ως\n"
+"\n"
+"%(voter_name)s %(voter_surname)s\n"
+"με αριθμό καταχώρισης: %(reg_id)s\n"
+"\n"
+"H απόδειξη της καταχώρισης βρίσκεται συνημμένη στο παρόν μήνυμα.\n"
+
+msgid "Are you sure?"
+msgstr "Επιβεβαιώστε"
+
+msgid "(all voters selected)"
+msgstr "σύνολο ψηφοφόρων"
 
 msgid "Registration ID"
 msgstr "Αριθμός Καταχώρισης"
@@ -515,6 +609,9 @@ msgstr "Βάρος ψήφου"
 
 msgid "Has voted"
 msgstr "Έχει ψηφίσει"
+
+msgid "Forum"
+msgstr ""
 
 msgid "Booth invitation sent at"
 msgstr "Αποστολή πρόσκλησης"
@@ -622,6 +719,12 @@ msgstr "Πρόβλημα στα δεδομένα shibboleth"
 
 msgid "Trustee login url sent"
 msgstr "Η αποστολή πρόσκλησης πραγματοποιήθηκε"
+
+msgid "You cannot modify a post with existing replies"
+msgstr ""
+
+msgid "Forum post deleted successfully."
+msgstr ""
 
 msgid "Invalid batch file contents"
 msgstr "Μη αποδεκτό αρχείο"
