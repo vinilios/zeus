@@ -10,7 +10,7 @@ then
     DJANGO_ADMIN=$VENV_DJANGO_ADMIN;
 fi
 
-for d in zeus helios heliosauth server_ui account_administration; do
+for d in zeus zeus_forum helios heliosauth server_ui account_administration; do
   cd $d;
   $DJANGO_ADMIN compilemessages;
   cd ..;
