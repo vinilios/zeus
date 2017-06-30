@@ -186,19 +186,19 @@ msgid "Shibboleth login"
 msgstr "Σύνδεση με ακαδημαϊκό λογαριασμό (shibboleth)"
 
 msgid "Election forum enabled"
-msgstr ""
+msgstr "Ενεργοποίηση φόρουμ"
 
 msgid "Forum description"
-msgstr ""
+msgstr "Περιγραφή φόρουμ"
 
 msgid "Forum access starts at"
-msgstr ""
+msgstr "Η πρόσβαση στο φόρουμ ξεκινάει στις"
 
 msgid "Forum access ends at"
-msgstr ""
+msgstr "Η πρόσβαση στο φόρουμ λήγει στις"
 
 msgid "Forum extension date"
-msgstr ""
+msgstr "Επέκταση πρόσβασης στο φόρουμ έως"
 
 msgid "JSON Web Token Login"
 msgstr "Σύνδεση με JSON Web Token"
@@ -383,90 +383,90 @@ msgstr "Αποθήκευση"
 
 #, python-format
 msgid "posted at %(created)s"
-msgstr ""
+msgstr "δημιουργήθηκε στις"
 
 #, python-format
 msgid "modified at %(modified)s"
-msgstr ""
+msgstr "τελευταία επεξεργασία στις"
 
 #, python-format
 msgid "in reply to %(name)s"
-msgstr ""
+msgstr "απάντηση προς"
 
 #, python-format
 msgid "Message deleted by %(author)s at %(date)s"
-msgstr ""
+msgstr "Διεγράφει απο τον/την %(author)s στις %(date)s"
 
 #, python-format
 msgid "Voter excluded at %(excluded_at)s"
-msgstr ""
+msgstr "Ο ψηφοφόρος εξαιρέθηκε στις %(excluded_at)s"
 
 msgid "delete"
-msgstr ""
+msgstr "διαγραφή"
 
 msgid "edit"
-msgstr ""
+msgstr "επεξεργασία"
 
 msgid "quote"
-msgstr ""
+msgstr "παράθεση"
 
 #, python-format
 msgid " %(voter)s at %(date)s"
-msgstr ""
+msgstr "%(voter)s στις %(date)s"
 
 msgid "reply"
-msgstr ""
+msgstr "δημιουργία σχολίου"
 
 msgid "replies"
-msgstr ""
+msgstr "απαντήσεις"
 
 msgid "back to forum"
-msgstr ""
+msgstr "επιστροφή στο φόρουμ"
 
 msgid "Forum posts"
-msgstr ""
+msgstr "Θέματα και σχόλια"
 
 msgid "no posts exist yet"
-msgstr ""
+msgstr "Δεν έχουν αναρτηθεί θέματα"
 
 msgid "Edit reply"
-msgstr ""
+msgstr "Επεξεργασία σχολίου"
 
 msgid "Edit post"
-msgstr ""
+msgstr "Επεξεργασία θέματος"
 
 msgid "Reply"
-msgstr ""
+msgstr "Δημιουργία σχολίου"
 
 msgid "Post"
-msgstr ""
+msgstr "Θέμα"
 
 msgid "reply to post"
-msgstr ""
+msgstr "σχόλιο θέματος"
 
 msgid "publish comment"
-msgstr ""
+msgstr "δημοσίευση σχολίου"
 
 msgid "cancel"
 msgstr "Ακύρωση"
 
 msgid "Forum is closed."
-msgstr ""
+msgstr "Το φόρουμ είναι κλειστό"
 
 msgid "Sort posts by"
-msgstr ""
+msgstr "Ταξηνόμιση θεμάτων κατά"
 
 msgid "Date (asc)"
-msgstr ""
+msgstr "Ημερωμηνία (αυξ.)"
 
 msgid "Date (desc)"
-msgstr ""
+msgstr "Ημερωμηνία (φθιν.)"
 
 msgid "Voter (asc)"
-msgstr ""
+msgstr "Ψηφοφόρος (αυξ.)"
 
 msgid "Voter (desc)"
-msgstr ""
+msgstr "Ψηφοφόρος (φθιν.)"
 
 msgid "Voters count"
 msgstr "Αριθμός ψηφοφόρων"
@@ -481,7 +481,7 @@ msgid "Voters"
 msgstr "Ψηφοφόροι"
 
 msgid "Forum"
-msgstr ""
+msgstr "Φόρουμ"
 
 msgid "Election information"
 msgstr "Πληροφορίες ψηφοφορίας"
@@ -711,16 +711,16 @@ msgid "SAVE"
 msgstr "Αποθήκευση"
 
 msgid "Provide a reason to delete this post."
-msgstr ""
+msgstr "Ορίστε τον λόγο για την διαγραφή του θέματος."
 
 msgid "Are you sure?"
-msgstr ""
+msgstr "Επιβεβαιώστε"
 
 msgid "Read more"
-msgstr ""
+msgstr "περισσότερα"
 
 msgid "Read less"
-msgstr ""
+msgstr "λιγότερα"
 
 #, python-format
 msgid ""
@@ -730,14 +730,14 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"<br />\n"
-"\n"
+"Η συμμετοχή στο φόρουμ ήταν αρχικά προγραμματισμένη μέχρι τις %(ends_at)s <br />\n"
+"αλλά παρατάθηκε μέχρι τις %(extended)s\n"
 
 msgid "Posts count"
-msgstr ""
+msgstr "Αριθμός θεμάτων/σχολίων"
 
 msgid "Forum participants"
-msgstr ""
+msgstr "Συμμετέχουν στο φόρουμ"
 
 msgid "votes cast"
 msgstr "ψηφοδέλτια"
@@ -1044,16 +1044,16 @@ msgid "last vote"
 msgstr "τελευταία ψήφος"
 
 msgid "poll forum"
-msgstr ""
+msgstr "φόρουμ"
 
 msgid "select action"
 msgstr "επιλογές"
 
 msgid "visit poll forum"
-msgstr ""
+msgstr "φόρουμ"
 
 msgid "forum disabled"
-msgstr ""
+msgstr "το φόρουμ είναι απενεργοποιημένο"
 
 msgid "Actions"
 msgstr "Επιλογές"

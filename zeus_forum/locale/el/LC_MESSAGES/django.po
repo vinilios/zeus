@@ -19,16 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Cannot reply to this post"
-msgstr ""
+msgstr "Δεν μπορείτε να σχολιάσετε αυτό το θέμα"
 
 msgid "post content too long"
-msgstr ""
+msgstr "το μέγεθος του κειμένου υπερβαίνει το επιτρεπτό όριο"
 
 msgid "empty post content"
-msgstr ""
+msgstr "το κείμενο είναι κενό"
 
 msgid "invalid post content"
-msgstr ""
+msgstr "το κείμενο δεν είναι έγκυρο"
 
 msgid "election admin"
-msgstr ""
+msgstr "διαχειριστής ψηφοφορίας"

@@ -176,7 +176,7 @@ msgid "Your account is disabled"
 msgstr "Ο λογαριασμός είναι απενεργοποιημένος"
 
 msgid "Poll forum enabled"
-msgstr ""
+msgstr "Το φόρουμ είναι ενεργοποιημένο"
 
 msgid "2-factor authentication"
 msgstr "Ταυτοποίηση 2-factor"
@@ -186,10 +186,10 @@ msgstr ""
 "Προαιρετικά επιλέξτε μέθοδο 2ου βήματος/παράγοντα ταυτοποίησης ψηφοφόρων"
 
 msgid "Invalid forum access end date"
-msgstr ""
+msgstr "Μη έγκρυρη ημερομηνία λήξης πρόσβασης στο φόρουμ"
 
 msgid "Invalid forum extension date."
-msgstr ""
+msgstr "Μη έγκρυρη ημερομηνία επέκτασης πρόσβασης στο φόρουμ"
 
 msgid "Duplicate poll names are not allowed"
 msgstr "Δεν επιτρέπονται κάλπες με ίδιο όνομα"
@@ -367,13 +367,13 @@ msgstr ""
 "μπορέσουν να καταθέσουν την ψήφο τους."
 
 msgid "Whether or not to enable election forum"
-msgstr ""
+msgstr "Επιλέξτε εαν θέλετε οι ψηφοφόροι να έχουν πρόσβαση στην υπηρεσία του φόρουμ"
 
 msgid "Forum access starts at"
-msgstr ""
+msgstr "Η πρόσβαση στο φόρουμ ξεκινάει στις"
 
 msgid "Forum access ends at"
-msgstr ""
+msgstr "Η πρόσβαση στο φόρουμ λήγει στις"
 
 msgid ""
 "Confirm voter removal: {{ voter.voter_name}} {{ voter.voter_surname }} "
@@ -611,7 +611,7 @@ msgid "Has voted"
 msgstr "Έχει ψηφίσει"
 
 msgid "Forum"
-msgstr ""
+msgstr "Φόρουμ"
 
 msgid "Booth invitation sent at"
 msgstr "Αποστολή πρόσκλησης"
@@ -721,10 +721,10 @@ msgid "Trustee login url sent"
 msgstr "Η αποστολή πρόσκλησης πραγματοποιήθηκε"
 
 msgid "You cannot modify a post with existing replies"
-msgstr ""
+msgstr "Δεν μπορείτε να επεξεργαστείτε ένα θέμα στο οποίο έχουν αναρτηθεί σχόλια"
 
 msgid "Forum post deleted successfully."
-msgstr ""
+msgstr "Το θέμα διεγράφη επιτυχώς"
 
 msgid "Invalid batch file contents"
 msgstr "Μη αποδεκτό αρχείο"
