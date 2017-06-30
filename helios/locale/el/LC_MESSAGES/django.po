@@ -383,15 +383,15 @@ msgstr "Αποθήκευση"
 
 #, python-format
 msgid "posted at %(created)s"
-msgstr "δημιουργήθηκε στις"
+msgstr "δημιουργήθηκε στις %(created)s"
 
 #, python-format
 msgid "modified at %(modified)s"
-msgstr "τελευταία επεξεργασία στις"
+msgstr "τελευταία επεξεργασία στις %(modified)s"
 
 #, python-format
 msgid "in reply to %(name)s"
-msgstr "απάντηση προς"
+msgstr "απάντηση προς %(name)s"
 
 #, python-format
 msgid "Message deleted by %(author)s at %(date)s"
@@ -732,6 +732,7 @@ msgstr ""
 "\n"
 "Η συμμετοχή στο φόρουμ ήταν αρχικά προγραμματισμένη μέχρι τις %(ends_at)s <br />\n"
 "αλλά παρατάθηκε μέχρι τις %(extended)s\n"
+"        "
 
 msgid "Posts count"
 msgstr "Αριθμός θεμάτων/σχολίων"
