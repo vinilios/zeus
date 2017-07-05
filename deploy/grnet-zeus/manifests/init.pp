@@ -52,7 +52,8 @@ class zeus (
     $emailhost = 'localhost',
     $emailhostuser = false,
     $emailhostpass = false,
-    $debugemail = true
+    $debugemail = true,
+    $dev = false
 ) {
 
     $packages = [
@@ -175,8 +176,13 @@ class zeus (
         require => File['zeus_settings']
     }
 
+    $collectcmd = "python manage.py collectstatic --noinput"
+    if $dev {
+        $collectcmd = "python manage.py collectstatic --noinput -l"
+    }
+
     exec {'zeus_collectstatic':
-        command => "python manage.py collectstatic --noinput",
+        command => $collectcmd,
         cwd     => $appdir,
         path    => ["/usr/bin", "/usr/sbin"],
         require => [File['zeus_settings'], File['/srv/zeus-data/zeus.log']],

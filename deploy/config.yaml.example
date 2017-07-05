@@ -6,3 +6,4 @@ zeus::host: 127.0.0.1
 zeus::port: 8000
 zeus::adminuser: admin
 zeus::adminpassword: admin
+zeus::dev: false 
