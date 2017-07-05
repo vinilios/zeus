@@ -186,19 +186,19 @@ msgid "Shibboleth login"
 msgstr "Σύνδεση με ακαδημαϊκό λογαριασμό (shibboleth)"
 
 msgid "Election forum enabled"
-msgstr "Ενεργοποίηση φόρουμ"
+msgstr "Ενεργοποίηση διαβούλευσης"
 
 msgid "Forum description"
-msgstr "Περιγραφή φόρουμ"
+msgstr "Περιγραφή διαβούλευσης"
 
 msgid "Forum access starts at"
-msgstr "Η πρόσβαση στο φόρουμ ξεκινάει στις"
+msgstr "Η πρόσβαση στη διαβούλευση ξεκινάει στις"
 
 msgid "Forum access ends at"
-msgstr "Η πρόσβαση στο φόρουμ λήγει στις"
+msgstr "Η πρόσβαση στη διαβούλευση λήγει στις"
 
 msgid "Forum extension date"
-msgstr "Επέκταση πρόσβασης στο φόρουμ έως"
+msgstr "Η πρόσβαση στη διαβούλευση παρατείνεται μέχρι"
 
 msgid "JSON Web Token Login"
 msgstr "Σύνδεση με JSON Web Token"
@@ -395,7 +395,7 @@ msgstr "απάντηση προς %(name)s"
 
 #, python-format
 msgid "Message deleted by %(author)s at %(date)s"
-msgstr "Διεγράφει απο τον/την %(author)s στις %(date)s"
+msgstr "Διεγράφη από τον/την %(author)s στις %(date)s"
 
 #, python-format
 msgid "Voter excluded at %(excluded_at)s"
@@ -418,10 +418,10 @@ msgid "reply"
 msgstr "δημιουργία σχολίου"
 
 msgid "replies"
-msgstr "απαντήσεις"
+msgstr "σχόλια"
 
 msgid "back to forum"
-msgstr "επιστροφή στο φόρουμ"
+msgstr "επιστροφή στη διαβούλευση"
 
 msgid "Forum posts"
 msgstr "Θέματα και σχόλια"
@@ -451,22 +451,22 @@ msgid "cancel"
 msgstr "Ακύρωση"
 
 msgid "Forum is closed."
-msgstr "Το φόρουμ είναι κλειστό"
+msgstr "Η διαβούλευση έχει ολοκληρωθεί."
 
 msgid "Sort posts by"
-msgstr "Ταξηνόμιση θεμάτων κατά"
+msgstr "Ταξινόμηση θεμάτων κατά"
 
 msgid "Date (asc)"
-msgstr "Ημερωμηνία (αυξ.)"
+msgstr "Ημερομηνία (αυξ.)"
 
 msgid "Date (desc)"
-msgstr "Ημερωμηνία (φθιν.)"
+msgstr "Ημερομηνία (φθιν.)"
 
 msgid "Voter (asc)"
-msgstr "Ψηφοφόρος (αυξ.)"
+msgstr "Ψηφοφόρο (αυξ.)"
 
 msgid "Voter (desc)"
-msgstr "Ψηφοφόρος (φθιν.)"
+msgstr "Ψηφοφόρο (φθιν.)"
 
 msgid "Voters count"
 msgstr "Αριθμός ψηφοφόρων"
@@ -481,7 +481,7 @@ msgid "Voters"
 msgstr "Ψηφοφόροι"
 
 msgid "Forum"
-msgstr "Φόρουμ"
+msgstr "Διαβούλευση"
 
 msgid "Election information"
 msgstr "Πληροφορίες ψηφοφορίας"
@@ -730,7 +730,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Η συμμετοχή στο φόρουμ ήταν αρχικά προγραμματισμένη μέχρι τις %(ends_at)s <br />\n"
+"Η συμμετοχή στη διαβούλευση ήταν αρχικά προγραμματισμένη μέχρι τις %(ends_at)s <br />\n"
 "αλλά παρατάθηκε μέχρι τις %(extended)s\n"
 "        "
 
@@ -738,7 +738,7 @@ msgid "Posts count"
 msgstr "Αριθμός θεμάτων/σχολίων"
 
 msgid "Forum participants"
-msgstr "Συμμετέχουν στο φόρουμ"
+msgstr "Συμμετέχουν στη διαβούλευση"
 
 msgid "votes cast"
 msgstr "ψηφοδέλτια"
@@ -1045,16 +1045,16 @@ msgid "last vote"
 msgstr "τελευταία ψήφος"
 
 msgid "poll forum"
-msgstr "φόρουμ"
+msgstr "διαβούλευση"
 
 msgid "select action"
 msgstr "επιλογές"
 
 msgid "visit poll forum"
-msgstr "φόρουμ"
+msgstr "προβολή διαβούλευσης"
 
 msgid "forum disabled"
-msgstr "το φόρουμ είναι απενεργοποιημένο"
+msgstr "απενεργοποιημένη διαβούλευση"
 
 msgid "Actions"
 msgstr "Επιλογές"
