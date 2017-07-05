@@ -21,7 +21,7 @@
     SSLCertificateFile      /etc/ssl/zeus.crt
     SSLCertificateKeyFile   /etc/ssl/private/zeus.key
 
-    RedirectMatch permanent ^/$     https://<%= @host %><% if @port != 443 %><%= @port %><% end %>/zeus/
+    RedirectMatch permanent ^/$     https://<%= @host %><% if @port != 443 %>:<%= @port %><% end %>/zeus/
     RedirectMatch permanent ^/en/?$     https://<%= @host %>/zeus/?lang=en
 
     # xsendfile support
