@@ -34,6 +34,11 @@ RUN /etc/init.d/python-celery stop
 ADD deploy/boot.sh /srv/deploy/boot.sh
 RUN chmod +x /srv/deploy/boot.sh
 
+RUN service gunicorn stop
+RUN service postgresql stop
+RUN service apache2 stop
+RUN /etc/init.d/python-celery stop
+
 VOLUME /srv/data
 VOLUME /srv/static
 
