@@ -1548,6 +1548,35 @@ class TestPartyForumElection(TestSimpleElection):
     def before_freeze(self, e):
         self._test_invalid_poll_data(e)
 
+    def after_results(self, e):
+        all_params = list(self._forum_params(e))
+
+        # per poll assertions
+        for params in all_params:
+            pass
+
+        # single poll assertions
+        params = all_params[0]
+        poll = params.get('poll')
+        voter = params.get('voters')[0]
+        self.c.get(self.locations['logout'])
+        self.c.get(voter.get_quick_login_url())
+        resp = self.c.get(params.get('forum_url'), follow=True)
+        self.assertContains(resp, 'Forum ended.')
+
+        post_url = params.get('post_url')
+        # a new post
+        resp = self.c.post(post_url, {'body': 'first post'}, follow=True)
+        self.assertEqual(resp.status_code, 403)
+
+        # edit post
+        resp = self.c.post(post_url, {'edit': 1, 'body': 'first post edited'}, follow=True)
+        self.assertEqual(resp.status_code, 403)
+
+        # reply to post
+        resp = self.c.post(post_url, {'ref': '1', 'body': 'first post reply'}, follow=True)
+        self.assertEqual(resp.status_code, 403)
+
     def after_freeze(self, e):
         all_params = list(self._forum_params(e))
 
