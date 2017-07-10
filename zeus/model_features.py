@@ -293,7 +293,7 @@ class PollFeatures(FeaturesMixin):
 
     @poll_feature()
     def _feature_forum_ended(self):
-        return self.forum_end_date < datetime.datetime.now()
+        return (self.forum_end_date < datetime.datetime.now()) or self.election.feature_closed
 
     @poll_feature()
     def _feature_forum_can_post(self):
