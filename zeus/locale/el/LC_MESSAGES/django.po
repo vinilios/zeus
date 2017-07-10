@@ -721,7 +721,8 @@ msgid "Trustee login url sent"
 msgstr "Η αποστολή πρόσκλησης πραγματοποιήθηκε"
 
 msgid "You cannot modify a post with existing replies"
-msgstr "Δεν μπορείτε να επεξεργαστείτε ένα θέμα στο οποίο έχουν αναρτηθεί σχόλια"
+msgstr ""
+"Δεν μπορείτε να επεξεργαστείτε ένα θέμα στο οποίο έχουν αναρτηθεί σχόλια"
 
 msgid "Forum post deleted successfully."
 msgstr "Το θέμα διεγράφη επιτυχώς"

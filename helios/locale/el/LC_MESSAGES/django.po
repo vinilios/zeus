@@ -450,7 +450,7 @@ msgstr "δημοσίευση σχολίου"
 msgid "cancel"
 msgstr "Ακύρωση"
 
-msgid "Forum is closed."
+msgid "Forum ended."
 msgstr "Η διαβούλευση έχει ολοκληρωθεί."
 
 msgid "Sort posts by"
@@ -730,7 +730,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Η συμμετοχή στη διαβούλευση ήταν αρχικά προγραμματισμένη μέχρι τις %(ends_at)s <br />\n"
+"Η συμμετοχή στη διαβούλευση ήταν αρχικά προγραμματισμένη μέχρι τις "
+"%(ends_at)s <br />\n"
 "αλλά παρατάθηκε μέχρι τις %(extended)s\n"
 "        "
 
@@ -739,6 +740,9 @@ msgstr "Αριθμός θεμάτων/σχολίων"
 
 msgid "Forum participants"
 msgstr "Συμμετέχουν στη διαβούλευση"
+
+msgid "Forum is closed."
+msgstr "Η διαβούλευση είναι κλειστή."
 
 msgid "votes cast"
 msgstr "ψηφοδέλτια"
