@@ -770,13 +770,12 @@ class PollForm(forms.ModelForm):
         starts_at = self.cleaned_data.get('forum_starts_at')
         ends_at = self.cleaned_data.get('forum_ends_at')
         voting_starts = self.election.voting_starts_at
-        if not self.election.trial and enabled and ends_at > voting_starts:
-            raise forms.ValidationError(_("Forum should end before voting."))
         if enabled and not ends_at:
             raise forms.ValidationError(_("This field is required."))
-
         if all([enabled, ends_at, starts_at]) and (ends_at <= starts_at):
             raise forms.ValidationError(_("Invalid forum access end date"))
+        if enabled and not self.election.trial and (ends_at > voting_starts):
+            raise forms.ValidationError(_("Forum should end before voting."))
 
         return ends_at
 
