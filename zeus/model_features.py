@@ -272,7 +272,7 @@ class PollFeatures(FeaturesMixin):
 
     @poll_feature()
     def _feature_edit_forum_extension(self):
-        return self.feature_frozen and not self.election.feature_closed
+        return self.feature_frozen and not self.election.feature_closed and not self.election.feature_voting_started
 
     @poll_feature()
     def _feature_forum_closed(self):
@@ -302,7 +302,9 @@ class PollFeatures(FeaturesMixin):
     @poll_feature()
     def _feature_forum_open(self):
         return self.feature_forum_visible and \
-            self.feature_frozen
+            self.feature_frozen and \
+            self.feature_forum_started and \
+            not self.feature_forum_ended
 
     # END forum related features
 

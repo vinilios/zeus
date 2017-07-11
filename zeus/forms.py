@@ -707,8 +707,8 @@ class PollForm(forms.ModelForm):
             if shib is not None and isinstance(shib, dict):
                 self.initial['shibboleth_constraints'] = json.dumps(shib)
             if not self.instance or not self.instance.pk:
-                self.initial['forum_starts_at'] = self.election.voting_starts_at
-                self.initial['forum_ends_at'] = self.election.voting_ends_at
+                self.initial['forum_ends_at'] = self.election.voting_starts_at
+                self.initial['forum_starts_at'] = self.initial['forum_ends_at'] - timedelta(days=2)
 
         if self.election.feature_frozen:
             self.fields['name'].widget.attrs['readonly'] = True
@@ -758,6 +758,9 @@ class PollForm(forms.ModelForm):
         starts_at = self.cleaned_data.get('forum_starts_at')
         if enabled and not starts_at:
             raise forms.ValidationError(_("This field is required."))
+        voting_starts = self.election.voting_starts_at
+        if not self.election.trial and enabled and starts_at >= voting_starts:
+            raise forms.ValidationError(_("Forum should start before voting."))
         return starts_at
 
     def clean_forum_ends_at(self):
@@ -766,7 +769,9 @@ class PollForm(forms.ModelForm):
         enabled = self.cleaned_data.get('forum_enabled')
         starts_at = self.cleaned_data.get('forum_starts_at')
         ends_at = self.cleaned_data.get('forum_ends_at')
-
+        voting_starts = self.election.voting_starts_at
+        if not self.election.trial and enabled and ends_at > voting_starts:
+            raise forms.ValidationError(_("Forum should end before voting."))
         if enabled and not ends_at:
             raise forms.ValidationError(_("This field is required."))
 
@@ -788,6 +793,9 @@ class PollForm(forms.ModelForm):
         date = self.cleaned_data.get('forum_extended_until')
         enabled = self.cleaned_data.get('forum_enabled')
         forum_ends_at = self.instance.forum_ends_at
+
+        if self.election.voting_starts_at < data:
+            raise forms.ValidationError(_("Invalid forum extension date."))
 
         if enabled and date and (date <= forum_ends_at):
             raise forms.ValidationError(_("Invalid forum extension date."))
