@@ -728,10 +728,10 @@ msgstr "Η αποστολή πρόσκλησης πραγματοποιήθηκ�
 
 msgid "You cannot modify a post with existing replies"
 msgstr ""
-"Δεν μπορείτε να επεξεργαστείτε ένα θέμα στο οποίο έχουν αναρτηθεί σχόλια"
+"Δεν μπορείτε να επεξεργαστείτε μια ανάρτηση στην οποία έχουν προστεθεί απαντήσεις"
 
 msgid "Forum post deleted successfully."
-msgstr "Το θέμα διεγράφη επιτυχώς"
+msgstr "Η ανάρτηση διεγράφη επιτυχώς"
 
 msgid "Invalid batch file contents"
 msgstr "Μη αποδεκτό αρχείο"

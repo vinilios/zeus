@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Cannot reply to this post"
-msgstr "Δεν μπορείτε να σχολιάσετε αυτό το θέμα"
+msgstr "Δεν μπορείτε να απαντήσετε σε αυτή την ανάρτηση"
 
 msgid "post content too long"
 msgstr "το μέγεθος του κειμένου υπερβαίνει το επιτρεπτό όριο"

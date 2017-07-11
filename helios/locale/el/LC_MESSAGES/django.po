@@ -424,25 +424,25 @@ msgid "back to forum"
 msgstr "επιστροφή στη διαβούλευση"
 
 msgid "Forum posts"
-msgstr "Θέματα και σχόλια"
+msgstr "Αναρτήσεις διαβούλευσης"
 
 msgid "no posts exist yet"
-msgstr "Δεν έχουν αναρτηθεί θέματα"
+msgstr "Δεν υπάρχουν αναρτήσεις"
 
 msgid "Edit reply"
-msgstr "Επεξεργασία σχολίου"
+msgstr "Επεξεργασία απάντησης"
 
 msgid "Edit post"
-msgstr "Επεξεργασία θέματος"
+msgstr "Επεξεργασία ανάρτησης"
 
 msgid "Reply"
-msgstr "Δημιουργία σχολίου"
+msgstr "Απάντηση"
 
 msgid "Post"
-msgstr "Θέμα"
+msgstr "Ανάρτηση"
 
 msgid "reply to post"
-msgstr "σχόλιο θέματος"
+msgstr "απάντηση"
 
 msgid "publish post"
 msgstr "δημοσίευση ανάρτησης"
@@ -454,7 +454,7 @@ msgid "Forum ended."
 msgstr "Η διαβούλευση έχει ολοκληρωθεί."
 
 msgid "Sort posts by"
-msgstr "Ταξινόμηση θεμάτων κατά"
+msgstr "Ταξινόμηση αναρτήσεων κατά"
 
 msgid "Date (asc)"
 msgstr "Ημερομηνία (αυξ.)"
@@ -717,7 +717,7 @@ msgid "SAVE"
 msgstr "Αποθήκευση"
 
 msgid "Provide a reason to delete this post."
-msgstr "Ορίστε τον λόγο για την διαγραφή του θέματος."
+msgstr "Ορίστε τον λόγο για την διαγραφή της ανάρτησης."
 
 msgid "Are you sure?"
 msgstr "Επιβεβαιώστε"
