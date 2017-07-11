@@ -30,7 +30,9 @@
           {% autopaginate replies paginate_by %}
           {% paginate hashtag="#replies-"|add:post_id %}
       {% endif %}
+      {% if replies.count %}
       {% include "_election_forum_posts_sort.html" %}
+      {% endif %}
       </div>
       {% with parent=None %}
         {% for post in replies %}
