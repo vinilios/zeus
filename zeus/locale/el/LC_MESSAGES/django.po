@@ -185,6 +185,12 @@ msgid "2-factor authentication help text"
 msgstr ""
 "Προαιρετικά επιλέξτε μέθοδο 2ου βήματος/παράγοντα ταυτοποίησης ψηφοφόρων"
 
+msgid "Forum should start before voting."
+msgstr "Η ημερομηνία έναρξης της διαβούλευσης θα πρέπει να είναι προγενέστερη της ημερομηνίας έναρξης της ψηφοφορίας."
+
+msgid "Forum should end before voting."
+msgstr "Η ημερομηνία λήξης της διαβούλευσης θα πρέπει να είναι προγενέστερη της ημερομηνίας έναρξης της ψηφοφορίας."
+
 msgid "Invalid forum access end date"
 msgstr "Μη έγκυρη ημερομηνία λήξης πρόσβασης στη διαβούλευση"
 

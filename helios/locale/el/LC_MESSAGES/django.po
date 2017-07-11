@@ -444,8 +444,8 @@ msgstr "Θέμα"
 msgid "reply to post"
 msgstr "σχόλιο θέματος"
 
-msgid "publish comment"
-msgstr "δημοσίευση σχολίου"
+msgid "publish post"
+msgstr "δημοσίευση ανάρτησης"
 
 msgid "cancel"
 msgstr "Ακύρωση"
@@ -507,11 +507,17 @@ msgstr "Κάλπες"
 msgid "Your vote weight is set to "
 msgstr "Το βάρος της ψήφου σας έχει οριστεί ως "
 
+msgid "Participate in forum"
+msgstr "Συμμετοχή στην διαβούλευση"
+
 msgid "Enter voting booth"
 msgstr "Είσοδος στο ηλεκτρονικό παραπέτασμα"
 
 msgid "No cast yet"
 msgstr "Χωρίς ψήφο"
+
+msgid "Waiting for forum to start."
+msgstr "Αναμονή για την έναρξη της διαβούλευσης"
 
 msgid "Voting date passed."
 msgstr "Ο χρόνος λήξης της ψηφοφορίας έχει παρέλθει"
@@ -1676,6 +1682,19 @@ msgstr "Ο αριθμός καταχώρισής σας είναι:"
 
 msgid "To submit your vote, follow the link below"
 msgstr "Για να υποβάλετε ψήφο, ακολουθήστε τον παρακάτω σύνδεσμο"
+
+msgid ""
+"A deliberation forum will also be accessible at the following\n"
+"dates:"
+msgstr ""
+"Μπορείτε επίσης να συμμετέχετε στην διαβούλευση\n"
+"της ψηφοφορίας στις παρακάτω ημερομηνίες:"
+
+msgid "forum opens at"
+msgstr "Η πρόσβαση στη διαβούλευση ξεκινάει στις"
+
+msgid "forum ends at"
+msgstr "Η πρόσβαση στη διαβούλευση λήγει στις"
 
 msgid "Information:"
 msgstr "Πληροφορίες:"
