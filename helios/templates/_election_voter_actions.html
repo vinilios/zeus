@@ -4,6 +4,15 @@
   {% trans "Your vote weight is set to " %} <b>{{ voter.voter_weight}}</b>
 </div>
 {% endif %}
+
+{% if poll.forum_enabled and poll.feature_forum_open %}
+{% if poll.feature_forum_open %}
+<div id="booth-link" class="button split dropdown">
+  <a href="{% url "election_poll_forum" election.uuid poll.uuid %}">{% trans "Participate in forum" %}</a>
+</div>
+{% endif %}
+{% endif %}
+
 {% if poll.feature_can_cast_vote %}
 {% if poll.has_linked_polls %}
 <div id="booth-link" class="button split dropdown">
@@ -25,13 +34,24 @@
   href="{{ booth_url }}">&nbsp;&nbsp;{% trans "Enter voting booth" %}
 </a>
 {% endif %}
-{% else %}
+{% endif %}
+
+{% if not poll.feature_can_cast_vote and not poll.feature_forum_open %}
 <div class="panel {{ election.status_display_cls }}">
 <h5>
 {% if not poll.election.feature_completed %}
 {% if not poll.election.feature_closed %}
 {% if not poll.election.feature_voting_started %}
-{% trans "Waiting for voting to start." %}
+  {% if poll.forum_enabled %}
+    {% if not poll.feature_forum_started %}
+    {% trans "Waiting for forum to start." %}
+    {% endif %}
+    {% if poll.feature_forum_ended %}
+    {% trans "Waiting for voting to start." %}
+    {% endif %}
+  {% else %}
+    {% trans "Waiting for voting to start." %}
+  {% endif %}
 {% else %}
 {% trans "Voting date passed." %}
 {% endif %}
