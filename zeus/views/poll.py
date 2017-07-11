@@ -607,18 +607,30 @@ def voters_email(request, election, poll=None, voter_uuid=None):
 
     election_url = election.get_absolute_url()
 
+    forum_enabled = False
+    if (poll and poll.forum_enabled) or \
+            (election.polls.filter(forum_enabled=True).count()):
+        forum_enabled = True
+
     default_subject = render_to_string(
         'email/%s_subject.txt' % template, {
             'custom_subject': "&lt;SUBJECT&gt;"
         })
 
-    tpl_context = {
+    poll_data = poll or {
+        'forum_starts_at': '<FORUM_STARTS_AT>',
+        'forum_ends_at': '<FORUM_ENDS_AT>',
+        'poll_name': '<POLL_NAME>',
+        'forum_enabled': forum_enabled
+    }
+    tpl_context =  {
             'election' : election,
             'election_url' : election_url,
             'custom_subject' : default_subject,
             'custom_message': '&lt;BODY&gt;',
             'custom_message_sms': '&lt;SMS_BODY&gt;',
             'SECURE_URL_HOST': settings.SECURE_URL_HOST,
+            'poll': poll_data,
             'voter': {
                 'vote_hash' : '<SMART_TRACKER>',
                 'name': '<VOTER_NAME>',
@@ -630,7 +642,7 @@ def voters_email(request, election, poll=None, voter_uuid=None):
                 'audit_passwords': '1',
                 'get_audit_passwords': ['pass1', 'pass2', '...'],
                 'get_quick_login_url': '<VOTER_LOGIN_URL>',
-                'poll': poll,
+                'poll': poll_data,
                 'election' : election}
             }
 
