@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import json
+import bleach
+
 from cStringIO import StringIO
 from csv import (Sniffer, excel, Error as csvError,
                  reader as imported_csv_reader)
@@ -15,6 +17,12 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import validate_email, ValidationError
 
+ALLOWED_TAGS = [u'h1', u'h2', u'h3', u'h4', u'h5', u'table', u'thead', u'tbody',
+                u'td', u'tr', u'a', u'abbr', u'acronym', u'b', u'blockquote',
+                u'code', u'em', u'i', u'li', u'ol', u'strong', u'ul', u'p',
+                u'pre']
+ALLOWED_ATTRIBUTES = {u'a': [u'href', u'title'], u'acronym': [u'title'], u'abbr': [u'title']}
+bleach.sanitizer.ALLOWED_PROTOCOLS = [u'http', u'https']
 
 def election_trustees_to_text(election):
     content = ""
@@ -486,3 +494,6 @@ def ordered_dict_prepend(dct, key, value, dict_setitem=dict.__setitem__):
         root[1] = first[0] = dct._OrderedDict__map[key] = [root, first, key]
         dict_setitem(dct, key, value)
 
+
+def sanitize_html(html):
+    return bleach.clean(html, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)

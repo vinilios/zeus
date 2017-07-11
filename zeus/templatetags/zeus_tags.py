@@ -12,6 +12,7 @@ from django.template import Template
 from django.utils.html import escape
 
 from zeus_forum.util import parse_markdown
+from zeus.utils import sanitize_html
 
 
 register = template.Library()
@@ -314,3 +315,9 @@ def fieldset_fields(context, form, fieldset, name='fieldset_'):
     context[name + 'helptext'] = form.fieldsets[fieldset][1]
     context[name + 'name'] = form.fieldsets[fieldset][0]
     return ''
+
+
+
+@register.filter
+def bleach(value):
+    return sanitize_html(value)
