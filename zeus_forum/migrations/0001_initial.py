@@ -8,8 +8,8 @@ import mptt.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('heliosauth', '0001_initial'),
         ('helios', '0002_forum'),
+        ('heliosauth', '0001_initial'),
     ]
 
     operations = [
@@ -21,11 +21,13 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(default=None, auto_now=True, null=True)),
                 ('deleted_at', models.DateTimeField(default=None, null=True)),
                 ('is_modification', models.BooleanField(default=False)),
-                ('is_replaced', models.BooleanField(default=False)),
+                ('is_replaced', models.BooleanField(default=False, db_index=True)),
                 ('title', models.CharField(default=None, max_length=300, null=True)),
                 ('body', models.TextField()),
                 ('user_type', models.CharField(max_length=100, choices=[(b'admin', b'Admin'), (b'voter', b'Voter')])),
                 ('deleted', models.BooleanField(default=False, db_index=True)),
+                ('deleted_reason', models.TextField(null=True, blank=True)),
+                ('post_index', models.PositiveIntegerField(default=None, null=True)),
                 ('lft', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('rght', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
