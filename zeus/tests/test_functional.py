@@ -1511,15 +1511,31 @@ class TestPartyForumElection(TestSimpleElection):
         self.assertFalse(form.is_valid());
 
         post_data['forum_description'] = 'forum description'
+        _starts_at = form.initial.get('forum_ends_at') - timedelta(minutes=1)
+        _ends_at = form.initial.get('forum_starts_at')
         # invalid forum dates
         post_data.update({
-            'forum_starts_at_0': form.initial.get('forum_ends_at').strftime('%Y-%m-%d'),
-            'forum_starts_at_1': form.initial.get('forum_ends_at').strftime('%H:%M'),
-            'forum_ends_at_0': form.initial.get('forum_starts_at').strftime('%Y-%m-%d'),
-            'forum_ends_at_1': form.initial.get('forum_starts_at').strftime('%H:%M'),
+            'forum_starts_at_0': _starts_at.strftime('%Y-%m-%d'),
+            'forum_starts_at_1': _starts_at.strftime('%H:%M'),
+            'forum_ends_at_0': _ends_at.strftime('%Y-%m-%d'),
+            'forum_ends_at_1': _ends_at.strftime('%H:%M'),
         })
         form = self.c.post(location, post_data).context['form']
         self.assertFalse(form.is_valid());
+        self.assertTrue('forum_ends_at' in form.errors);
+
+        # invalid related to voting dates poll forum dates
+        _starts_at = e.voting_starts_at
+        _ends_at = e.voting_ends_at
+        post_data.update({
+            'forum_starts_at_0': _starts_at.strftime('%Y-%m-%d'),
+            'forum_starts_at_1': _starts_at.strftime('%H:%M'),
+            'forum_ends_at_0': _ends_at.strftime('%Y-%m-%d'),
+            'forum_ends_at_1': _ends_at.strftime('%H:%M'),
+        })
+        form = self.c.post(location, post_data).context['form']
+        self.assertFalse(form.is_valid());
+        self.assertTrue('forum_starts_at' in form.errors);
         self.assertTrue('forum_ends_at' in form.errors);
 
     def _forum_params(self, e):
