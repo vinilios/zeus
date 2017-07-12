@@ -106,7 +106,13 @@ class PollMixManager(models.Manager):
 from django.core.files import storage
 default_mixes_path = settings.MEDIA_ROOT + "/zeus_mixes/"
 ZEUS_MIXES_PATH = getattr(settings, 'ZEUS_MIXES_PATH', default_mixes_path)
-zeus_mixes_storage = storage.FileSystemStorage(location=ZEUS_MIXES_PATH)
+
+class CustomFileSystemStorage(storage.FileSystemStorage):
+    def __init__(self, location=None):
+        if not location:
+            location = ZEUS_MIXES_PATH
+        super(CustomFileSystemStorage, self).__init__(location)
+zeus_mixes_storage = CustomFileSystemStorage()
 
 def dummy_upload_to(x):
     return ''
