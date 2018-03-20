@@ -8,8 +8,8 @@ import mptt.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('helios', '0002_forum'),
-        ('heliosauth', '0001_initial'),
+        ('heliosauth', '0004_sms_data'),
+        ('helios', '0006_forum'),
     ]
 
     operations = [
