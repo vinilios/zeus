@@ -149,6 +149,7 @@
       {% endif %}
 
     </td>
+    {% endif %}
     {% if poll.forum_enabled %}
     <td>
         {{ voter.forum_posts_count }}
@@ -176,34 +177,35 @@
       {% endif %}
     </td>
     {% endif %}
-{% if admin %}
-      <td>
-<div href="#" class="tiny button dropdown">
-{% trans "Voter actions" %}&nbsp;
-<ul>
 
-{% if poll.feature_can_send_voter_mail %}
-    {% trans "Notify voters" as label %}
-    {% url "election_poll_voter_email" election.uuid poll.uuid voter.uuid as email_url %}
-    {% menu_action label email_url "mail" %}
-{% endif %}
+    {% if admin %}
+          <td>
+    <div href="#" class="tiny button dropdown">
+    {% trans "Voter actions" %}&nbsp;
+    <ul>
 
-{% if not voter.voted and not voter.participated_in_forum and poll.feature_can_delete_voter %}
-    {% url "election_poll_voter_delete" election.uuid poll.uuid voter.uuid as delete_url %}
-    {% trans "Delete voter" as label %}
-    {% menu_confirm_action label delete_url voter_remove_confirm "remove" "POST" "alert"%}
-{% else %}
-    {% if not voter.excluded_at and poll.feature_can_exclude_voter %}
-        {% url "election_poll_voter_exclude" election.uuid poll.uuid voter.uuid as exclude_url%}
-        {% trans "Exclude voter" as label %}
-        {% menu_confirm_action label exclude_url voter_exclude_confirm "remove" %}
+    {% if poll.feature_can_send_voter_mail %}
+        {% trans "Notify voters" as label %}
+        {% url "election_poll_voter_email" election.uuid poll.uuid voter.uuid as email_url %}
+        {% menu_action label email_url "mail" %}
     {% endif %}
-{% endif %}
 
-</ul>
-</div>
-</td>
-{% endif %}
+    {% if not voter.voted and not voter.participated_in_forum and poll.feature_can_delete_voter %}
+        {% url "election_poll_voter_delete" election.uuid poll.uuid voter.uuid as delete_url %}
+        {% trans "Delete voter" as label %}
+        {% menu_confirm_action label delete_url voter_remove_confirm "remove" "POST" "alert"%}
+    {% else %}
+        {% if not voter.excluded_at and poll.feature_can_exclude_voter %}
+            {% url "election_poll_voter_exclude" election.uuid poll.uuid voter.uuid as exclude_url%}
+            {% trans "Exclude voter" as label %}
+            {% menu_confirm_action label exclude_url voter_exclude_confirm "remove" %}
+        {% endif %}
+    {% endif %}
+
+    </ul>
+    </div>
+    </td>
+    {% endif %}
 </tr>
 {% empty %}
 <tr><td colspan=6>{% trans "No voters added" %}</td></tr>
