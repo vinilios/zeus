@@ -310,7 +310,7 @@ class PollFeatures(FeaturesMixin):
 
     @poll_feature()
     def _feature_can_edit(self):
-        return (not self.feature_frozen) and self.get_module().can_edit_polls()
+        return (not self.election.feature_closed) and self.get_module().can_edit_polls()
 
     @poll_feature()
     def _feature_can_manage_questions(self):
