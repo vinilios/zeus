@@ -186,10 +186,14 @@ msgstr ""
 "Προαιρετικά επιλέξτε μέθοδο 2ου βήματος/παράγοντα ταυτοποίησης ψηφοφόρων"
 
 msgid "Forum should start before voting."
-msgstr "Η ημερομηνία έναρξης της διαβούλευσης θα πρέπει να είναι προγενέστερη της ημερομηνίας έναρξης της ψηφοφορίας."
+msgstr ""
+"Η ημερομηνία έναρξης της διαβούλευσης θα πρέπει να είναι προγενέστερη της "
+"ημερομηνίας έναρξης της ψηφοφορίας."
 
 msgid "Forum should end before voting."
-msgstr "Η ημερομηνία λήξης της διαβούλευσης θα πρέπει να είναι προγενέστερη της ημερομηνίας έναρξης της ψηφοφορίας."
+msgstr ""
+"Η ημερομηνία λήξης της διαβούλευσης θα πρέπει να είναι προγενέστερη της "
+"ημερομηνίας έναρξης της ψηφοφορίας."
 
 msgid "Invalid forum access end date"
 msgstr "Μη έγκυρη ημερομηνία λήξης πρόσβασης στη διαβούλευση"
@@ -646,48 +650,8 @@ msgstr "Σύνολο κάλπεων"
 msgid "Administrators"
 msgstr "Διαχειριστές"
 
-msgid "Simple election with one or more questions"
-msgstr "Απλή ψηφοφορία με μία ή περισσότερες ερωτήσεις"
-
-msgid "Ballot"
-msgstr "Ψηφοδέλτιο"
-
-msgid "Answer"
-msgstr "Απάντηση"
-
-msgid "Add questions to the election"
-msgstr "Προσθήκη ερωτήσεων στην ψηφοφορία"
-
-msgid "Too many choices"
-msgstr "Περισσότερες επιλογές από το επιτρεπτό"
-
-#, python-brace-format
-msgid "Question '{0}' requires at least {1} choices."
-msgstr "Η ερώτηση '{0}' απαιτεί τουλάχιστον {1} επιλογές."
-
-msgid "Party lists election"
-msgstr "Ψηφοφορία με συνδυασμούς"
-
 msgid "Manage ballot"
 msgstr "Διαχείριση ψηφοδελτίου"
-
-msgid "Party"
-msgstr "Συνδυασμός"
-
-msgid "Score voting election"
-msgstr "Ψηφοφορία με βαθμολογία"
-
-msgid "Manage questions"
-msgstr "Διαχείριση ερωτήσεων"
-
-msgid "No questions set"
-msgstr "Δεν υπάρχουν ερωτήσεις ακόμη"
-
-msgid "Single transferable vote election"
-msgstr "Ψηφοφορία με ταξινομική ψήφο"
-
-msgid "Candidates List"
-msgstr "Λίστα υποψηφίων"
 
 msgid "Electors: Group A"
 msgstr "Εκλέκτορες: Ομάδα Α"
@@ -704,12 +668,6 @@ msgstr "Έχει εξαιρεθεί"
 
 msgid "Are you sure ?"
 msgstr "Επιβεβαιώστε"
-
-msgid "Are you sure?"
-msgstr "Επιβεβαιώστε"
-
-msgid "(all voters selected)"
-msgstr "σύνολο ψηφοφόρων"
 
 msgid "Uninitialized shibboleth session."
 msgstr "Μη αρχικοποιημένη σύνδεση shibboleth"
@@ -728,7 +686,8 @@ msgstr "Η αποστολή πρόσκλησης πραγματοποιήθηκ�
 
 msgid "You cannot modify a post with existing replies"
 msgstr ""
-"Δεν μπορείτε να επεξεργαστείτε μια ανάρτηση στην οποία έχουν προστεθεί απαντήσεις"
+"Δεν μπορείτε να επεξεργαστείτε μια ανάρτηση στην οποία έχουν προστεθεί "
+"απαντήσεις"
 
 msgid "Forum post deleted successfully."
 msgstr "Η ανάρτηση διεγράφη επιτυχώς"
