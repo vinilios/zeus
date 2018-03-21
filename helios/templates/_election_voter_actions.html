@@ -7,15 +7,15 @@
 
 {% if poll.forum_enabled and poll.feature_forum_open %}
 {% if poll.feature_forum_open %}
-<div id="booth-link" class="button split dropdown">
+<div id="booth-link" class="button split dropdown" style="margin-bottom: 5px; margin-top: 0">
   <a href="{% url "election_poll_forum" election.uuid poll.uuid %}">{% trans "Participate in forum" %}</a>
 </div>
 {% endif %}
 {% endif %}
 
 {% if poll.feature_can_cast_vote %}
+<div id="booth-link" class="button split dropdown" style="margin-bottom: 5px; margin-top: 0">
 {% if poll.has_linked_polls %}
-<div id="booth-link" class="button split dropdown">
         <a href="{{ booth_url }}">{% trans "Enter voting booth" %}</a>
         <span></span>
         <ul class="election-stats-list">
@@ -27,13 +27,12 @@
           </li>
           {% endfor %}
       </ul>
-    </div>
     {% else %}
-<a id="booth-link" 
-  class="foundicon-page button" 
+<a 
   href="{{ booth_url }}">&nbsp;&nbsp;{% trans "Enter voting booth" %}
 </a>
 {% endif %}
+</div>
 {% endif %}
 
 {% if not poll.feature_can_cast_vote and not poll.feature_forum_open %}
