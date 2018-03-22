@@ -271,6 +271,10 @@ class PollFeatures(FeaturesMixin):
         return not self.feature_frozen
 
     @poll_feature()
+    def _feature_edit_name(self):
+        return not self.feature_frozen
+
+    @poll_feature()
     def _feature_edit_forum_extension(self):
         return self.feature_frozen and not self.election.feature_closed and not self.election.feature_voting_started
 

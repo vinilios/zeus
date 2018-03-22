@@ -638,6 +638,7 @@ class LoginForm(forms.Form):
 class PollForm(forms.ModelForm):
 
     FIELD_REQUIRED_FEATURES = {
+        'name': ['edit_name'],
         'forum_enabled': ['edit_forum'],
         'forum_ends_at': ['edit_forum'],
         'forum_description': ['edit_forum'],
