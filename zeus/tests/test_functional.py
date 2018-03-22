@@ -182,7 +182,7 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
             return True
 
     def save_poll_without_name_change(self):
-        # help track bug where saving poll without changing name
+        # help track a bug where saving poll without changing name
         # ends in duplicate name form error
         self.c.get(self.locations['logout'])
         self.c.post(self.locations['login'], self.login_data)
@@ -235,15 +235,13 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
         self.c.get(self.locations['logout'])
         self.c.post(self.locations['login'], self.login_data)
         location = '/elections/%s/polls/add' % self.e_uuid
-        post_data = {
-            'name': 'test_poll'
-            }
-        post_data.update(self._get_poll_params(self.polls_number+1))
-        self.c.post(location, post_data)
+        post_data = self._get_poll_params(self.polls_number+1)
+        post_data['name'] = 'test_poll'
+        r = self.c.post(location, post_data)
         e = Election.objects.all()[0]
         self.assertEqual(e.polls.all().count(), polls_count + 1)
         # try to create poll with same name
-        self.c.post(location, post_data)
+        r = self.c.post(location, post_data)
         e = Election.objects.all()[0]
         self.assertEqual(e.polls.all().count(), polls_count + 1)
         self.verbose('- Poll was not created - duplicate poll names')
@@ -276,27 +274,7 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
             self.p_uuids.append(poll.uuid)
 
     def edit_poll_name_before_freeze(self):
-        self.c.get(self.locations['logout'])
-        self.c.post(self.locations['login'], self.login_data)
-        e = Election.objects.all()[0]
-        p_uuid = self.p_uuids[0]
-        edit_url = '/elections/{}/polls/{}/edit'.format(e.uuid, p_uuid)
-        r = self.c.get(edit_url)
-        form = r.context['form']
-        data = form.initial
-        data['name'] = 'changed_poll_name'
-        for key in ['forum_starts_at', 'forum_ends_at']:
-            if key in data:
-                date = data[key]
-                if not date:
-                    continue
-                del data[key]
-                data['%s_0' % key] = date.strftime('%Y-%m-%d')
-                data['%s_1' % key] = date.strftime('%H:%M')
-
-        self.c.post(edit_url, data)
-        poll = Poll.objects.get(uuid=p_uuid)
-        self.assertEqual(poll.name, 'changed_poll_name')
+        pass
 
     def create_poll_after_freeze(self):
         self.c.get(self.locations['logout'])
@@ -320,8 +298,21 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
 
         edit_url = '/elections/{}/polls/{}/edit'.format(e.uuid, p_uuid)
         r = self.c.get(edit_url)
-        self.assertEqual(r.status_code, 403, "Poll name cannot be changed after \
-                         freeze")
+        self.assertEqual(r.status_code, 200)
+        form = r.context['form']
+        data = form.initial
+        data['name'] = 'changed_poll_name'
+        for key in ['forum_starts_at', 'forum_ends_at']:
+            if key in data:
+                date = data[key]
+                if not date:
+                    continue
+                del data[key]
+                data['%s_0' % key] = date.strftime('%Y-%m-%d')
+                data['%s_1' % key] = date.strftime('%H:%M')
+        self.c.post(edit_url, data)
+        form = r.context['form']
+        self.assertEqual(form.is_valid(), False)
 
     def submit_questions(self):
         for p_uuid in self.p_uuids:
@@ -1445,11 +1436,6 @@ class TestUniGovGrElection(TestSimpleElection):
 
     def create_duplicate_polls(self):
         e = Election.objects.all()[0]
-
-
-class TestPartyForumElection(TestSimpleElection):
-
-    def _test_invalid_poll_data(self, e):
         self.c.get(self.locations['logout'])
         self.c.post(self.locations['login'], self.login_data)
         location = '/elections/%s/polls/add' % self.e_uuid
@@ -1464,18 +1450,10 @@ class TestPartyForumElection(TestSimpleElection):
         self.verbose('- Poll was not created - duplicate poll names')
 
     def edit_poll_name_before_freeze(self):
-        self.c.get(self.locations['logout'])
-        self.c.post(self.locations['login'], self.login_data)
-        e = Election.objects.all()[0]
-        p_uuid = self.p_uuids[0]
-        edit_url = '/elections/{}/polls/{}/edit'.format(e.uuid, p_uuid)
-        r = self.c.get(edit_url)
-        self.assertEqual(r.status_code, 403)
-        r = self.c.post(edit_url)
-        self.assertEqual(r.status_code, 403)
+        pass
 
     def save_poll_without_name_change(self):
-        # help track bug where saving poll without changing name
+        # help track a bug where saving poll without changing name
         # ends in duplicate name form error
         self.c.get(self.locations['logout'])
         self.c.post(self.locations['login'], self.login_data)
@@ -1484,8 +1462,22 @@ class TestPartyForumElection(TestSimpleElection):
         edit_url = '/elections/{}/polls/{}/edit'.format(e.uuid, p_uuid)
         r = self.c.get(edit_url)
         self.assertEqual(r.status_code, 403)
-        r = self.c.post(edit_url)
+
+    def edit_poll_name_after_freeze(self):
+        self.c.get(self.locations['logout'])
+        self.c.post(self.locations['login'], self.login_data)
+        e = Election.objects.all()[0]
+        p_uuid = self.p_uuids[0]
+
+        edit_url = '/elections/{}/polls/{}/edit'.format(e.uuid, p_uuid)
+        r = self.c.get(edit_url)
         self.assertEqual(r.status_code, 403)
+
+    def view_returns_poll_results(self, client, e_uuid, p_uuid):
+        address = '/elections/%s/polls/%s/results' % \
+            (e_uuid, p_uuid)
+        r = client.get(address)
+        self.assertEqual(r.status_code, 302)
 
     def check_results(self):
         # check if results exist
@@ -1499,11 +1491,14 @@ class TestPartyForumElection(TestSimpleElection):
         results = e.get_module()._count_election_results()
         self.assertTrue(results)
 
-    def view_returns_poll_results(self, client, e_uuid, p_uuid):
-        address = '/elections/%s/polls/%s/results' % \
-            (e_uuid, p_uuid)
-        r = client.get(address)
-        self.assertEqual(r.status_code, 302)
+
+class TestPartyForumElection(TestSimpleElection):
+
+    def _test_invalid_poll_data(self, e):
+        self.c.get(self.locations['logout'])
+        self.c.post(self.locations['login'], self.login_data)
+        location = '/elections/%s/polls/add' % self.e_uuid
+        post_data = {
             'name': 'invalid-poll',
             'forum_enabled': 1
         }
@@ -1537,6 +1532,37 @@ class TestPartyForumElection(TestSimpleElection):
         self.assertFalse(form.is_valid());
         self.assertTrue('forum_starts_at' in form.errors);
         self.assertTrue('forum_ends_at' in form.errors);
+
+        post_data['name'] = e.polls.all()[0].name
+        self.assertEqual(e.polls.all().count(), 2)
+        # try to create poll with same name
+        self.c.post(location, post_data)
+        e = Election.objects.all()[0]
+        self.assertEqual(e.polls.all().count(), 2)
+        self.verbose('- Poll was not created - duplicate poll names')
+
+    def save_poll_without_name_change(self):
+        # help track a bug where saving poll without changing name
+        # ends in duplicate name form error
+        self.c.get(self.locations['logout'])
+        self.c.post(self.locations['login'], self.login_data)
+        e = Election.objects.all()[0]
+        p_uuid = self.p_uuids[0]
+        edit_url = '/elections/{}/polls/{}/edit'.format(e.uuid, p_uuid)
+        r = self.c.get(edit_url)
+        self.assertEqual(r.status_code, 200)
+        form = r.context['form']
+        data = form.initial
+        for key in ['forum_starts_at', 'forum_ends_at']:
+            if key in data:
+                date = data[key]
+                if not date:
+                    continue
+                del data[key]
+                data['%s_0' % key] = date.strftime('%Y-%m-%d')
+                data['%s_1' % key] = date.strftime('%H:%M')
+        r = self.c.post(edit_url, data)
+        self.assertEqual(r.status_code, 302)
 
     def _forum_params(self, e):
         for poll in e.polls.all():
