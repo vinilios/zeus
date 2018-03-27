@@ -175,6 +175,13 @@ def index(request, election, poll=None):
         else:
             votes = None
 
+        if not poll and not linked_booth_urls:
+            url = reverse('election_poll_index', kwargs={
+                'election_uuid': election.uuid,
+                'poll_uuid': voter.poll.uuid
+            })
+            return HttpResponseRedirect(url)
+
     trustees = election.trustees.filter()
 
     context = {
