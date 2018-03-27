@@ -69,7 +69,7 @@ msgstr "Λίστα υποψηφίων"
 
 #, python-format
 msgid "%s is not a valid character."
-msgstr "το %s είναι μή αποδεκτός χαρακτήρας."
+msgstr "το %s είναι μη αποδεκτός χαρακτήρας."
 
 msgid "Trustees"
 msgstr "Εφορευτική επιτροπή"
@@ -87,7 +87,7 @@ msgid "Greek"
 msgstr "Ελληνικά"
 
 msgid "Set the language that will be used for email messages"
-msgstr "Επιλέξτε την γλώσσα που θα χρησιμοποιηθεί για τα μηνύματα των email"
+msgstr "Επιλέξτε τη γλώσσα που θα χρησιμοποιηθεί για τα μηνύματα των email"
 
 msgid "Communication language"
 msgstr "Γλώσσα επικοινωνίας"
@@ -100,7 +100,7 @@ msgid "Mobile SMS notifications enabled"
 msgstr "Ενεργοποίηση μηνυμάτων SMS"
 
 msgid "Invalid voting end date"
-msgstr "Οι ημερομηνίες έναρξης/λήξης δεν είναι σωστές."
+msgstr "Η ημερομηνία λήξης δεν είναι σωστή."
 
 msgid "Invalid voting dates"
 msgstr "Οι ημερομηνίες έναρξης/λήξης δεν είναι σωστές."
@@ -140,19 +140,19 @@ msgstr ""
 "απαντήσεων"
 
 msgid "maximum number of elected from the same constituency"
-msgstr "μέγιστος αριθμός εκλεγόμενων από την ίδια Σχολή ή Ανεξάρτητο Τμήμα"
+msgstr "Μέγιστος αριθμός εκλεγόμενων από την ίδια Σχολή ή Ανεξάρτητο Τμήμα"
 
 msgid "Constituency limit"
 msgstr "Όριο ανά Σχολή ή Ανεξάρτητο Τμήμα"
 
 msgid "enable limiting the elections from the same constituency"
-msgstr "ενεργοποίηση περιορισμού εκλεγόμενων από την ίδια περιφέρεια"
+msgstr "Ενεργοποίηση περιορισμού εκλεγόμενων από την ίδια περιφέρεια"
 
 msgid "Limit elected per constituency"
 msgstr "Περιορισμός εκλεγόμενων ανά Σχολή ή Ανεξάρτητο Τμήμα"
 
 msgid "set the eligibles count of the election"
-msgstr "το πλήθος των εκλεγόμενων"
+msgstr "Ορίστε το πλήθος των εκλεγόμενων"
 
 msgid "Eligibles count"
 msgstr "Πλήθος εκλεγόμενων"
@@ -170,7 +170,7 @@ msgid "Password"
 msgstr "Συνθηματικό"
 
 msgid "Invalid username or password"
-msgstr "Μη έγκυρος χρήστης ή συνθηματικό"
+msgstr "Μη έγκυρο όνομα χρήστη ή συνθηματικό"
 
 msgid "Your account is disabled"
 msgstr "Ο λογαριασμός είναι απενεργοποιημένος"
@@ -196,10 +196,10 @@ msgstr ""
 "ημερομηνίας έναρξης της ψηφοφορίας."
 
 msgid "Invalid forum access end date"
-msgstr "Μη έγκυρη ημερομηνία λήξης πρόσβασης στη διαβούλευση"
+msgstr "Μη έγκυρη ημερομηνία λήξης της διαβούλευσης"
 
 msgid "Invalid forum extension date."
-msgstr "Μη έγκυρη ημερομηνία παράτασης πρόσβασης στη διαβούλευση"
+msgstr "Μη έγκυρη ημερομηνία παράτασης της διαβούλευσης"
 
 msgid "Duplicate poll names are not allowed"
 msgstr "Δεν επιτρέπονται κάλπες με ίδιο όνομα"
@@ -234,10 +234,10 @@ msgid "Email subject"
 msgstr "Tίτλος μηνύματος email"
 
 msgid "In place of BODY"
-msgstr "Στην θέση BODY"
+msgstr "Στη θέση BODY"
 
 msgid "In place of SMS_BODY"
-msgstr "Στην θέση SMS_BODY"
+msgstr "Στη θέση SMS_BODY"
 
 msgid "Contact method"
 msgstr "Τρόπος επικοινωνίας"
@@ -302,7 +302,7 @@ msgid "Election name"
 msgstr "Τίτλος ψηφοφορίας"
 
 msgid "Voting start date"
-msgstr "Έναρξη της ψηφοφορίας στις"
+msgstr "Έναρξη της ψηφοφορίας"
 
 msgid "e.g. 25/01/2015 07:00"
 msgstr "π.χ. 25/01/2015 07:00"
@@ -326,7 +326,7 @@ msgid "Ballots count"
 msgstr "Πλήθος ψήφων"
 
 msgid "Invalid date format"
-msgstr "Μη έγκυρη μορφή ημερομηνίας."
+msgstr "Μη έγκυρη μορφή ημερομηνίας"
 
 #, python-format
 msgid "Candidate %s is invalid"
@@ -336,25 +336,25 @@ msgid "This is a trial election"
 msgstr "Επιλέξτε το πεδίο αν πρόκειται για δοκιμαστική ψηφοφορία"
 
 msgid "Choose the type of the election"
-msgstr "επιλέξτε τον τύπο της ψηφοφορίας"
+msgstr "Επιλέξτε τον τύπο της ψηφοφορίας"
 
 msgid "TRUSTEES_LIST_HELP_TEXT"
 msgstr ""
-"συμπληρώστε τη λίστα μελών της εφορευτικής επιτροπής με τα e-mails τους. Π.χ."
+"Συμπληρώστε τη λίστα μελών της εφορευτικής επιτροπής με τα e-mails τους. Π.χ."
 "<br/><br/>Κωσταντίνος Κωστόπουλος, kwstopoulos@email.com<br/>Ιωάννης "
 "Γιαννόπουλος, giannhs@gmail.com<br/>"
 
 msgid "Election description"
-msgstr "περιγράψτε σύντομα την ψηφοφορία"
+msgstr "Περιγράψτε σύντομα την ψηφοφορία"
 
 msgid "When voting ends"
-msgstr "δώστε ημερομηνία και ώρα για τη λήξη της ψηφοφορίας"
+msgstr "Συμπληρώστε την ημερομηνία και ώρα λήξης της ψηφοφορίας"
 
 msgid "When voting starts"
-msgstr "δώστε ημερομηνία και ώρα έναρξης της ψηφοφορίας"
+msgstr "Συμπληρώστε την ημερομηνία και ώρα έναρξης της ψηφοφορίας"
 
 msgid "Voting extension date"
-msgstr "νέα ημερομηνία και ώρα λήξης της ψηφοφορίας"
+msgstr "Συμπληρώστε τη νέα ημερομηνία και ώρα λήξης της ψηφοφορίας"
 
 msgid "Voters can contact this email for election support"
 msgstr ""
@@ -363,13 +363,13 @@ msgstr ""
 
 msgid "Voters can contact this phone for election support"
 msgstr ""
-"Οι ψηφοφόροι θα μπορούν να επικοινωνούν σε αυτά τα τηλέφωνα για υποστήριξη "
+"Οι ψηφοφόροι θα μπορούν να επικοινωνούν σε αυτό το τηλέφωνο για υποστήριξη "
 "σε θέματα της ψηφοφορίας"
 
 msgid "Whether or not to allow remote mixing"
 msgstr ""
 "Επιλέξτε αν θέλετε να παρέχετε εξωτερικά στάδια μίξης μετά την ψηφοφορία -- "
-"αφήστε κενό εάν δεν είστε σίγουρος"
+"αφήστε κενό εάν δεν είστε σίγουρος/η"
 
 msgid "Require voters to accept specified terms in order to cast a vote."
 msgstr ""
@@ -645,7 +645,7 @@ msgid "Voters Voted"
 msgstr "Σύνολο συμμετεχόντων"
 
 msgid "Number of Polls"
-msgstr "Σύνολο κάλπεων"
+msgstr "Σύνολο καλπών"
 
 msgid "Administrators"
 msgstr "Διαχειριστές"
@@ -673,13 +673,13 @@ msgid "Uninitialized shibboleth session."
 msgstr "Μη αρχικοποιημένη σύνδεση shibboleth"
 
 msgid "Invalid shibboleth endpoint"
-msgstr "Πρόβλημα στα δεδομένα shibboleth"
+msgstr "Μη έγκυρο shibboleth endpoint"
 
 msgid "Invalid shibboleth data resolved."
-msgstr "Πρόβλημα στα δεδομένα shibboleth"
+msgstr "Μη έγκυρα δεδομένα shibboleth"
 
 msgid "Shibboleth voter info assertion failed."
-msgstr "Πρόβλημα στα δεδομένα shibboleth"
+msgstr "Πρόβλημα στα δεδομένα shibboleth (assertion failed)"
 
 msgid "Trustee login url sent"
 msgstr "Η αποστολή πρόσκλησης πραγματοποιήθηκε"
@@ -687,7 +687,7 @@ msgstr "Η αποστολή πρόσκλησης πραγματοποιήθηκ�
 msgid "You cannot modify a post with existing replies"
 msgstr ""
 "Δεν μπορείτε να επεξεργαστείτε μια ανάρτηση στην οποία έχουν προστεθεί "
-"απαντήσεις"
+"σχόλια"
 
 msgid "Forum post deleted successfully."
 msgstr "Η ανάρτηση διεγράφη επιτυχώς"
@@ -769,7 +769,8 @@ msgstr "Δεν είναι δυνατή η δημιουργία δοκιμαστ�
 
 #, python-format
 msgid "An email with demo credentials has been sent to %s"
-msgstr "Ο δοκιμαστικός λογαριασμός σας έχει σταλεί στη διεύθυνση email %s"
+msgstr ""
+"Τα στοιχεία του δοκιμαστικού λογαριασμού σας έχουν σταλεί στη διεύθυνση email %s"
 
 msgid "You do not have permission to access this page."
 msgstr "Δεν έχετε δικαίωμα πρόσβασης σε αυτή τη σελίδα."

@@ -81,7 +81,7 @@ msgstr ""
 ">Φιλοσοφική Σχολή<br/>Ανεξάρτητο Παιδαγωγικό Τμήμα Δημοτικής Εκπαίδευσης<br/>"
 
 msgid "Voting starts at"
-msgstr "Έναρξη της ψηφοφορίας στις"
+msgstr "Έναρξη της ψηφοφορίας"
 
 msgid "Voting ends at"
 msgstr "Λήξη της ψηφοφορίας"
@@ -93,7 +93,7 @@ msgid "Cast consent test"
 msgstr "Όροι κατάθεσης ψήφου"
 
 msgid "Add at least one trustee"
-msgstr "προσθέστε τουλάχιστον ένα μέλος στην εφορευτική επιτροπή"
+msgstr "Προσθέστε τουλάχιστον ένα μέλος στην εφορευτική επιτροπή"
 
 #, python-format
 msgid "Have trustee %s generate a keypair"
@@ -223,7 +223,7 @@ msgid "Voting closed"
 msgstr "Η ψηφοφορία έχει λήξει"
 
 msgid "Pending election close"
-msgstr "Αναμένεται λήξη της ψηφοφορίας"
+msgstr "Αναμένεται η λήξη της ψηφοφορίας"
 
 msgid "No questions set"
 msgstr "Δεν έχουν οριστεί ακόμη ερωτήσεις"
@@ -241,7 +241,7 @@ msgid "Election candidates added."
 msgstr "Οι υποψήφιοι έχουν καταχωρισθεί."
 
 msgid "Election voters added."
-msgstr "Οι εκλέκτορες ψηφοφόροι έχουν καταχωρισθεί."
+msgstr "Οι ψηφοφόροι έχουν καταχωρισθεί."
 
 msgid "Trustees keys generated."
 msgstr "Οι Κωδικοί της ψηφοφορίας έχουν παραχθεί."
@@ -347,7 +347,7 @@ msgstr "Κατάσταση ψηφοφορίας"
 
 msgid "Use the following URL to append additional mixes"
 msgstr ""
-"Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για καταχώρηση επιπλέον κρυπτογραφικών "
+"Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για καταχώριση επιπλέον κρυπτογραφικών "
 "αναμίξεων ψηφοδελτίων"
 
 msgid "Mixing status"
@@ -360,7 +360,7 @@ msgid "Close election"
 msgstr "Λήξη ψηφοφορίας"
 
 msgid "Close mixing"
-msgstr "Ολοκλρήρωση μίξης"
+msgstr "Ολοκλήρωση μίξης"
 
 msgid "Cancel election"
 msgstr "Ακύρωση ψηφοφορίας"
@@ -430,13 +430,13 @@ msgid "no posts exist yet"
 msgstr "Δεν υπάρχουν αναρτήσεις"
 
 msgid "Edit reply"
-msgstr "Επεξεργασία απάντησης"
+msgstr "Επεξεργασία σχολίου"
 
 msgid "Edit post"
 msgstr "Επεξεργασία ανάρτησης"
 
 msgid "Reply"
-msgstr "Απάντηση"
+msgstr "Σχόλιο"
 
 msgid "Post"
 msgstr "Ανάρτηση"
@@ -445,7 +445,7 @@ msgid "reply to post"
 msgstr "απάντηση"
 
 msgid "publish post"
-msgstr "δημοσίευση ανάρτησης"
+msgstr "Δημοσίευση ανάρτησης"
 
 msgid "cancel"
 msgstr "Ακύρωση"
@@ -472,7 +472,7 @@ msgid "Voters count"
 msgstr "Αριθμός ψηφοφόρων"
 
 msgid "Polls count"
-msgstr "Αριθμός κάλπεων"
+msgstr "Αριθμός καλπών"
 
 msgid "Edit poll"
 msgstr "Επεξεργασία κάλπης"
@@ -508,7 +508,7 @@ msgid "Your vote weight is set to "
 msgstr "Το βάρος της ψήφου σας έχει οριστεί ως "
 
 msgid "Participate in forum"
-msgstr "Συμμετοχή στην διαβούλευση"
+msgstr "Συμμετοχή στη διαβούλευση"
 
 msgid "Enter voting booth"
 msgstr "Είσοδος στο ηλεκτρονικό παραπέτασμα"
@@ -523,7 +523,7 @@ msgid "Voting date passed."
 msgstr "Ο χρόνος λήξης της ψηφοφορίας έχει παρέλθει"
 
 msgid "Voting closed. Please wait for results"
-msgstr "Η ψηφοφορία έχει λήξει. Παρακαλώ περιμένετε αποτελέσματα"
+msgstr "Η ψηφοφορία έχει λήξει. Αναμονή για την εξαγωγή των αποτελεσμάτων."
 
 msgid "Election canceled"
 msgstr "Η ψηφοφορία έχει λήξει"
@@ -532,7 +532,7 @@ msgid "Election completed."
 msgstr "Η ψηφοφορία έχει ολοκληρωθεί"
 
 msgid "Election cancel message"
-msgstr "Είστε σίγουρος οτι θέλετε να ακυρώσετε οριστικά την ψηφοφορία;"
+msgstr "Είστε σίγουρος/η ότι θέλετε να ακυρώσετε οριστικά την ψηφοφορία;"
 
 msgid "Cancel reason"
 msgstr "Λόγος ακύρωσης"
@@ -545,7 +545,7 @@ msgstr "Πίσω"
 
 msgid "Election close message"
 msgstr ""
-"Είστε σίγουρος οτι θέλετε να λήξετε οριστικά την ψηφοφορία;<br/><br/>Μετά τη "
+"Είστε σίγουρος/η ότι θέλετε να λήξετε οριστικά την ψηφοφορία;<br/><br/>Μετά τη "
 "λήξη της ψηφοφορίας κανένας ψηφοφόρος δεν θα μπορεί να ψηφίσει."
 
 msgid "Confirm election close"
@@ -581,7 +581,7 @@ msgid "Please confirm."
 msgstr "Ναι, επιβεβαιώνω!"
 
 msgid "Confirm close mixing"
-msgstr "Επιβεβαίωση ολοκλρήωσης κρυπτογραφικών αναμίξεων ψηφοδελτίων"
+msgstr "Επιβεβαίωση ολοκλήρωσης κρυπτογραφικών αναμίξεων ψηφοδελτίων"
 
 msgid "Rename poll"
 msgstr "Μετονομασία κάλπης"
@@ -636,13 +636,13 @@ msgstr "Αποθήκευση μερικής αποκρυπτογράφησης"
 
 msgid ""
 "You have successfully uploaded your partial decryption of the election tally."
-msgstr "Έχετε ολοκληρώσει επιτυχώς την διαδικασία μερικής αποκρυπτογράφησης."
+msgstr "Έχετε ολοκληρώσει επιτυχώς τη διαδικασία μερικής αποκρυπτογράφησης."
 
 msgid "Create Institution"
 msgstr "Δημιουργία Ιδρύματος"
 
 msgid "Please confirm the deletion of institution"
-msgstr "Παρακαλώ επιβεβαιώστε την διαγραφή του ιδρύματος"
+msgstr "Παρακαλώ επιβεβαιώστε τη διαγραφή του ιδρύματος"
 
 msgid "Yes, I confirm!"
 msgstr "Ναι, επιβεβαιώνω!"
@@ -717,7 +717,7 @@ msgid "SAVE"
 msgstr "Αποθήκευση"
 
 msgid "Provide a reason to delete this post."
-msgstr "Ορίστε τον λόγο για την διαγραφή της ανάρτησης."
+msgstr "Ορίστε τον λόγο για τη διαγραφή της ανάρτησης."
 
 msgid "Are you sure?"
 msgstr "Επιβεβαιώστε"
@@ -883,7 +883,7 @@ msgid ""
 "example:"
 msgstr ""
 "Παρακαλούμε, ετοιμάστε ένα αρχείο απλού κειμένου με τους ψηφοφόρους σε μορφή "
-"CSV,όπως στο παράδειγμα:"
+"CSV, όπως στο παράδειγμα:"
 
 msgid "EXAMPLE_CSV_INPUT_TEXT"
 msgstr ""
@@ -932,7 +932,7 @@ msgid ""
 "    if the same person is eligiible to more than one votes\n"
 "    (e.g. when representing multiple parties separately)."
 msgstr ""
-"Προσωπική διεύθυνση email του ψηφοφόρου όπου θα αποσταλεί ο μυστικό "
+"Προσωπική διεύθυνση email του ψηφοφόρου όπου θα αποσταλεί ο μυστικός "
 "σύνδεσμος για την ψηφοφορία.\n"
 "    Η ίδια διεύθυνση email μπορεί να αντιστοιχηθεί σε πολλαπλές "
 "καταχωρίσεις,\n"
@@ -1141,7 +1141,7 @@ msgid "confirm you indeed possess the trustee key"
 msgstr "επιβεβαιώστε ότι πράγματι κατέχετε τον κωδικό ψηφοφορίας σας"
 
 msgid "if you haven't."
-msgstr "εαν δεν το έχετε κάνει ήδη."
+msgstr "εάν δεν το έχετε κάνει ήδη."
 
 msgid "Confirm key possession"
 msgstr "Επιβεβαίωση κατοχής κωδικού ψηφοφορίας"
@@ -1391,7 +1391,7 @@ msgid "change password"
 msgstr "αλλαγή κωδικού"
 
 msgid "You are logged in as voter"
-msgstr "Συδεθήκατε ως ψηφοφόρος"
+msgstr "Συνδεθήκατε ως ψηφοφόρος"
 
 msgid "proceed to election site"
 msgstr "είσοδος στη σελίδα της ψηφοφορίας"
@@ -1465,7 +1465,7 @@ msgid "SMS content"
 msgstr "Περιεχόμενο μηνύματος SMS"
 
 msgid "You can edit the contents of the message using the following form."
-msgstr "Μπορείτε να επεξεργαστείτε το μήνυμα στην φόρμα που ακολουθεί."
+msgstr "Μπορείτε να επεξεργαστείτε το μήνυμα στη φόρμα που ακολουθεί."
 
 msgid "Send"
 msgstr "Αποστολή"
@@ -1554,14 +1554,14 @@ msgid ""
 "A deliberation forum will also be accessible at the following\n"
 "dates:"
 msgstr ""
-"Μπορείτε επίσης να συμμετέχετε στην διαβούλευση\n"
+"Μπορείτε επίσης να συμμετέχετε στη διαβούλευση\n"
 "της ψηφοφορίας στις παρακάτω ημερομηνίες:"
 
 msgid "forum opens at"
-msgstr "Η πρόσβαση στη διαβούλευση ξεκινάει στις"
+msgstr "Η διαβούλευση ξεκινάει στις"
 
 msgid "forum ends at"
-msgstr "Η πρόσβαση στη διαβούλευση λήγει στις"
+msgstr "Η διαβούλευση λήγει στις"
 
 msgid "Information:"
 msgstr "Πληροφορίες:"
@@ -1651,7 +1651,7 @@ msgid ""
 "    </p>\n"
 "    "
 msgstr ""
-"Για σχόλια και απορίες σχετικά με την πλατφόρμα Ζεύς μπορείτε να \n"
+"Για σχόλια και απορίες σχετικά με την πλατφόρμα Ζευς μπορείτε να \n"
 " επικοινωνήσετε στο \n"
 "<a href=\"mailto:helpdesk@zeus.grnet.gr\">helpdesk@zeus.grnet.gr</a>.\n"
 "    <br /> \n"
@@ -1705,7 +1705,7 @@ msgid ""
 msgstr ""
 "\n"
 "Εδώ εισέρχονται μόνο οι διαχειριστές ψηφοφοριών.\n"
-"Οι ψηφοφόροι πρέπει να ακολουθήσουν το σύνδεσμο που τους έχει αποσταλεί μέσω "
+"Οι ψηφοφόροι πρέπει να ακολουθήσουν τον σύνδεσμο που τους έχει αποσταλεί μέσω "
 "email ή SMS.\n"
 
 msgid "As a trustee for the election"
