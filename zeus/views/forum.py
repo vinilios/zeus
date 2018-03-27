@@ -49,7 +49,7 @@ def _last_page(count, paginate_by=PAGINATE_BY):
 def _get_edit_post_or_404(id, voter, poll, election, **kwargs):
     post = get_object_or_404(Post, id=id, voter=voter, poll=poll,
                              election=election, is_replaced=False,
-                             deleted=False, voter__excluded_at__isnull=True)
+                             deleted=False)
     if post.level > 0 and post.parent.deleted:
         raise PermissionDenied
     return post
@@ -171,13 +171,19 @@ def delete(request, election, poll):
     user = request.zeususer
     kwargs = {}
     admin = None
+    voter = None
     if not user.is_admin:
-        kwargs['voter'] = user._user
+        voter = user._user
+        kwargs['voter'] = voter
         kwargs['poll'] = user._user.poll
     else:
         admin = user._user
 
     post = get_object_or_404(Post, deleted=False, id=post_id, **kwargs)
+
+    if not post.can_delete(user, voter):
+        raise PermissionDenied
+
     if post.level > 0 and post.parent.deleted:
         raise PermissionDenied
 

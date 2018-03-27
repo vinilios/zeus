@@ -143,11 +143,11 @@
     {% if user.is_manager or 'cast_votes__id' in voter_table_headers %}
     <td>
       {% if voter.voted %}
-      {% trans "YES" %} {% if voter.excluded_at %}<b style="color:red">{% trans "(Excluded)" %}</b>{% endif %}
+      {% trans "YES" %} 
       {% else %}
       {% trans "NO" %}
       {% endif %}
-
+      {% if voter.excluded_at %}<b style="color:red">{% trans "(Excluded)" %}</b>{% endif %}
     </td>
     {% endif %}
     {% if poll.forum_enabled %}

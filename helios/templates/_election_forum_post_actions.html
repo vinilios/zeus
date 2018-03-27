@@ -1,7 +1,7 @@
 {% load i18n zeus_tags pagination_tags %}
 <div class="post-actions clearfix">
   {% if user.is_admin or post.voter == voter %}
-      {% if poll.feature_forum_can_post and post.can_delete %}
+      {% if post|user_can_delete_forum_post:user or post|voter_can_delete_forum_post:voter %}
       <div class="action delete">
         <form method="post"
               action="{% url "election_poll_forum_post_delete" election.uuid poll.uuid %}">
@@ -18,7 +18,7 @@
         <a class="button tiny" href="{% url "election_poll_forum" election.uuid poll.uuid %}?edit={{ post.id }}#post"><i class="general foundicon-edit"></i> {% trans "edit" %}</a>
       </div>
   {% endif %}
-  {% if voter and poll.feature_forum_can_post and post %}
+  {% if voter and poll.feature_forum_can_post and post and post_id %}
       <div class="action quote">
         <a class="button tiny" onclick="quotePost({{ post.id }})" href="#post"><i class="general foundicon-quote"></i> {% trans "quote" %}</a>
         <div class="post-quote-{{ post.id }}" style="display: none">{% blocktrans with voter=post.voter.forum_display date=post.post_date %} {{ voter }} at {{ date }}{% endblocktrans %}

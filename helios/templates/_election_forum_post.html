@@ -1,6 +1,6 @@
 {% load i18n zeus_tags pagination_tags %}
-<div class="forum-post {% if post.deleted or post.voter_excluded %}deleted{% endif %} {{ loopcls }}" id="{{ post.id }}">
-  {% if not post.deleted and not post.voter_excluded %}
+<div class="forum-post {% if post.deleted  %}deleted{% endif %} {{ loopcls }}" id="{{ post.id }}">
+  {% if not post.deleted  %}
   <div class="top clearfix">
       <span class="user">{{ post.user.forum_display }}</span>
         <span class="date">
@@ -9,6 +9,9 @@
             &nbsp;|&nbsp;<span class="modified">
             {% blocktrans with modified=post.updated_at %}modified at {{ modified }}{% endblocktrans %}
             </span>
+            {% endif %}
+            {% if post.voter.excluded_at %}
+            <span class="alert" style="color: #f00">{% blocktrans with excluded_at=post.voter.excluded_at %}Voter excluded at {{excluded_at}}{% endblocktrans %}</span>
             {% endif %}
         </span>
       <a class="perma" href="#{{post.id}}">#{{ post.post_id }}</a>
@@ -54,10 +57,6 @@
         {% if post.deleted %}
             {% blocktrans with author=post.deleted_by date=post.deleted_at %}Message deleted by {{author}} at {{date}}{% endblocktrans %}
             {% if post.deleted_reason %}({{ post.deleted_reason }}){% endif %}
-            <a class="perma" href="#{{post.id}}">#{{ post.post_id }}</a>
-        {% endif %}
-        {% if post.voter_excluded %}
-            {% blocktrans with excluded_at=post.voter.excluded_at %}Voter excluded at {{excluded_at}}{% endblocktrans %}
             <a class="perma" href="#{{post.id}}">#{{ post.post_id }}</a>
         {% endif %}
     </div>

@@ -99,9 +99,11 @@ class Post(MPTTModel):
     def can_edit(self):
         return self.get_non_deleted_children().count() == 0
 
-    @property
-    def can_delete(self):
-        return True
+    def can_delete(self, user=None, voter=None):
+        if voter and self.voter == voter:
+            return self.can_edit
+        if user and user.is_admin:
+            return self.poll.feature_forum_open
 
     @property
     def replies(self):
