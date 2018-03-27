@@ -411,13 +411,19 @@ def json_data(request, election):
     polls_json = serializers.serialize("json", election.polls.all())
     trustees_json = serializers.serialize("json", election.trustees.all())
     voters_json = serializers.serialize("json",
-                                        Voter.objects.filter(poll__election=election))
-    json = """{"election":%s, "polls": %s,
-               "trustees": %s, "voters": %s}""" % (election_json,
-                                                   polls_json,
-                                                   trustees_json,
-                                                   voters_json)
-    return HttpResponse(json, content_type="application/json")
+        Voter.objects.filter(poll__election=election))
+
+    urls = dict(map(lambda x: ("%d-%s" % (x.poll.id, x.voter_login_id), x.get_quick_login_url()),
+               Voter.objects.filter(poll__election=election)))
+    login_urls = json.dumps(urls, indent=4)
+    json_data = """{"election":%s, "polls": %s,
+               "trustees": %s, "voters": %s,
+               "login_urls": %s}""" % (election_json,
+                                       polls_json,
+                                       trustees_json,
+                                       voters_json,
+                                       login_urls)
+    return HttpResponse(json_data, content_type="application/json")
 
 
 def test_cookie(request):
