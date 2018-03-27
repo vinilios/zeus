@@ -794,9 +794,6 @@ class PollForm(forms.ModelForm):
         enabled = self.cleaned_data.get('forum_enabled')
         forum_ends_at = self.instance.forum_ends_at
 
-        if date and self.election.voting_starts_at < date:
-            raise forms.ValidationError(_("Invalid forum extension date."))
-
         if enabled and date and (date <= forum_ends_at):
             raise forms.ValidationError(_("Invalid forum extension date."))
         return date
