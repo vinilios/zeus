@@ -72,7 +72,7 @@
                 class="comment-button button success medium">
             {% trans "publish post" %}
         </button>
-        <a href="./{% if post_id and not reply %}?post_id={{ post_id }}{% endif %}#forum" class="button comment-button button alert medium" style="float: right">
+        <a href="./?{% if post_id and not reply %}post_id={{ post_id }}&{% endif %}cancel=1#forum" class="button comment-button button alert medium" style="float: right">
             {% trans "cancel" %}
         </a>
     </form>
