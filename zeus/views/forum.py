@@ -283,6 +283,6 @@ def post(request, election, poll):
         context = {
             'form': form,
             'edit': edit,
-            'post_body': form.data.get('body', edit.body)
+            'post_body': form.data.get('body', getattr(edit, 'body', None))
         }
         return _index(request, election, poll, context)
