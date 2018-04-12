@@ -54,7 +54,7 @@
     {% endif %}
     <h4 style="display: none" class="reply">{% trans "reply to post" %}</h4>
     {% if form and not form.is_valid %}
-        {{ form.errors }}
+        {% for key, error in form.errors.items %} {{ error }} {% endfor %}
     {% endif %}
     <form class="create-comment-form" 
             method="post" 
