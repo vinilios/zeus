@@ -703,6 +703,9 @@ class PollForm(forms.ModelForm):
                                     initial="https://graph.facebook.com/v2.2/me",
                                     required=False)
 
+        self.fields['forum_starts_at'].help_text = None
+        self.fields['forum_ends_at'].help_text = _("Voting starts at %s") % self.election.voting_ends_at
+
         if self.initial is not None:
             shib = self.initial.get('shibboleth_constraints', None)
             if shib is not None and isinstance(shib, dict):
