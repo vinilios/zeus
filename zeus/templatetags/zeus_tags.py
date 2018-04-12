@@ -334,5 +334,9 @@ def fieldset_fields(context, form, fieldset, name='fieldset_'):
 
 
 @register.filter
+def target_blank(text):
+    return text.replace('<a ', '<a target="_blank" ')
+
+@register.filter
 def bleach(value):
     return sanitize_html(value)

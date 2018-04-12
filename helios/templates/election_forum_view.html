@@ -105,7 +105,7 @@
         {% if poll.forum_description %}
         <div class="forum-text">
         <p>
-            {{ poll.forum_description|bleach|safe|linebreaks }}
+            {{ poll.forum_description|urlize|bleach|target_blank|safe|linebreaks }}
         </p>
         </div>
         {% endif %}
