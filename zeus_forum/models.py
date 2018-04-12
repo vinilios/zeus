@@ -1,8 +1,10 @@
 import datetime
 
+from datetime import timedelta
 from django.db import models, transaction
 from mptt.models import MPTTModel, TreeForeignKey, TreeManager
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 from zeus_forum.util import lock_atomic
 
 
@@ -10,6 +12,8 @@ USER_TYPE_CHOCIES = (
     ('admin', 'Admin'),
     ('voter', 'Voter')
 )
+
+EDIT_POST_TIME_LIMIT = getattr(settings, 'ZEUS_FORUM_POST_EDIT_TIME_LIMIT', 30)
 
 
 class PostManager(TreeManager):
@@ -96,12 +100,23 @@ class Post(MPTTModel):
         return (self.post_index + 1) if self.post_index is not None else self.id
 
     @property
-    def can_edit(self):
-        return self.get_non_deleted_children().count() == 0
+    def replied(self):
+        return self.get_non_deleted_children().count() > 0
+
+    def expired(self, delta, now=None):
+        now = now or datetime.datetime.now()
+        return (self.updated_at + delta) <= now
+
+    def can_edit(self, user=None, voter=None):
+        if not self.poll.feature_forum_open:
+            return False
+        if voter == self.voter and not self.replied:
+            return not self.expired(timedelta(minutes=EDIT_POST_TIME_LIMIT))
+        return False
 
     def can_delete(self, user=None, voter=None):
-        if voter and self.voter == voter:
-            return self.can_edit
+        if voter:
+            return self.can_edit(user, voter)
         if user and user.is_admin:
             return self.poll.feature_forum_open
 

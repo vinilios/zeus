@@ -251,6 +251,11 @@ def markdown_to_html(value):
 
 
 @register.filter
+def voter_can_edit_forum_post(post, voter):
+    return post.can_edit(None, voter)
+
+
+@register.filter
 def user_can_delete_forum_post(post, user):
     return post.can_delete(user, None)
 

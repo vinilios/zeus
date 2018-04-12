@@ -13,7 +13,7 @@
       </div>
       {% endif %}
   {% endif %}
-  {% if voter and poll.feature_forum_can_post and post.can_edit and post.voter == voter %}
+  {% if voter and poll.feature_forum_can_post and post|voter_can_edit_forum_post:voter %}
       <div class="action reply">
         <a class="button tiny" href="{% url "election_poll_forum" election.uuid poll.uuid %}?edit={{ post.id }}#post"><i class="general foundicon-edit"></i> {% trans "edit" %}</a>
       </div>

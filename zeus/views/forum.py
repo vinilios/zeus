@@ -250,11 +250,18 @@ def post(request, election, poll):
     })
 
     forum_url = reverse('election_poll_forum', args=(election.uuid, poll.uuid))
-    if edit and not edit.can_edit:
+    if edit and edit.replied:
         messages.error(request,
                        _("You cannot modify a post with existing replies"))
         return HttpResponseRedirect(forum_url + "#site-messages")
 
+    if edit and not edit.can_edit(admin, voter):
+        messages.error(request,
+                       _("You cannot modify this post"))
+        return HttpResponseRedirect(forum_url + "#site-messages")
+        raise PermissionDenied
+
+    data['body'] = data.get('body', '') or ' ' # enforce empty text error
     form = PostForm(data, instance=edit, poll=poll)
     if form.is_valid():
         post = form.save(user)
