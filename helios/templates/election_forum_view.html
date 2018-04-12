@@ -126,6 +126,16 @@
             <i>{% trans "Forum participants" %}: </i><b>{{ poll.forum_voters_count }} / {{ poll.voters.count }}</b>
         </div>
         </div>
+
+        <div class="election-dates columns twelve">
+        <div class="columns six top left">
+          <i>{% trans "Voting starts at" %}: </i> <b>{{ election.voting_starts_at }}</b>
+        </div>
+        <div class="columns six top right">
+          <i>{% trans "Voting ends at" %}: </i> <b>{{ election.voting_end_date }}</b>
+        </div>
+        </div>
+
     {% endif %}
 
     {% if poll.feature_forum_posts_visible %}
