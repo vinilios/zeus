@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 12:51+0200\n"
+"POT-Creation-Date: 2018-04-16 17:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,6 +46,9 @@ msgstr "Αποτελέσματα"
 msgid "Party lists election"
 msgstr "Ψηφοφορία με συνδυασμούς"
 
+msgid "Manage ballot"
+msgstr "Διαχείριση ψηφοδελτίου"
+
 msgid "Candidate"
 msgstr "Υποψήφιος"
 
@@ -66,6 +69,19 @@ msgstr "Ψηφοφορία με ταξινομική ψήφο"
 
 msgid "Candidates List"
 msgstr "Λίστα υποψηφίων"
+
+msgid "Electors: Group A"
+msgstr "Εκλέκτορες: Ομάδα Α"
+
+msgid "Electors: Group B"
+msgstr "Εκλέκτορες: Ομάδα Β"
+
+msgid "Greek Universities single governing bodies election"
+msgstr ""
+"Ανάδειξη μονομελών οργάνων διοίκησης των Α.Ε.Ι (3453/2017 Αριθ. 159165/Ζ1)"
+
+msgid "Voter excluded"
+msgstr "Έχει εξαιρεθεί"
 
 #, python-format
 msgid "%s is not a valid character."
@@ -178,6 +194,10 @@ msgstr "Ο λογαριασμός είναι απενεργοποιημένος"
 msgid "Poll forum enabled"
 msgstr "Η διαβούλευση είναι ενεργοποιημένη"
 
+#, python-format
+msgid "Voting starts at %s"
+msgstr "Έναρξη της ψηφοφορίας στις %s"
+
 msgid "2-factor authentication"
 msgstr "Ταυτοποίηση 2-factor"
 
@@ -190,13 +210,13 @@ msgstr ""
 "Η ημερομηνία έναρξης της διαβούλευσης θα πρέπει να είναι προγενέστερη της "
 "ημερομηνίας έναρξης της ψηφοφορίας."
 
+msgid "Invalid forum access end date"
+msgstr "Μη έγκυρη ημερομηνία λήξης της διαβούλευσης"
+
 msgid "Forum should end before voting."
 msgstr ""
 "Η ημερομηνία λήξης της διαβούλευσης θα πρέπει να είναι προγενέστερη της "
 "ημερομηνίας έναρξης της ψηφοφορίας."
-
-msgid "Invalid forum access end date"
-msgstr "Μη έγκυρη ημερομηνία λήξης της διαβούλευσης"
 
 msgid "Invalid forum extension date."
 msgstr "Μη έγκυρη ημερομηνία παράτασης της διαβούλευσης"
@@ -563,36 +583,6 @@ msgstr "Λήξη: %(date)s"
 msgid "Extension: %(date)s"
 msgstr "Παράταση: %(date)s"
 
-#, python-format
-msgid "%(election_name)s - vote cast"
-msgstr "%(election_name)s - ψήφος ελήφθη"
-
-#, python-format
-msgid ""
-"You have successfully cast a vote in\n"
-"\n"
-"%(election_name)s\n"
-"%(poll_name)s\n"
-"\n"
-"as\n"
-"\n"
-"%(voter_name)s %(voter_surname)s\n"
-"with registration ID: %(reg_id)s\n"
-"\n"
-"you can find your encrypted vote attached in this mail.\n"
-msgstr ""
-"Η ψήφος σας καταχωρίσθηκε επιτυχώς για την ψηφοφορία\n"
-"\n"
-"%(election_name)s\n"
-"%(poll_name)s\n"
-"\n"
-"ως\n"
-"\n"
-"%(voter_name)s %(voter_surname)s\n"
-"με αριθμό καταχώρισης: %(reg_id)s\n"
-"\n"
-"H απόδειξη της καταχώρισης βρίσκεται συνημμένη στο παρόν μήνυμα.\n"
-
 msgid "Are you sure?"
 msgstr "Επιβεβαιώστε"
 
@@ -650,25 +640,6 @@ msgstr "Σύνολο καλπών"
 msgid "Administrators"
 msgstr "Διαχειριστές"
 
-msgid "Manage ballot"
-msgstr "Διαχείριση ψηφοδελτίου"
-
-msgid "Electors: Group A"
-msgstr "Εκλέκτορες: Ομάδα Α"
-
-msgid "Electors: Group B"
-msgstr "Εκλέκτορες: Ομάδα Β"
-
-msgid "Greek Universities single governing bodies election"
-msgstr ""
-"Ανάδειξη μονομελών οργάνων διοίκησης των Α.Ε.Ι (3453/2017 Αριθ. 159165/Ζ1)"
-
-msgid "Voter excluded"
-msgstr "Έχει εξαιρεθεί"
-
-msgid "Are you sure ?"
-msgstr "Επιβεβαιώστε"
-
 msgid "Uninitialized shibboleth session."
 msgstr "Μη αρχικοποιημένη σύνδεση shibboleth"
 
@@ -686,11 +657,14 @@ msgstr "Η αποστολή πρόσκλησης πραγματοποιήθηκ�
 
 msgid "You cannot modify a post with existing replies"
 msgstr ""
-"Δεν μπορείτε να επεξεργαστείτε μια ανάρτηση στην οποία έχουν προστεθεί "
-"σχόλια"
+"Δεν μπορείτε να επεξεργαστείτε μια ανάρτηση στην οποία έχουν προστεθεί σχόλια"
 
 msgid "Forum post deleted successfully."
 msgstr "Η ανάρτηση διεγράφη επιτυχώς"
+
+msgid "You cannot modify this post"
+msgstr ""
+"Δεν μπορείτε να επεξεργαστείτε την συγκεκριμένη ανάρτηση"
 
 msgid "Invalid batch file contents"
 msgstr "Μη αποδεκτό αρχείο"
@@ -770,7 +744,8 @@ msgstr "Δεν είναι δυνατή η δημιουργία δοκιμαστ�
 #, python-format
 msgid "An email with demo credentials has been sent to %s"
 msgstr ""
-"Τα στοιχεία του δοκιμαστικού λογαριασμού σας έχουν σταλεί στη διεύθυνση email %s"
+"Τα στοιχεία του δοκιμαστικού λογαριασμού σας έχουν σταλεί στη διεύθυνση "
+"email %s"
 
 msgid "You do not have permission to access this page."
 msgstr "Δεν έχετε δικαίωμα πρόσβασης σε αυτή τη σελίδα."

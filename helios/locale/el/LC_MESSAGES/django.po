@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-12 15:27+0200\n"
+"POT-Creation-Date: 2018-04-16 17:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -390,16 +390,16 @@ msgid "modified at %(modified)s"
 msgstr "τελευταία επεξεργασία στις %(modified)s"
 
 #, python-format
+msgid "Voter excluded at %(excluded_at)s"
+msgstr "Ο ψηφοφόρος εξαιρέθηκε στις %(excluded_at)s"
+
+#, python-format
 msgid "in reply to %(name)s"
 msgstr "απάντηση προς %(name)s"
 
 #, python-format
 msgid "Message deleted by %(author)s at %(date)s"
 msgstr "Διεγράφη από τον/την %(author)s στις %(date)s"
-
-#, python-format
-msgid "Voter excluded at %(excluded_at)s"
-msgstr "Ο ψηφοφόρος εξαιρέθηκε στις %(excluded_at)s"
 
 msgid "delete"
 msgstr "διαγραφή"
@@ -545,8 +545,8 @@ msgstr "Πίσω"
 
 msgid "Election close message"
 msgstr ""
-"Είστε σίγουρος/η ότι θέλετε να λήξετε οριστικά την ψηφοφορία;<br/><br/>Μετά τη "
-"λήξη της ψηφοφορίας κανένας ψηφοφόρος δεν θα μπορεί να ψηφίσει."
+"Είστε σίγουρος/η ότι θέλετε να λήξετε οριστικά την ψηφοφορία;<br/><br/>Μετά "
+"τη λήξη της ψηφοφορίας κανένας ψηφοφόρος δεν θα μπορεί να ψηφίσει."
 
 msgid "Confirm election close"
 msgstr "Επιβεβαίωση λήξης της ψηφοφορίας"
@@ -683,6 +683,21 @@ msgstr "Δημιουργία Χρήστη"
 msgid "No results found"
 msgstr "Δεν βρέθηκαν αποτελέσματα"
 
+msgid "Election types"
+msgstr "Τύποι ψηφοφορίας"
+
+msgid "Users count"
+msgstr "Αριθμός χρηστών"
+
+msgid "Actions"
+msgstr "Επιλογές"
+
+msgid "User Groups"
+msgstr "Ομάδες χρηστών"
+
+msgid "Is helpdesk user"
+msgstr "Χρήστης helpdesk"
+
 msgid "Elections Held"
 msgstr "Αριθμός Εκλογών"
 
@@ -692,8 +707,17 @@ msgstr "Λεπτομέρειες"
 msgid "Institutions"
 msgstr "Ιδρύματα"
 
+msgid "Groups"
+msgstr "Ομάδες"
+
+msgid "Create Group"
+msgstr "Δημιουργία ομάδας χρηστών"
+
 msgid "Please confirm the password reset of user "
 msgstr "Παρακαλούμε επιβεβαιώστε την επανέκδοση του κωδικού του χρήστη "
+
+msgid "SMS backend"
+msgstr "Πάροχος SMS"
 
 msgid "Reset Password"
 msgstr "Επανέκδοση κωδικού"
@@ -759,6 +783,9 @@ msgstr "Σύνολο ψήφων"
 msgid "Elected"
 msgstr "Εκλεγμένοι"
 
+msgid "Save proof data"
+msgstr "Αποθήκευση κρυπτογραφικών δεδομένων"
+
 msgid "To create a new election, enter the necessary information below."
 msgstr ""
 "Για τη δημιουργία νέας ψηφοφορίας, εισάγετε τα απαραίτητα στοιχεία παρακάτω."
@@ -808,9 +835,6 @@ msgstr "Προεπισκόπηση παραπετάσματος"
 
 msgid "Total votes"
 msgstr "Σύνολο ψήφων"
-
-msgid "Save proof data"
-msgstr "Αποθήκευση κρυπτογραφικών δεδομένων"
 
 msgid "Total voters count"
 msgstr "Σύνολο ψηφοφόρων"
@@ -1066,9 +1090,6 @@ msgstr "προβολή διαβούλευσης"
 msgid "forum disabled"
 msgstr "απενεργοποιημένη διαβούλευση"
 
-msgid "Actions"
-msgstr "Επιλογές"
-
 msgid "Manage voters"
 msgstr "Διαχείριση ψηφοφόρων"
 
@@ -1320,8 +1341,31 @@ msgstr "Μήνυμα συστήματος"
 msgid "ELECTION INFO"
 msgstr "Πληροφορίες ψηφοφορίας"
 
-msgid "Vote fingerprint"
-msgstr "Αποτύπωμα ψήφου"
+#, python-format
+msgid ""
+"You have successfully cast a vote in\n"
+"\n"
+"%(election_name)s\n"
+"%(poll_name)s\n"
+"\n"
+"as\n"
+"\n"
+"%(voter_name)s %(voter_surname)s\n"
+"with registration ID: %(voter_login_id)s\n"
+"\n"
+"you can find your encrypted vote attached in this mail."
+msgstr ""
+"Η ψήφος σας καταχωρίσθηκε επιτυχώς για την ψηφοφορία\n"
+"\n"
+"%(election_name)s\n"
+"%(poll_name)s\n"
+"\n"
+"ως\n"
+"\n"
+"%(voter_name)s %(voter_surname)s\n"
+"με αριθμό καταχώρισης: %(voter_login_id)s\n"
+"\n"
+"H απόδειξη της καταχώρισης βρίσκεται συνημμένη στο παρόν μήνυμα."
 
 msgid "Thank you for voting"
 msgstr "Ευχαριστούμε που ψηφίσατε"
@@ -1374,6 +1418,215 @@ msgstr "Αξιότιμε κύριε ή κυρία,"
 
 msgid "The ending date of the election has changed. New ending date is:"
 msgstr "Η ημερομηνία λήξης της ψηφοφορίας άλλαξε. Η νέα ημερομηνία είναι:"
+
+msgid "Zeus Elections"
+msgstr "Ηλεκτρονικές Ψηφοφορίες «Ζευς»"
+
+msgid "Intended recipient"
+msgstr "Νόμιμος παραλήπτης"
+
+msgid "Voting link"
+msgstr "Σύνδεσμος ψηφοφορίας"
+
+msgid "You are invited to vote in the poll:"
+msgstr "Προσκαλείστε να συμμετάσχετε στην ψηφοφορία:"
+
+msgid "starting"
+msgstr "με ημ/νία έναρξης"
+
+msgid "and ending"
+msgstr "και λήξης"
+
+msgid "Your registration ID is:"
+msgstr "Ο αριθμός καταχώρισής σας είναι:"
+
+msgid "To submit your vote, follow the link below"
+msgstr "Για να υποβάλετε ψήφο, ακολουθήστε τον παρακάτω σύνδεσμο"
+
+msgid ""
+"Using the same link, you can also participate in the deliberative \n"
+"forum on the subject of this poll."
+msgstr ""
+"Με τον ίδιο σύνδεσμο μπορείτε επίσης να συμμετέχετε στην ηλεκτρονική \n"
+"διαβούλευση για το αντικείμενο αυτής της ψηφοφορίας."
+
+msgid "Forum opens at"
+msgstr "Η διαβούλευση ξεκινάει στις"
+
+msgid "and ends at"
+msgstr "και λήγει στις"
+
+msgid "Information:"
+msgstr "Πληροφορίες:"
+
+msgid "You can vote more than once. Only your last vote will be counted."
+msgstr ""
+"Μπορείτε να υποβάλετε ψήφο πολλές φορές. Μόνο η τελευταία ψήφος σας θα "
+"καταμετρηθεί στο αποτέλεσμα."
+
+msgid "For information about the voting you can contact the trustees by phone,"
+msgstr "Για πληροφορίες επικοινωνήστε με την εφορευτική επιτροπή τηλεφωνικώς,"
+
+msgid "or by email,"
+msgstr "ή μέσω email,"
+
+msgid "If you want to initiate an audit vote, to certify system security"
+msgstr ""
+"Εάν επιθυμείτε να εκκινήσετε ψήφο ελέγχου, για την πιστοποίηση της "
+"ασφάλειας\n"
+"του συστήματος,"
+
+msgid "the valid audit codes are"
+msgstr "οι έγκυροι κωδικοί ελέγχου είναι"
+
+msgid "Otherwise ignore those codes above."
+msgstr "Διαφορετικά αγνοήστε τους παραπάνω κωδικούς."
+
+msgid ""
+"The voting takes place in the web browser in your computer,\n"
+"where your choices are recorded and encrypted before being submitted.\n"
+"We recommend the following browsers:"
+msgstr ""
+"Η ψηφοφορία λαμβάνει χώρα στον φυλλομετρητή (browser) του υπολογιστή σας, "
+"όπου\n"
+"οι επιλογές σας καταγράφονται και κρυπτογραφούνται πριν την υποβολή της "
+"ψήφου.\n"
+"Προτείνουμε τους παρακάτω φυλλομετρητές:"
+
+msgid "version"
+msgstr "έκδοση"
+
+msgid "or newer"
+msgstr "ή νεότερη"
+
+msgid ""
+"Important:\n"
+"\n"
+"The present message is strictly personal and confidential.\n"
+"Do not forward or show it to others. Do not reply to this."
+msgstr ""
+"Προσοχή:\n"
+"\n"
+"Το παρόν μήνυμα είναι αυστηρά προσωπικό και εμπιστευτικό.\n"
+"Μην το προωθείτε ή το δείχνετε σε άλλους. Μην απαντάτε στον παρόν."
+
+msgid "Instead, you can write to"
+msgstr "Μπορείτε να επικοινωνήσετε στο"
+
+msgid ""
+"If you are not the legitimate recipient, please delete this message\n"
+"and contact helpdesk@zeus.grnet.gr"
+msgstr ""
+"Εάν δεν είστε ο νόμιμος παραλήπτης, παρακαλούμε διαγράψτε το μήνυμα αυτό\n"
+"και επικοινωνήστε με το helpdesk@zeus.grnet.gr"
+
+msgid "Audit codes only apply for poll:"
+msgstr "Οι κωδικοί αφορούν μόνο την κάλπη:"
+
+msgid "Error saving form."
+msgstr ""
+"Η αποθήκευση της φόρμας απέτυχε. Παρακαλούμε ελέγξτε την εγκυρότητά της."
+
+msgid "Home"
+msgstr "Αρχική"
+
+msgid "Contact"
+msgstr "Επικοινωνία"
+
+msgid ""
+"For questions and comments regarding the Zeus platform you may contact us at "
+"<a href=\"mailto:helpdesk@zeus.grnet.gr\">helpdesk@zeus.grnet.gr</a>.\n"
+"    <br /> \n"
+"    <br /> \n"
+"    <br /> \n"
+"\n"
+"    <cite>\n"
+"    Notice that if you are a voter and want to report an issue related to a "
+"running election you should get in contact with the corresponding election "
+"support group. \n"
+"    You can find contact details in the election page.\n"
+"    </cite>\n"
+"    </p>\n"
+"    "
+msgstr ""
+"Για σχόλια και απορίες σχετικά με την πλατφόρμα Ζευς μπορείτε να \n"
+" επικοινωνήσετε στο \n"
+"<a href=\"mailto:helpdesk@zeus.grnet.gr\">helpdesk@zeus.grnet.gr</a>.\n"
+"    <br /> \n"
+"    <br /> \n"
+"    <br /> \n"
+"\n"
+"    <cite>\n"
+"    Σε περίπτωση που αντιμετωπίζετε πρόβλημα σχετικά με κάποια ψηφοφορία "
+"παρακαλούμε επικοινωνήστε με την υπεύθυνη ομάδα υποστήριξης της "
+"ψηφοφορίας.    Τα στοιχεία επικοινωνίας μπορείτε να τα βρείτε στην σελίδα "
+"της ψηφοφορίας.\n"
+"    </cite>\n"
+"    </p>\n"
+"    "
+
+msgid "Login"
+msgstr "Είσοδος"
+
+msgid ""
+"\n"
+"This is a login form for election administrators only.\n"
+"Voters have to use the link sent to them via email or SMS.\n"
+msgstr ""
+"\n"
+"Εδώ εισέρχονται μόνο οι διαχειριστές ψηφοφοριών.\n"
+"Οι ψηφοφόροι πρέπει να ακολουθήσουν τον σύνδεσμο που τους έχει αποσταλεί "
+"μέσω email ή SMS.\n"
+
+#, python-format
+msgid ""
+"You have successfully cast a vote in %(election_name)s\n"
+"%(vote_receipt_url)s"
+msgstr ""
+"Η ψήφος σας καταχωρίσθηκε επιτυχώς για την ψηφοφορία %(election_name)s\n"
+"%(vote_receipt_url)s"
+
+#, python-format
+msgid ""
+"ZEUS ELECTION %(election_name)s VOTING EXTENDED UNTIL %(ext_date)s: VOTER "
+"WITH REG CODE %(voter_login_id)s\n"
+"VOTES TO %(voter_url)s - LOGIN CODE: %(voter_login_code)s"
+"%(custom_message_sms)s"
+msgstr ""
+"ΕΚΛΟΓΕΣ ΖΕΥΣ %(election_name)s ΠΑΡΑΤΑΣΗ ΨΗΦΟΥ ΕΩΣ ΤΙΣ %(ext_date)s: Ο ΑΜ "
+"%(voter_login_id)s ΨΗΦΙΖΕΙ ΣΤΟ %(voter_url)s - ΚΩΔΙΚΟΣ: %(voter_login_code)s"
+"%(custom_message_sms)s"
+
+#, python-format
+msgid ""
+"ZEUS ELECTION %(election_name)s: VOTER WITH REG CODE %(voter_login_id)s\n"
+"VOTES TO %(voter_url)s - LOGIN CODE: %(voter_login_code)s"
+"%(custom_message_sms)s"
+msgstr ""
+"ΕΚΛΟΓΕΣ ΖΕΥΣ %(election_name)s: Ο ΑΜ %(voter_login_id)s ΨΗΦΙΖΕΙ ΣΤΟ "
+"%(voter_url)s - ΚΩΔΙΚΟΣ: %(voter_login_code)s%(custom_message_sms)s"
+
+msgid "As a trustee for the election"
+msgstr "Ως μέλος της εφορευτικής επιτροπής για την ψηφοφορία"
+
+msgid "please visit your control panel and follow the instructions"
+msgstr ""
+"παρακαλούμε επισκεφθείτε τον πίνακα ελέγχου και ακολουθήστε τις οδηγίες"
+
+msgid "Zeus Digital Elections"
+msgstr "Ηλεκτρονικές Ψηφοφορίες «Ζευς»"
+
+msgid "actions required, step"
+msgstr "απαιτούνται ενέργειές σας, βήμα"
+
+msgid "trustee dashboard"
+msgstr "πίνακας ελέγχου εφορευτικής"
+
+msgid "Trustee actions"
+msgstr "Ενέργειες εφορευτικής"
+
+msgid "You are logged in as election administrator"
+msgstr "Συνδεθήκατε ως διαχειριστής ψηφοφοριών"
 
 msgid "control panel"
 msgstr "πίνακας ελέγχου"
@@ -1478,289 +1731,6 @@ msgstr "Πίσω στις κάλπες"
 
 msgid "Error emailing voters"
 msgstr "Σφάλμα κατά την αποστολή email στους ψηφοφόρους"
-
-msgid "Election types"
-msgstr "Τύποι ψηφοφορίας"
-
-msgid "Users count"
-msgstr "Αριθμός χρηστών"
-
-msgid "User Groups"
-msgstr "Ομάδες χρηστών"
-
-msgid "Is helpdesk user"
-msgstr "Χρήστης helpdesk"
-
-msgid "Groups"
-msgstr "Ομάδες"
-
-msgid "Create Group"
-msgstr "Δημιουργία ομάδας χρηστών"
-
-msgid "SMS backend"
-msgstr "Πάροχος SMS"
-
-#, python-format
-msgid ""
-"You have successfully cast a vote in\n"
-"\n"
-"%(election_name)s\n"
-"%(poll_name)s\n"
-"\n"
-"as\n"
-"\n"
-"%(voter_name)s %(voter_surname)s\n"
-"with registration ID: %(voter_login_id)s\n"
-"\n"
-"you can find your encrypted vote attached in this mail."
-msgstr ""
-"Η ψήφος σας καταχωρίσθηκε επιτυχώς για την ψηφοφορία\n"
-"\n"
-"%(election_name)s\n"
-"%(poll_name)s\n"
-"\n"
-"ως\n"
-"\n"
-"%(voter_name)s %(voter_surname)s\n"
-"με αριθμό καταχώρισης: %(voter_login_id)s\n"
-"\n"
-"H απόδειξη της καταχώρισης βρίσκεται συνημμένη στο παρόν μήνυμα."
-
-msgid "Zeus Elections"
-msgstr "Ηλεκτρονικές Ψηφοφορίες «Ζευς»"
-
-msgid "Intended recipient"
-msgstr "Νόμιμος παραλήπτης"
-
-msgid "Voting link"
-msgstr "Σύνδεσμος ψηφοφορίας"
-
-msgid "You are invited to vote in the poll:"
-msgstr "Προσκαλείστε να συμμετάσχετε στην ψηφοφορία:"
-
-msgid "starting"
-msgstr "με ημ/νία έναρξης"
-
-msgid "and ending"
-msgstr "και λήξης"
-
-msgid "Your registration ID is:"
-msgstr "Ο αριθμός καταχώρισής σας είναι:"
-
-msgid "To submit your vote, follow the link below"
-msgstr "Για να υποβάλετε ψήφο, ακολουθήστε τον παρακάτω σύνδεσμο"
-
-msgid ""
-"Using the same link, you can also participate in the deliberative \n"
-"forum on the subject of this poll."
-msgstr ""
-"Με τον ίδιο σύνδεσμο μπορείτε επίσης να συμμετέχετε στην ηλεκτρονική \n"
-"διαβούλευση για το αντικείμενο αυτής της ψηφοφορίας."
-
-msgid "Forum opens at"
-msgstr "Η διαβούλευση ξεκινάει στις"
-
-msgid "and ends at"
-msgstr "και λήγει στις"
-
-msgid "Information:"
-msgstr "Πληροφορίες:"
-
-msgid "You can vote more than once. Only your last vote will be counted."
-msgstr ""
-"Μπορείτε να υποβάλετε ψήφο πολλές φορές. Μόνο η τελευταία ψήφος σας θα "
-"καταμετρηθεί στο αποτέλεσμα."
-
-msgid "For information about the voting you can contact the trustees by phone,"
-msgstr "Για πληροφορίες επικοινωνήστε με την εφορευτική επιτροπή τηλεφωνικώς,"
-
-msgid "or by email,"
-msgstr "ή μέσω email,"
-
-msgid ""
-"If you want to initiate an audit vote, to certify system security"
-msgstr ""
-"Εάν επιθυμείτε να εκκινήσετε ψήφο ελέγχου, για την πιστοποίηση της ασφάλειας\n"
-"του συστήματος,"
-
-msgid "the valid audit codes are"
-msgstr "οι έγκυροι κωδικοί ελέγχου είναι"
-
-msgid "Otherwise ignore those codes above."
-msgstr "Διαφορετικά αγνοήστε τους παραπάνω κωδικούς."
-
-msgid ""
-"The voting takes place in the web browser in your computer,\n"
-"where your choices are recorded and encrypted before being submitted.\n"
-"We recommend the following browsers:"
-msgstr ""
-"Η ψηφοφορία λαμβάνει χώρα στον φυλλομετρητή (browser) του υπολογιστή σας, όπου\n"
-"οι επιλογές σας καταγράφονται και κρυπτογραφούνται πριν την υποβολή της ψήφου.\n"
-"Προτείνουμε τους παρακάτω φυλλομετρητές:"
-
-msgid "version"
-msgstr "έκδοση"
-
-msgid "or newer"
-msgstr "ή νεότερη"
-
-msgid ""
-"Important:\n"
-"\n"
-"The present message is strictly personal and confidential.\n"
-"Do not forward or show it to others. Do not reply to this."
-msgstr ""
-"Προσοχή:\n"
-"\n"
-"Το παρόν μήνυμα είναι αυστηρά προσωπικό και εμπιστευτικό.\n"
-"Μην το προωθείτε ή το δείχνετε σε άλλους. Μην απαντάτε στον παρόν."
-
-msgid "Instead, you can write to"
-msgstr "Μπορείτε να επικοινωνήσετε στο"
-
-msgid ""
-"If you are not the legitimate recipient, please delete this message\n"
-"and contact helpdesk@zeus.grnet.gr"
-msgstr ""
-"Εάν δεν είστε ο νόμιμος παραλήπτης, παρακαλούμε διαγράψτε το μήνυμα αυτό\n"
-"και επικοινωνήστε με το helpdesk@zeus.grnet.gr"
-
-msgid "Audit codes only apply for poll:"
-msgstr "Οι κωδικοί αφορούν μόνο την κάλπη:"
-
-msgid "Error saving form."
-msgstr ""
-"Η αποθήκευση της φόρμας απέτυχε. Παρακαλούμε ελέγξτε την εγκυρότητά της."
-
-msgid "Home"
-msgstr "Αρχική"
-
-msgid "Contact"
-msgstr "Επικοινωνία"
-
-msgid ""
-"For questions and comments regarding the Zeus platform you may contact us at "
-"<a href=\"mailto:helpdesk@zeus.grnet.gr\">helpdesk@zeus.grnet.gr</a>.\n"
-"    <br /> \n"
-"    <br /> \n"
-"    <br /> \n"
-"\n"
-"    <cite>\n"
-"    Notice that if you are a voter and want to report an issue related to a "
-"running election you should get in contact with the corresponding election "
-"support group. \n"
-"    You can find contact details in the election page.\n"
-"    </cite>\n"
-"    </p>\n"
-"    "
-msgstr ""
-"Για σχόλια και απορίες σχετικά με την πλατφόρμα Ζευς μπορείτε να \n"
-" επικοινωνήσετε στο \n"
-"<a href=\"mailto:helpdesk@zeus.grnet.gr\">helpdesk@zeus.grnet.gr</a>.\n"
-"    <br /> \n"
-"    <br /> \n"
-"    <br /> \n"
-"\n"
-"    <cite>\n"
-"    Σε περίπτωση που αντιμετωπίζετε πρόβλημα σχετικά με κάποια ψηφοφορία "
-"παρακαλούμε επικοινωνήστε με την υπεύθυνη ομάδα υποστήριξης της "
-"ψηφοφορίας.    Τα στοιχεία επικοινωνίας μπορείτε να τα βρείτε στην σελίδα "
-"της ψηφοφορίας.\n"
-"    </cite>\n"
-"    </p>\n"
-"    "
-
-#, python-format
-msgid ""
-"You have successfully cast a vote in %(election_name)s\n"
-"%(vote_receipt_url)s"
-msgstr ""
-"Η ψήφος σας καταχωρίσθηκε επιτυχώς για την ψηφοφορία %(election_name)s\n"
-"%(vote_receipt_url)s"
-
-#, python-format
-msgid ""
-"ZEUS ELECTION %(election_name)s VOTING EXTENDED UNTIL %(ext_date)s: VOTER "
-"WITH REG CODE %(voter_login_id)s\n"
-"VOTES TO %(voter_url)s - LOGIN CODE: %(voter_login_code)s"
-"%(custom_message_sms)s"
-msgstr ""
-"ΕΚΛΟΓΕΣ ΖΕΥΣ %(election_name)s ΠΑΡΑΤΑΣΗ ΨΗΦΟΥ ΕΩΣ ΤΙΣ %(ext_date)s: Ο ΑΜ "
-"%(voter_login_id)s ΨΗΦΙΖΕΙ ΣΤΟ %(voter_url)s - ΚΩΔΙΚΟΣ: %(voter_login_code)s"
-"%(custom_message_sms)s"
-
-#, python-format
-msgid ""
-"ZEUS ELECTION %(election_name)s: VOTER WITH REG CODE %(voter_login_id)s\n"
-"VOTES TO %(voter_url)s - LOGIN CODE: %(voter_login_code)s"
-"%(custom_message_sms)s"
-msgstr ""
-"ΕΚΛΟΓΕΣ ΖΕΥΣ %(election_name)s: Ο ΑΜ %(voter_login_id)s ΨΗΦΙΖΕΙ ΣΤΟ "
-"%(voter_url)s - ΚΩΔΙΚΟΣ: %(voter_login_code)s%(custom_message_sms)s"
-
-msgid "Login"
-msgstr "Είσοδος"
-
-msgid ""
-"\n"
-"This is a login form for election administrators only.\n"
-"Voters have to use the link sent to them via email or SMS.\n"
-msgstr ""
-"\n"
-"Εδώ εισέρχονται μόνο οι διαχειριστές ψηφοφοριών.\n"
-"Οι ψηφοφόροι πρέπει να ακολουθήσουν τον σύνδεσμο που τους έχει αποσταλεί μέσω "
-"email ή SMS.\n"
-
-msgid "As a trustee for the election"
-msgstr "Ως μέλος της εφορευτικής επιτροπής για την ψηφοφορία"
-
-msgid "please visit your control panel and follow the instructions"
-msgstr ""
-"παρακαλούμε επισκεφθείτε τον πίνακα ελέγχου και ακολουθήστε τις οδηγίες"
-
-msgid "Zeus Digital Elections"
-msgstr "Ηλεκτρονικές Ψηφοφορίες «Ζευς»"
-
-msgid "actions required, step"
-msgstr "απαιτούνται ενέργειές σας, βήμα"
-
-msgid "trustee dashboard"
-msgstr "πίνακας ελέγχου εφορευτικής"
-
-msgid "Trustee actions"
-msgstr "Ενέργειες εφορευτικής"
-
-msgid "You are logged in as election administrator"
-msgstr "Συνδεθήκατε ως διαχειριστής ψηφοφοριών"
-
-msgid "Send email"
-msgstr "Αποστολή μηνύματος email σε ψηφοφόρους"
-
-#, python-format
-msgid ""
-"\n"
-"Send email to voter %(voter_name)s (%(voter_id)s)\n"
-msgstr ""
-"\n"
-"Αποστολή ηλεκτρονικού μηνύματος στον ψηφοφόρο  %(voter_name)s "
-"(%(voter_id)s)\n"
-
-#, python-format
-msgid ""
-"\n"
-"Send email to poll '%(poll_name)s' voters %(suffix)s\n"
-msgstr ""
-"\n"
-"Αποστολή μηνύματος στους ψηφοφόρους της κάλπης '%(poll_name)s' %(suffix)s\n"
-
-#, python-format
-msgid ""
-"\n"
-"Send email to election '%(election_name)s' voters %(suffix)s\n"
-msgstr ""
-"\n"
-"Αποστολή μηνύματος στους ψηφοφόρους της ψηφοφορίας '%(election_name)s' "
-"%(suffix)s\n"
 
 msgid "FAQ"
 msgstr "Ερωτήσεις-Απαντήσεις"
