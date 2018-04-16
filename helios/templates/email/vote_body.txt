@@ -18,7 +18,7 @@
 forum on the subject of this poll.{% endblocktrans %}
 
 {% trans "Forum opens at" %} {{poll.forum_starts_at}},
-{% trans "Forum ends at" %} {{poll.forum_ends_at}}
+{% trans "and ends at" %} {{poll.forum_ends_at}}
 {% endif %}
 
 {{ voter.get_quick_login_url }}
