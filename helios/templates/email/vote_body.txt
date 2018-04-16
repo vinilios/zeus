@@ -14,11 +14,11 @@
 {% trans "Your registration ID is:" %} {{voter.voter_login_id}}.
 {% trans "To submit your vote, follow the link below" %}
 {% if poll.forum_enabled %}
-{% blocktrans%}A deliberation forum will also be accessible at the following
-dates:{% endblocktrans %}
+{% blocktrans%}Using the same link, you can also participate in the deliberative 
+forum on the subject of this poll.{% endblocktrans %}
 
-{% trans "forum opens at" %} {{poll.forum_starts_at}},
-{% trans "forum ends at" %} {{poll.forum_ends_at}}
+{% trans "Forum opens at" %} {{poll.forum_starts_at}},
+{% trans "Forum ends at" %} {{poll.forum_ends_at}}
 {% endif %}
 
 {{ voter.get_quick_login_url }}
@@ -36,7 +36,7 @@ dates:{% endblocktrans %}
 
     {{ election.help_email }}
 
-{% block audit_codes %}{% if voter.audit_passwords %}* {% trans "If you want to initiate an audit vote," %}
+{% block audit_codes %}{% if voter.audit_passwords %}* {% trans "If you want to initiate an audit vote, to certify system security" %}
   {% trans "the valid audit codes are" %}
   {% for pass in voter.get_audit_passwords %}{{ pass }}  {% endfor %}
   {% trans "Otherwise ignore those codes above."%}{% endif %}{% endblock %}
