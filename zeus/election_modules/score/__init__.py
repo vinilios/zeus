@@ -67,7 +67,7 @@ class ScoreBallotElection(ElectionModuleBase):
                     for k in question.keys():
                         if k in ['DELETE', 'ORDER']:
                             del question[k]
-                    
+
                     questions_data.append(question)
 
                 poll.questions_data = questions_data
@@ -150,7 +150,7 @@ class ScoreBallotElection(ElectionModuleBase):
 
     def get_booth_template(self, request):
         raise NotImplemented
-    
+
     def compute_results(self):
         self.generate_json_file()
         for lang in settings.LANGUAGES:

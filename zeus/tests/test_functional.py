@@ -21,6 +21,8 @@ from zeus.core import to_relative_answers, gamma_encode, prove_encryption
 from zeus import auth
 from zeus.views.common import ELGAMAL_PARAMS
 
+from freezegun import freeze_time
+
 pytestmark = pytest.mark.django_db(transaction=True)
 
 class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
@@ -1587,7 +1589,30 @@ class TestPartyForumElection(TestSimpleElection):
             'forum_ends_at_1': ends_at.strftime('%H:%M'),
         }
 
+    def _test_cannot_post(self, params):
+        post_url = params.get('post_url')
+        # a new post
+        resp = self.c.post(post_url, {'body': 'first post'}, follow=True)
+        self.assertEqual(resp.status_code, 403)
+
+        # edit post
+        resp = self.c.post(post_url, {'edit': 1, 'body': 'first post edited'}, follow=True)
+        self.assertEqual(resp.status_code, 403)
+
+        # reply to post
+        resp = self.c.post(post_url, {'ref': '1', 'body': 'first post reply'}, follow=True)
+        self.assertEqual(resp.status_code, 403)
+
     def before_freeze(self, e):
+        all_params = list(self._forum_params(e))
+        params = all_params[0]
+        poll = params.get('poll')
+        voter = params.get('voters')[0]
+        self.c.get(self.locations['logout'])
+        self.c.get(voter.get_quick_login_url())
+        resp = self.c.get(params.get('forum_url'), follow=True)
+        self.assertContains(resp, 'Forum is closed.')
+        self._test_cannot_post(params)
         self._test_invalid_poll_data(e)
 
     def after_results(self, e):
@@ -1605,19 +1630,7 @@ class TestPartyForumElection(TestSimpleElection):
         self.c.get(voter.get_quick_login_url())
         resp = self.c.get(params.get('forum_url'), follow=True)
         self.assertContains(resp, 'Forum ended.')
-
-        post_url = params.get('post_url')
-        # a new post
-        resp = self.c.post(post_url, {'body': 'first post'}, follow=True)
-        self.assertEqual(resp.status_code, 403)
-
-        # edit post
-        resp = self.c.post(post_url, {'edit': 1, 'body': 'first post edited'}, follow=True)
-        self.assertEqual(resp.status_code, 403)
-
-        # reply to post
-        resp = self.c.post(post_url, {'ref': '1', 'body': 'first post reply'}, follow=True)
-        self.assertEqual(resp.status_code, 403)
+        self._test_cannot_post(params)
 
     def after_freeze(self, e):
         all_params = list(self._forum_params(e))
@@ -1654,6 +1667,16 @@ class TestPartyForumElection(TestSimpleElection):
         # edit post
         resp = self.c.post(post_url, {'edit': 1, 'body': 'first post edited'}, follow=True)
         self.assertContains(resp, 'first post edited');
+
+        newdate = datetime.datetime.now() + datetime.timedelta(minutes=5)
+        with freeze_time(newdate):
+            resp = self.c.post(post_url, {'edit': 1, 'body': 'first post edited2'}, follow=True)
+            self.assertContains(resp, 'first post edited2');
+
+        newdate = datetime.datetime.now() + datetime.timedelta(minutes=30)
+        with freeze_time(newdate):
+            resp = self.c.post(post_url, {'edit': 1, 'body': 'first post edited'}, follow=True)
+            self.assertEqual(resp.status_code, 403)
 
         # reply to post
         resp = self.c.post(post_url, {'ref': '1', 'body': 'first post reply'}, follow=True)

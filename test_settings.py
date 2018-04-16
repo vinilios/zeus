@@ -97,3 +97,5 @@ if os.path.exists("/usr/share/fonts/truetype/ubuntu-font-family/"):
 
 USE_X_SENDFILE = False
 SERVER_PREFIX = ''
+
+ZEUS_FORUM_POST_EDIT_TIME_LIMIT = 10

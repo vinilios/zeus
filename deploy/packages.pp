@@ -23,6 +23,7 @@ $packages = [
 ]
 
 $dev_packages = [
+    'python-freezegun',
     'python-pytest',
     'curl', 'vim'
 ]
