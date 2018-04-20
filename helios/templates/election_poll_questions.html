@@ -24,7 +24,7 @@
         {% endif %}
 {% endif %}
     {% for q in poll.questions_data %}
-    <h5>{{ q.question|linebreaksbr }}
+    <h5>{% if module.override_question_title %}{{ module.override_question_title }}{% else %}{{ q.question|linebreaksbr }}{% endif %}
         {% if q.question_subtitle %}<br /><br />({{ q.question_subtitle }})<br />{% endif %}</h5>
     {% if q.min_answers %}
         {% trans "Min answers" %} : {{q.min_answers}}<br>
