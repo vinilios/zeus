@@ -725,6 +725,7 @@ BM.registry = {
   simple: BM.SimpleElection,
   parties: BM.PartiesElection,
   score: BM.ScoreElection,
-  stv: BM.STVElection
+  stv: BM.STVElection,
+  preference: BM.STVElection
 }
 

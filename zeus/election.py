@@ -583,6 +583,10 @@ class ZeusDjangoElection(ZeusCoreElection):
             # we expect cached stv results
             return self.poll.stv_results
 
+        if self.poll.get_module().module_id == 'preference':
+            # we expect cached stv results
+            return self.poll.stv_results
+
         return gamma_count_parties(self.do_get_results(), self.do_get_candidates())
 
     def get_results_pretty_stv(self):

@@ -247,6 +247,46 @@ def csv_from_polls(election, polls, lang, outfile=None):
         except:
             return None
 
+def csv_from_preference_polls(election, polls, lang, outfile=None):
+    with translation.override(lang):
+        if outfile is None:
+            outfile = StringIO()
+        csvout = csv.writer(outfile, dialect='excel', delimiter=',')
+        writerow = csvout.writerow
+
+        make_csv_intro(writerow, election, lang)
+        for poll in polls:
+            writerow([])
+            writerow([strforce(_("Poll name")), strforce(poll.name)])
+            writerow([])
+            questions = poll.questions
+            indexed_cands = {}
+            counter = 0
+            for item in questions[0]['answers']:
+                indexed_cands[str(counter)] = item
+                counter += 1
+
+            writerow([strforce(_("Candidates"))])
+            for item in questions[0]['answers']:
+                writerow([strforce(item)])
+
+
+            writerow([])
+            writerow([])
+            writerow([strforce(_("Candidate")), strforce(_("Wins")),
+                      strforce(_("Beats"))])
+            for index, result in poll.stv_results['wins_and_beats'].items():
+                beats = map(lambda x: indexed_cands[str(x)], result[1])
+                writerow([strforce(indexed_cands[index]), result[0], strforce(beats)])
+
+            writerow([])
+            writerow([])
+            writerow([strforce(_("Ballots"))]),
+            for ballot in poll.stv_results['ballots']:
+                writerow(map(str, ballot))
+
+
+
 def csv_from_stv_polls(election, polls, lang, outfile=None):
     with translation.override(lang):
         if outfile is None:

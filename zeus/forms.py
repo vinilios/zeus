@@ -497,8 +497,10 @@ class CandidateWidget(MultiWidget):
 
 class StvForm(QuestionBaseForm):
 
+    answer_widget_values_len = 2
+
     def __init__(self, *args, **kwargs):
-        deps = kwargs['initial']['departments_data'].split('\n')
+        deps = kwargs['initial'].get('departments_data', '').split('\n')
         DEPARTMENT_CHOICES = []
         for dep in deps:
             DEPARTMENT_CHOICES.append((dep.strip(),dep.strip()))
@@ -506,8 +508,12 @@ class StvForm(QuestionBaseForm):
         super(StvForm, self).__init__(*args, **kwargs)
 
         self.fields.pop('question')
-        answers = len(filter(lambda k: k.startswith("%s-answer_" %
-                                                self.prefix), self.data)) / 2
+        answers = len(
+            filter(
+                lambda k: k.startswith("%s-answer_" % self.prefix),
+                self.data)
+            ) / self.answer_widget_values_len
+
         if not answers:
             answers = len(filter(lambda k: k.startswith("answer_"),
                                  self.initial))
@@ -518,9 +524,10 @@ class StvForm(QuestionBaseForm):
         for ans in range(answers):
             field_key = 'answer_%d' % ans
             field_key1 = 'department_%d' % ans
+            _widget = self._make_candidate_widget(DEPARTMENT_CHOICES)
             self.fields[field_key] = forms.CharField(max_length=600,
                                               required=True,
-                                              widget=CandidateWidget(departments=DEPARTMENT_CHOICES),
+                                              widget=_widget,
                                               label=('Candidate'))
 
         widget=forms.TextInput(attrs={'hidden': 'True'})
@@ -554,25 +561,36 @@ class StvForm(QuestionBaseForm):
     min_answers = None
     max_answers = None
 
+    def _make_candidate_widget(self, departments):
+        return CandidateWidget(departments=departments)
+
+    def _clean_answer(self, answer):
+        answer_lst = json.loads(answer)
+        if '%' in answer_lst[0]:
+            raise forms.ValidationError(INVALID_CHAR_MSG % "%")
+        if not answer_lst[0]:
+            self._errors[field_key] = ErrorList([message])
+        answer_lst[0] = answer_lst[0].strip()
+        return answer_lst[0], json.dumps(answer_lst)
+
     def clean(self):
         from django.forms.util import ErrorList
         message = _("This field is required.")
-        answers = len(filter(lambda k: k.startswith("%s-answer_" %
-                                                self.prefix), self.data)) / 2
+        answers = len(
+            filter(
+                lambda k: k.startswith(
+                    "%s-answer_" % self.prefix), self.data)
+            ) / self.answer_widget_values_len
+
         #list used for checking duplicate candidates
         candidates_list = []
 
         for ans in range(answers):
             field_key = 'answer_%d' % ans
             answer = self.cleaned_data[field_key]
-            answer_lst = json.loads(answer)
-            if '%' in answer_lst[0]:
-                raise forms.ValidationError(INVALID_CHAR_MSG % "%")
-            candidates_list.append(answer_lst[0])
-            if not answer_lst[0]:
-                self._errors[field_key] = ErrorList([message])
-            answer_lst[0] = answer_lst[0].strip()
-            self.cleaned_data[field_key] = json.dumps(answer_lst)
+            key, cleaned = self._clean_answer(answer)
+            candidates_list.append(key)
+            self.cleaned_data[field_key] = cleaned
 
         if len(candidates_list) > len(set(candidates_list)):
             raise forms.ValidationError(_("No duplicate choices allowed"))
@@ -607,6 +625,26 @@ class StvForm(QuestionBaseForm):
                 raise forms.ValidationError(message)
         except ValueError:
             raise forms.ValidationError(message)
+
+
+
+class PreferencesForm(StvForm):
+
+    answer_widget_values_len = 1
+
+    def __init__(self, *args, **kwargs):
+        super(PreferencesForm, self).__init__(*args, **kwargs)
+        del self.fields['department_limit']
+        del self.fields['has_department_limit']
+        del self.fields['eligibles']
+
+    def _make_candidate_widget(self, departments):
+        return AnswerWidget(attrs={'class': 'answer_input'})
+
+    def _clean_answer(self, answer):
+        if '%' in answer:
+            raise forms.ValidationError(INVALID_CHAR_MSG % "%")
+        return answer, answer
 
 
 class LoginForm(forms.Form):

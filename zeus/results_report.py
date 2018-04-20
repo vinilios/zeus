@@ -657,6 +657,116 @@ def build_unigov_doc(title, name, institution_name, voting_start, voting_end,
 
         doc.build(elements, onFirstPage = make_first_page_hf,
                   onLaterPages = make_later_pages_hf(pageinfo))
+
+
+def build_preferences_doc(title, name, institution_name, voting_start, voting_end,
+              extended_until, data, language, filename="election_results.pdf", new_page=True):
+    with translation.override(language[0]):
+        pageinfo = _("Zeus Elections - Poll Results")
+        title = _('Results')
+        DATE_FMT = "%d/%m/%Y %H:%M"
+        if isinstance(voting_start, datetime.datetime):
+            voting_start = _('Start: %(date)s') % {'date':
+            voting_start.strftime(DATE_FMT)}
+
+        if isinstance(voting_end, datetime.datetime):
+            voting_end = _('End: %(date)s') % {'date':
+            voting_end.strftime(DATE_FMT)}
+
+        if extended_until and isinstance(extended_until, datetime.datetime):
+            extended_until = _('Extension: %(date)s') % {'date':
+            extended_until.strftime(DATE_FMT)}
+        else:
+            extended_until = ""
+
+        if not isinstance(data, list):
+            data = [(name, data)]
+
+        # reset pdfdoc timestamp in order to force a fresh one to be used in
+        # pdf document metadata.
+        pdfdoc._NOWT = None
+
+        elements = []
+
+        doc = SimpleDocTemplate(filename, pagesize=A4)
+
+        styles = getSampleStyleSheet()
+        styles.add(ParagraphStyle(name='Zeus',
+                                  fontName='LinLibertine',
+                                  fontSize=12,
+                                  leading=16,
+                                  alignment=TA_JUSTIFY))
+        styles.add(ParagraphStyle(name='ZeusBold',
+                                  fontName='LinLibertineBd',
+                                  fontSize=12,
+                                  leading=16,
+                                  alignment=TA_JUSTIFY))
+
+        styles.add(ParagraphStyle(name='ZeusSubHeading',
+                                  fontName='LinLibertineBd',
+                                  fontSize=14,
+                                  alignment=TA_JUSTIFY,
+                                  spaceAfter=16))
+
+        styles.add(ParagraphStyle(name='ZeusHeading',
+                                  fontName='LinLibertineBd',
+                                  fontSize=16,
+                                  alignment=TA_CENTER,
+                                  spaceAfter=16))
+        intro_contents = [
+            voting_start,
+            voting_end,
+            extended_until
+        ]
+
+        make_heading(elements, styles, [title, name, institution_name])
+        make_intro(elements, styles, intro_contents)
+        make_election_voters(elements, styles, data, stv=True)
+
+        for poll_name, poll_results, questions, poll_voters in data:
+            poll_intro_contents = [
+                poll_name
+            ]
+            parties_results = []
+            candidates_results = {}
+
+            #total_votes, blank_votes, parties_results, candidates_results = \
+            #    load_results(poll_results)
+            if new_page:
+                elements.append(PageBreak())
+            elements.append(Spacer(1, 12))
+            elements.append(Spacer(1, 12))
+            elements.append(Spacer(1, 12))
+            make_subheading(elements, styles, poll_intro_contents)
+            elements.append(Spacer(1, 12))
+            make_intro(elements, styles, intro_contents)
+            make_poll_voters(elements, styles, poll_voters)
+
+            total_votes = len(poll_results['ballots'])
+            blank_votes = poll_results['blanks']
+            make_totals(elements, styles, total_votes, blank_votes)
+            elements.append(Spacer(1, 12))
+            #make dict with indexing as key and name as value
+            counter = 0
+            indexed_cands = {}
+            for item in questions[0]['answers']:
+                indexed_cands[str(counter)] = item
+                counter += 1
+            elected = [[escape(_('Candidates List')), escape(_('Wins'))]]
+
+            for candidate, beats in poll_results['wins_and_beats'].items():
+                elected.append([indexed_cands[candidate], beats[0]])
+            t = Table(elected)
+            my_table_style = TableStyle([('FONT', (0, 0), (-1, -1),'LinLibertine'),
+                                         ('ALIGN',(1,1),(-2,-2),'LEFT'),
+                                         ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                                         ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+                                         ])
+            t.setStyle(my_table_style)
+            elements.append(t)
+
+        doc.build(elements, onFirstPage = make_first_page_hf,
+                  onLaterPages = make_later_pages_hf(pageinfo))
 def main():
     import sys
     title = 'Αποτελέσματα'

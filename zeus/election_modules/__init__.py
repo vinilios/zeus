@@ -7,7 +7,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from zeus.reports import csv_from_polls, csv_from_score_polls,\
-                         csv_from_stv_polls
+                         csv_from_stv_polls, csv_from_preference_polls
 from zeus.utils import get_filters, VOTER_TABLE_HEADERS, VOTER_SEARCH_FIELDS, \
     VOTER_BOOL_KEYS_MAP, VOTER_EXTRA_HEADERS
 
@@ -156,6 +156,8 @@ class ElectionModuleBase(ElectionHooks):
             csv_from_score_polls(self.election, [self.poll], lang[0], csvfile)
         elif self.module_id == "stv":
             csv_from_stv_polls(self.election, [self.poll], lang[0], csvfile)
+        elif self.module_id == "preference":
+            csv_from_preference_polls(self.election, [self.poll], lang[0], csvfile)
         else:
             csv_from_polls(self.election, [self.poll], lang[0], csvfile)
         csvfile.close()
@@ -169,6 +171,9 @@ class ElectionModuleBase(ElectionHooks):
         elif self.module_id == "stv":
             csv_from_stv_polls(self.election, self.election.polls.all(),\
                                lang[0], csvfile)
+        elif self.module_id == "preference":
+            csv_from_preference_polls(self.election, self.election.polls.all(),
+                                      lang[0], csvfile)
         else:
             csv_from_polls(self.election, self.election.polls.all(),\
                            lang[0], csvfile)
@@ -302,3 +307,4 @@ from zeus.election_modules.parties import *
 from zeus.election_modules.score import *
 from zeus.election_modules.stv import *
 from zeus.election_modules.unigovgr import *
+from zeus.election_modules.preference import *
