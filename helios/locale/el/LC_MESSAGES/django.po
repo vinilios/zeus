@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-16 17:59+0300\n"
+"POT-Creation-Date: 2018-04-23 12:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -280,9 +280,6 @@ msgstr "ΟΧΙ"
 msgid "(EXCLUDED)"
 msgstr "(ΕΞΑΙΡΕΣΗ)"
 
-msgid "Results"
-msgstr "Αποτελέσματα"
-
 msgid "There must be at least two fields, Registration ID and Email"
 msgstr ""
 "Πρέπει να υπάρχουν τουλάχιστον δύο πεδία, Αριθμός Καταχώρισης και Email"
@@ -482,6 +479,9 @@ msgstr "Ψηφοφόροι"
 
 msgid "Forum"
 msgstr "Διαβούλευση"
+
+msgid "Results"
+msgstr "Αποτελέσματα"
 
 msgid "Election information"
 msgstr "Πληροφορίες ψηφοφορίας"

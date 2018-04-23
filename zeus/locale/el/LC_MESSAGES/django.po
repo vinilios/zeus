@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-16 18:18+0300\n"
+"POT-Creation-Date: 2018-04-23 12:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,6 +55,18 @@ msgstr "Υποψήφιος"
 msgid "Party"
 msgstr "Συνδυασμός"
 
+msgid "Preferential voting"
+msgstr "Ψηφοδέλτιο προτιμήσεων"
+
+msgid "Candidates List"
+msgstr "Λίστα υποψηφίων"
+
+msgid "No candidates set"
+msgstr "Δεν έχουν οριστεί υποψήφιοι"
+
+msgid "Manage candidates"
+msgstr "Διαχείριση υποψηφίων"
+
 msgid "Score voting election"
 msgstr "Ψηφοφορία με βαθμολογία"
 
@@ -66,9 +78,6 @@ msgstr "Δεν υπάρχουν ερωτήσεις ακόμη"
 
 msgid "Single transferable vote election"
 msgstr "Ψηφοφορία με ταξινομική ψήφο"
-
-msgid "Candidates List"
-msgstr "Λίστα υποψηφίων"
 
 msgid "Electors: Group A"
 msgstr "Εκλέκτορες: Ομάδα Α"
@@ -484,6 +493,15 @@ msgstr "ΑΚΥΡΟ"
 
 msgid "BLANK"
 msgstr "ΛΕΥΚΟ"
+
+msgid "Wins"
+msgstr "Προτιμήσεις"
+
+msgid "Beats"
+msgstr "Νίκες"
+
+msgid "Ballots"
+msgstr "Ψηφοδέλτια"
 
 msgid "Elect"
 msgstr "Εκλογή"

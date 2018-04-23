@@ -24,7 +24,7 @@ class PreferencesElection(ElectionModuleBase):
         return schulze_count
 
     module_id = 'preference'
-    description = _('Preference voting (schulze method)')
+    description = _('Preferential voting')
     messages = {
         'answer_title': _('Candidate'),
         'question_title': _('Candidates List')
