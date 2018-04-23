@@ -267,6 +267,10 @@ class PollFeatures(FeaturesMixin):
 
     # Forum related features
     @poll_feature()
+    def _feature_can_register_for_forum_updates(self):
+        return self.feature_forum_open
+
+    @poll_feature()
     def _feature_edit_forum(self):
         return not self.feature_frozen
 

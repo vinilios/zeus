@@ -1,0 +1,57 @@
+{% load i18n zeus_tags %}
+{% if not post.id and user.is_voter %}
+<div href="#" class="sort button small dropdown {% if voter.has_active_forum_updates_registration %}success{% endif %}" style="float:right;margin-left:5px">
+    {% if voter.has_active_forum_updates_registration %}{% trans "Notifications (active)" %}{% else %}{% trans "Notifications" %}{% endif %}&nbsp;
+    <ul>
+
+    
+    {% if not voter.has_active_forum_updates_registration %}
+        {% trans "Receive new posts notifications" as label %}
+        {% url "election_poll_forum_notifications" election.uuid poll.uuid "register" "instant" as instant_url %}
+        {% trans "You will receive notifications for each new forum post. Are you sure?" as confirm_msg %}
+        {% menu_confirm_action label instant_url confirm_msg "mail" "POST" %}
+
+        {% trans "Receive daily summary notifications" as label %}
+        {% url "election_poll_forum_notifications" election.uuid poll.uuid "register" "periodic" as instant_url %}
+        {% trans "You will receive daily summary reports of new forum posts. Are you sure?" as confirm_msg %}
+        {% menu_confirm_action label instant_url confirm_msg "mail" "POST" %}
+    {% else %}
+        {% trans "Unsubscribe from notifications" as label %}
+        {% url "election_poll_forum_notifications" election.uuid poll.uuid "unregister" "periodic" as instant_url %}
+        {% trans "You will stop receiving forum notifications. Are you sure?" as confirm_msg %}
+        {% menu_confirm_action label instant_url confirm_msg "delete" "POST" "alert" %}
+    {% endif %}
+
+    </ul>
+</div>
+{% endif %}
+
+<div href="#" class="sort button small dropdown" style="float:right;">
+    {% trans "Sort posts by" %}&nbsp;
+    <ul>
+        <li>
+            <a style=""
+            class="foundicon-mail" 
+            href="{% url "election_poll_forum" election.uuid poll.uuid %}?sort_by=date&sort_type=asc{% if post %}&post_id={{ post.id }}{% endif %}#forum">
+                &nbsp;{% trans "Date (asc)" %}</a>
+        </li>
+        <li>
+            <a style=""
+            class="foundicon-mail" 
+            href="{% url "election_poll_forum" election.uuid poll.uuid %}?sort_by=date&sort_type=desc{% if post %}&post_id={{ post.id }}{% endif %}#forum">
+                &nbsp;{% trans "Date (desc)" %}</a>
+        </li>
+        <li>
+            <a style=""
+            class="foundicon-mail" 
+            href="{% url "election_poll_forum" election.uuid poll.uuid %}?sort_by=voter&sort_type=asc{% if post %}&post_id={{ post.id }}{% endif %}#forum">
+                &nbsp;{% trans "Voter (asc)" %}</a>
+        </li>
+        <li>
+            <a style=""
+            class="foundicon-mail" 
+            href="{% url "election_poll_forum" election.uuid poll.uuid %}?sort_by=voter&sort_type=desc{% if post %}&post_id={{ post.id }}{% endif %}#forum">
+                &nbsp;{% trans "Voter (desc)" %}</a>
+        </li>
+    </ul>
+</div>

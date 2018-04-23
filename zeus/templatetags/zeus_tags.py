@@ -256,6 +256,11 @@ def voter_can_edit_forum_post(post, voter):
 
 
 @register.filter
+def voter_subscribed_for_notifications(poll, voter):
+    return voter.has_active_forum_updates_registration()
+
+
+@register.filter
 def user_can_delete_forum_post(post, user):
     return post.can_delete(user, None)
 

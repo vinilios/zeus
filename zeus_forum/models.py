@@ -1,10 +1,15 @@
 import datetime
 
 from datetime import timedelta
+from math import ceil
+
 from django.db import models, transaction
-from mptt.models import MPTTModel, TreeForeignKey, TreeManager
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.core.urlresolvers import reverse
+
+from mptt.models import MPTTModel, TreeForeignKey, TreeManager
+
 from zeus_forum.util import lock_atomic
 
 
@@ -14,9 +19,12 @@ USER_TYPE_CHOCIES = (
 )
 
 EDIT_POST_TIME_LIMIT = getattr(settings, 'ZEUS_FORUM_POST_EDIT_TIME_LIMIT', 30)
+PAGINATE_BY = getattr(settings, 'ZEUS_FORUM_PAGINATE_BY', 20)
 
 
 class PostManager(TreeManager):
+
+    PAGINATE_BY = PAGINATE_BY
 
     def get_active_post(self, **kwargs):
         return self.active_posts(**kwargs).get()
@@ -96,6 +104,33 @@ class Post(MPTTModel):
     objects = PostManager()
 
     @property
+    def _page(self, paginate_by=PAGINATE_BY):
+        if self.parent:
+            posts = self.parent.get_active_children()
+        else:
+            posts = Post.objects.active_posts(poll=self.poll, level=0)
+
+        count = posts.filter(id__lte=self.id).count()
+
+        page = int(ceil(count / float(paginate_by)))
+        return 1 if page == 0 else page
+
+    @property
+    def url(self):
+        poll = self.poll
+        election = poll.election
+        forum_url = reverse('election_poll_forum', args=(
+            election.uuid, poll.uuid))
+
+        if self.parent:
+            url = forum_url + '?post_id={}&page={}'.format(
+                self.parent.id, int(self._page))
+        else:
+            url = forum_url + '?post_id={}&page=0'.format(self.id)
+
+        return url + "#%d" % self.pk
+
+    @property
     def post_id(self):
         return (self.post_index + 1) if self.post_index is not None else self.id
 
@@ -161,3 +196,78 @@ class Post(MPTTModel):
 
     def voter_excluded(self):
         return bool(self.voter.excluded_at)
+
+
+
+FORUM_NOTIFICATION_FREQUENCY_CHOICES = (
+    ('periodic', _('Daily')),
+    ('instant', _('Instant')),
+)
+
+class ForumUpdatesRegistrationManager(models.Manager):
+
+    @transaction.atomic
+    def register(self, poll, voter, frequency):
+        from helios.models import Voter
+
+        if not poll.forum_enabled:
+            raise PermissionDenined
+
+        try:
+            voter = poll.voters.get(pk=voter.pk)
+        except Voter.DoesNotExist:
+            raise PermissionDenined
+
+        self.filter(voter=voter).delete()
+        reg = self.create(
+            poll = poll,
+            voter = voter,
+            frequency = frequency,
+            active = True,
+            last_notified_at = datetime.datetime.now()
+        )
+        msg = "Voter {!r} registered for forum updates ({!r})".format(
+            voter.voter_login_id, frequency)
+        poll.logger.info(msg)
+        return reg
+
+    def unregister(self, poll, voter):
+        regs = self.filter(poll=poll, voter=voter)
+        for reg in regs:
+            reg.delete()
+            msg = "Voter {!r} un-registered from forum updates"
+            poll.logger.info(msg.format(reg.voter.voter_login_id))
+
+    def voter_registrations(self, voter):
+        return self.poll_registrations(poll=voter.poll).filter(voter=voter)
+
+    def poll_registrations(self, poll):
+        return self.filter(poll=poll, active=True)
+
+    def instant(self, poll):
+        return self.poll_registrations(poll).filter(frequency='instant')
+
+    def periodic(self, poll):
+        return self.poll_registrations(poll).filter(frequency='periodic')
+
+    def active_polls(self, frequencies=['periodic']):
+        from helios.models import Poll
+        forum_open = Poll.objects.forum_open()
+        ids = self.filter(poll__in=forum_open) \
+               .filter(active=True, frequency__in=frequencies) \
+               .distinct('poll') \
+               .values('poll__id')
+        return map(lambda x:x['poll__id'], ids)
+
+
+
+class ForumUpdatesRegistration(models.Model):
+    poll = models.ForeignKey('helios.Poll', null=True, default=None, blank=True, db_index=True)
+    voter = models.ForeignKey('helios.Voter', null=True, default=None)
+    frequency = models.CharField(max_length=100,
+                                 choices=FORUM_NOTIFICATION_FREQUENCY_CHOICES)
+    active = models.BooleanField(default=True)
+    last_notified_at = models.DateTimeField(null=True, default=None,
+                                            auto_now=True)
+
+    objects = ForumUpdatesRegistrationManager()

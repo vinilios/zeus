@@ -75,6 +75,7 @@ class ContactBackend():
                 data = poll.election.sms_data
             backend = ContactBackend.get_backend(method, logger, data)
 
+            the_vars['contact_method'] = method
             subject_tpl = subjects.get(method)
             body_tpl = bodies.get(method)
             subject = None
@@ -100,7 +101,7 @@ class ContactBackend():
 class EmailBackend(ContactBackend):
 
     def do_notify(self, voter, id, subject, body, attachments):
-        self.logger.info("Notifying voter %r for '%r' via email (%r)" % (voter.voter_login_id, id, voter.voter_email))
+        self.logger.info("Notifying voter %r for '%s' via email (%r)" % (voter.voter_login_id, id, voter.voter_email))
         subject = subject.replace("\n", "")
         if attachments and len(attachments) > 0:
             name = "%s %s" % (voter.voter_name, voter.voter_surname)

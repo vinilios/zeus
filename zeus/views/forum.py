@@ -35,21 +35,13 @@ from helios.models import Election, Poll, CastVote, Voter
 
 import bleach
 from zeus_forum.forms import PostForm
-from zeus_forum.models import Post
-
-
-PAGINATE_BY = getattr(settings, 'ZEUS_FORUM_PAGINATE_BY', 20)
-
-
-def _last_page(count, paginate_by=PAGINATE_BY):
-    page = int(ceil(count / float(paginate_by)))
-    return 1 if page == 0 else page
+from zeus_forum.models import Post, ForumUpdatesRegistration
 
 
 def _get_edit_post_or_404(id, voter, poll, election, **kwargs):
     post = get_object_or_404(Post, id=id, voter=voter, poll=poll,
-                             election=election, is_replaced=False,
-                             deleted=False)
+                            election=election, is_replaced=False,
+                            deleted=False)
     if post.level > 0 and post.parent.deleted:
         raise PermissionDenied
     return post
@@ -142,7 +134,7 @@ def _index(request, election, poll, extra=None):
         'post': post,
         'max_level': 0,
         'reply': reply,
-        'paginate_by': PAGINATE_BY,
+        'paginate_by': Post.objects.PAGINATE_BY,
         'paginate': paginate,
         'expand': expand,
         'paginate_replies': paginate_replies,
@@ -193,6 +185,8 @@ def delete(request, election, poll):
         post.deleted_by_admin = admin
         post.deleted_reason = request.POST.get('reason', None)
 
+    msg = "Forum post %r deleted by %r" % (post.pk, request.zeususer.user_id)
+    poll.logger.info(msg)
     post.save()
     messages.success(request, _("Forum post deleted successfully."))
     url = reverse('election_poll_forum', args=(election.uuid, poll.uuid))
@@ -206,6 +200,7 @@ def delete(request, election, poll):
 @auth.requires_poll_features('forum_can_post')
 @require_http_methods(["POST"])
 def post(request, election, poll):
+    zeususer = request.zeususer
     if not request.zeususer.is_voter and not request.zeususer.is_admin:
         raise PermissionDenied
 
@@ -265,19 +260,16 @@ def post(request, election, poll):
     form = PostForm(data, instance=edit, poll=poll)
     if form.is_valid():
         post = form.save(user)
-        url = reverse('election_poll_forum', args=(election.uuid, poll.uuid))
 
-        if parent:
-            page = _last_page(parent.get_active_children().count())
-            url = url + '?post_id={}&page={}'.format(parent.id, int(page))
-        elif edit and post.parent:
-            page = _last_page(post.parent.get_active_children().count())
-            url = url + '?post_id={}&page={}'.format(post.parent.id, int(page))
+        url = post.url
+        if not edit:
+            msg = "New forum post submitted by %r" % request.zeususer.user_id
+            poll.logger.info(msg)
+            tasks.forum_notify_poll_instant.delay(poll.pk, post.pk)
         else:
-            page = _last_page(Post.objects.active_posts(poll=post.poll, level=0).count())
-            url = url + '?page={}'.format(int(page))
-
-        url += "#{}".format(post.id)
+            msg = "Forum post %r edited by %r" % (
+                post.pk, request.zeususer.user_id)
+            poll.logger.info(msg)
         return HttpResponseRedirect(url)
     else:
         context = {
@@ -286,3 +278,43 @@ def post(request, election, poll):
             'post_body': form.data.get('body', getattr(edit, 'body', None))
         }
         return _index(request, election, poll, context)
+
+
+@auth.poll_voter_required
+@auth.requires_poll_features('can_register_for_forum_updates')
+@require_http_methods(["POST"])
+def notifications(request, election, poll, action='register',
+                  frequency='periodic'):
+
+    if not request.zeususer.is_voter:
+        raise PermissionDenied
+
+    voter = request.zeususer._user
+
+    if voter.excluded_at:
+        raise PermissionDenied
+
+    if voter.poll.pk != poll.pk:
+        raise PermissionDenied
+
+    if frequency not in ['periodic', 'instant']:
+        raise PermissionDenied #TODO: badrequest
+
+    if action not in ['register', 'unregister']:
+        raise PermissionDenied #TODO: badrequest
+
+    msg = None
+    if action == 'register':
+        msg = _("You have successfully subscribed for forum notifications.")
+        if voter.has_active_forum_updates_registration:
+            raise PermissionDenied()
+        ForumUpdatesRegistration.objects.register(voter=voter, poll=poll,
+                                                frequency=frequency)
+    if action == 'unregister':
+        msg = _("You have successfully unsubscribed from forum notifications.")
+        ForumUpdatesRegistration.objects.unregister(voter=voter, poll=poll)
+
+    if msg:
+        messages.success(request, msg)
+    url = reverse('election_poll_forum', args=(election.uuid, poll.uuid))
+    return HttpResponseRedirect(url)

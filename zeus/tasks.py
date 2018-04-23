@@ -9,6 +9,7 @@ from functools import wraps
 from celery.decorators import task as celery_task
 
 from helios.models import Election, Voter, Poll
+from zeus_forum.models import Post, ForumUpdatesRegistration
 from helios.view_utils import render_template_raw
 
 from django.template import Context, Template, loader
@@ -18,6 +19,7 @@ from django.utils import translation
 from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.db import transaction
+from django.db.models import Q
 
 from zeus.core import from_canonical
 from zeus import mobile
@@ -67,7 +69,9 @@ def single_voter_email(voter_uuid,
                        template_vars={},
                        update_date=True,
                        update_booth_invitation_date=False,
-                       notify_once=False):
+                       notify_once=False,
+                       update_notification_date=False,
+                       forum_notification=None):
 
     voter = Voter.objects.get(uuid=voter_uuid)
     lang = voter.poll.election.communication_language
@@ -104,6 +108,11 @@ def single_voter_email(voter_uuid,
                 for voter in linked_voters:
                     voter.last_booth_invitation_send_at = datetime.datetime.now()
                     voter.save()
+            if update_notification_date:
+                notification = forum_notification
+                notification.last_notified_at = datetime.datetime.now()
+                notification.save()
+
 
         ContactBackend.notify_voter(
             voter.poll,
@@ -371,3 +380,28 @@ def check_sms_status(voter_id, code, election_uuid=None):
 
     client = mobile.get_client(election_uuid)
     return client.status(code)
+
+
+@poll_task(ignore_result=True)
+def forum_notify_poll_instant(poll_id, post_id):
+    poll = Poll.objects.get(pk=poll_id)
+    post = Post.objects.get(pk=post_id)
+    from zeus_forum.notifications import notify_poll_instant
+    poll.logger.info("Notifying poll instant notifications")
+    return notify_poll_instant(poll, post)
+
+
+@poll_task(ignore_result=True)
+def forum_notify_poll_periodic(poll_id, hours=24):
+    poll = Poll.objects.get(pk=poll_id)
+    from zeus_forum.notifications import notify_poll_periodic
+    poll.logger.info("Notifying poll periodic notifications (%r hours)" % hours)
+    return notify_poll_periodic(poll, hours)
+
+
+@task(ignore_result=True)
+def periodic_forum_notifications(hours=24):
+    poll_ids = ForumUpdatesRegistration.objects.active_polls(['periodic'])
+    logger.info("Periodic forum notifications for polls %r" % poll_ids)
+    for poll_id in poll_ids:
+        forum_notify_poll_periodic.delay(poll_id, hours)

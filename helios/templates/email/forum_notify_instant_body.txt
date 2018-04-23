@@ -1,0 +1,12 @@
+{% load i18n %}{% trans "Legitimate recipient:" %} {{voter.voter_surname}} {{voter.voter_name}} {{voter.voter_fathername}}
+
+{% blocktrans with election_name=election.name poll_name=poll.name post_id=post_id %}
+A new post has been submitted to the forum of the following election event:
+
+{{ election_name }}
+{{ poll_name }}
+{% endblocktrans %}
+
+{% if contact_method == "email" %}{% blocktrans with login_url=voter.get_quick_login_url %}
+Use the following link to read the content of the post:
+{{ login_url }}?redirect_forum_post={{ post_id }}{% endblocktrans %}{% endif %}

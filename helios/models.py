@@ -30,7 +30,7 @@ from collections import defaultdict
 from django.template.loader import render_to_string
 from django.db import models, transaction
 from django.db.models.query import QuerySet
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.conf import settings
 from django.core.mail import send_mail, mail_admins
 from django.core.files import File
@@ -710,6 +710,16 @@ class PollQuerySet(QuerySet):
 
 class PollManager(models.Manager):
 
+    def forum_open(self, date=None):
+        date = date or datetime.datetime.now()
+        q = Q(forum_ends_at__gt=date,
+              forum_extended_until__isnull=True) | \
+            Q(forum_extended_until__gt=date,
+              forum_extended_until__isnull=False)
+
+        return self.filter(forum_enabled=True) \
+                   .filter(election__voting_ended_at__isnull=True) \
+                   .filter(q)
     def get_queryset(self):
         return PollQuerySet(self.model).defer('encrypted_tally')
 
@@ -802,6 +812,8 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
                                             blank=True,
                                             default=None,
                                             help_text=help.forum_ends_at)
+  forum_last_periodic_notification_at = models.DateTimeField(null=True,
+                                                          default=None)
 
 
   objects = PollManager()
@@ -1956,6 +1968,10 @@ class Voter(HeliosModel, VoterFeatures):
   @property
   def forum_display(self):
       return self.forum_name
+
+  @property
+  def has_active_forum_updates_registration(self):
+      return self.forumupdatesregistration_set.filter(active=True).count() > 0
 
 
 class CastVoteQuerySet(QuerySet):

@@ -887,10 +887,11 @@ def voter_booth_login(request, election, poll, voter_uuid, voter_secret):
         raise PermissionDenied("Invalid election")
 
     if request.zeususer.is_authenticated() and request.zeususer.is_voter:
-        return HttpResponseRedirect(reverse('election_poll_index', kwargs={
+        url = reverse('election_poll_index', kwargs={
             'election_uuid': request.zeususer._user.poll.election.uuid,
             'poll_uuid': request.zeususer._user.poll.uuid
-        }))
+        })
+        return handle_voter_login_redirect(request, voter, url)
 
     if request.zeususer.is_authenticated() and (
             not request.zeususer.is_voter or \
@@ -932,7 +933,8 @@ def voter_booth_login(request, election, poll, voter_uuid, voter_secret):
         user = auth.ZeusUser(voter)
         user.authenticate(request)
         poll.logger.info("Poll voter '%s' logged in", voter.voter_login_id)
-        return HttpResponseRedirect(poll_reverse(poll, 'index'))
+        return handle_voter_login_redirect(request, voter,
+                                           poll_reverse(poll, 'index'))
 
 
 @auth.election_view(check_access=False)

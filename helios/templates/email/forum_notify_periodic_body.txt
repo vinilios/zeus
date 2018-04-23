@@ -1,0 +1,14 @@
+{% load i18n %}{% trans "Legitimate recipient:" %} {{voter.voter_surname}} {{voter.voter_name}} {{voter.voter_fathername}}
+{% blocktrans with date_since=date_since election_name=election.name poll_name=poll.name posts=posts_ids|length comments=comments_ids|length %}
+Daily forum summary for the election event:
+
+{{ election_name }}
+{{ poll_name }}
+
+Forum activity since '{{ date_since }}'
+
+New posts: {{ posts }}
+New comments: {{ comments }}{% endblocktrans %}
+{% if contact_method == "email" %}{% blocktrans with login_url=voter.get_quick_login_url|add:"?redirect_forum=1" %}
+Use the following link to access the forum:
+{{ login_url }}{% endblocktrans %}{% endif %}

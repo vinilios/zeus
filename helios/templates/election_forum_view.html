@@ -21,6 +21,22 @@
     <script src="/static/zeus/editor/readmore.min.js?20160830"></script>
     <script>
         var IS_ADMIN = {% if user.is_admin %}true{% else %}false{% endif %};
+
+        function confirmNotificationsDeletion(el, type) {
+            var msg = "{% trans "Are you sure you want to unsubscribe from forum updates notifications?" %}";
+            return confirm(msg);
+        }
+
+        function confirmNotificationsRegistration(el, type) {
+            var msg;
+            if (type == 'instant') {
+                msg = "{% trans "You will receive notifications for each new forum post." %} {% trans "Are you sure?" %}";
+            } else {
+                msg = "{% trans "You will receive daily summary reports of new forum posts." %} {% trans "Are you sure?" %}";
+            }
+            return confirm(msg);
+        }
+
         function confirmPostDelete(e) {
             if (IS_ADMIN) {
                 let msg = prompt("{% trans "Provide a reason to delete this post." %}");
@@ -32,6 +48,7 @@
             }
             return confirm("{% trans "Are you sure?" %}");
         }
+
         function mk_editor(selector, content) {
             var editor = new SimpleMDE({
                 spellChecker: false,
