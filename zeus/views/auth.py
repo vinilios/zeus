@@ -168,7 +168,7 @@ def shibboleth_login(request, endpoint):
     poll = voter.poll
     constraints = poll.get_shibboleth_constraints()
 
-    common_fields = ['HTTP_EPPN', 'HTTP_REMOTE_USER', 'HTTP_MAIL']
+    common_fields = ['HTTP_EPPN', 'HTTP_REMOTE_USER', 'HTTP_MAIL', 'HTTP_EPUID']
     meta = request.META
     shibboleth = {}
     for key, value in meta.iteritems():
