@@ -26,7 +26,8 @@ def handle_voter_login_redirect(request, voter, default):
     if forum:
         election_uuid = voter.poll.election.uuid
         poll_uuid = voter.poll.uuid
-        _next = reverse('election_poll_forum', election_uuid, poll_uuid)
+        _next = reverse('election_poll_forum', args=(election_uuid, poll_uuid))
+        _next += "#forum"
 
     if _next.startswith("http"):
         #TODO: prevent open redirects
