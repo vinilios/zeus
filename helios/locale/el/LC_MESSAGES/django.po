@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-23 12:41+0300\n"
+"POT-Creation-Date: 2018-04-30 11:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -450,6 +450,33 @@ msgstr "Ακύρωση"
 msgid "Forum ended."
 msgstr "Η διαβούλευση έχει ολοκληρωθεί."
 
+msgid "Notifications (active)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Voter actions"
+msgid "Notifications"
+msgstr "Επιλογές ψηφοφόρου"
+
+msgid "Receive new posts notifications"
+msgstr ""
+
+msgid "You will receive notifications for each new forum post. Are you sure?"
+msgstr ""
+
+msgid "Receive daily summary notifications"
+msgstr ""
+
+msgid ""
+"You will receive daily summary reports of new forum posts. Are you sure?"
+msgstr ""
+
+msgid "Unsubscribe from notifications"
+msgstr ""
+
+msgid "You will stop receiving forum notifications. Are you sure?"
+msgstr ""
+
 msgid "Sort posts by"
 msgstr "Ταξινόμηση αναρτήσεων κατά"
 
@@ -740,11 +767,20 @@ msgstr "Ο νέος κωδικός έχει καταχωρισθεί"
 msgid "SAVE"
 msgstr "Αποθήκευση"
 
-msgid "Provide a reason to delete this post."
-msgstr "Ορίστε τον λόγο για τη διαγραφή της ανάρτησης."
+msgid "Are you sure you want to unsubscribe from forum updates notifications?"
+msgstr ""
+
+msgid "You will receive notifications for each new forum post."
+msgstr ""
 
 msgid "Are you sure?"
 msgstr "Επιβεβαιώστε"
+
+msgid "You will receive daily summary reports of new forum posts."
+msgstr ""
+
+msgid "Provide a reason to delete this post."
+msgstr "Ορίστε τον λόγο για τη διαγραφή της ανάρτησης."
 
 msgid "Read more"
 msgstr "περισσότερα"
@@ -1421,6 +1457,51 @@ msgstr "Η ημερομηνία λήξης της ψηφοφορίας άλλα�
 
 msgid "Zeus Elections"
 msgstr "Ηλεκτρονικές Ψηφοφορίες «Ζευς»"
+
+#, python-format
+msgid ""
+"\n"
+"A new post has been submitted to the forum of the following election event:\n"
+"\n"
+"%(election_name)s\n"
+"%(poll_name)s\n"
+msgstr ""
+
+#, python-format
+msgid ""
+"\n"
+"Use the following link to read the content of the post:\n"
+"%(login_url)s?redirect_forum_post=%(post_id)s"
+msgstr ""
+
+#, fuzzy
+#| msgid "Your vote has been cast"
+msgid "New forum post has been submitted"
+msgstr "Η ψήφος σας υποβλήθηκε."
+
+#, python-format
+msgid ""
+"\n"
+"Daily forum summary for the election event:\n"
+"\n"
+"%(election_name)s\n"
+"%(poll_name)s\n"
+"\n"
+"Forum activity since '%(date_since)s'\n"
+"\n"
+"New posts: %(posts)s\n"
+"New comments: %(comments)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"\n"
+"Use the following link to access the forum:\n"
+"%(login_url)s"
+msgstr ""
+
+msgid "Forum daily summary"
+msgstr ""
 
 msgid "Intended recipient"
 msgstr "Νόμιμος παραλήπτης"
