@@ -26,6 +26,11 @@ class PostManager(TreeManager):
 
     PAGINATE_BY = PAGINATE_BY
 
+
+    def last_page(self, count):
+        page = int(ceil(count / float(PAGINATE_BY)))
+        return 1 if page == 0 else page
+
     def get_active_post(self, **kwargs):
         return self.active_posts(**kwargs).get()
 
