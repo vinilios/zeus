@@ -423,6 +423,7 @@ def json_data(request, election):
                                        trustees_json,
                                        voters_json,
                                        login_urls)
+    json_data = json.dumps(json.loads(json_data), indent=4)
     return HttpResponse(json_data, content_type="application/json")
 
 
