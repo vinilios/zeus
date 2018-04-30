@@ -1706,7 +1706,7 @@ class TestPartyForumElection(TestSimpleElection):
         self.assertEqual(poll.post_set.filter(is_replaced=False).count(), 3)
 
         # can edit own reply
-        resp = self.c.post(post_url, {'edit': '4', 'body': 'voter2 valid edit'}, follow=True)
+        resp = self.c.post(post_url, {'edit': '5', 'body': 'voter2 valid edit'}, follow=True)
         self.assertEqual(poll.post_set.filter(is_replaced=False).count(), 3)
         self.assertContains(resp, 'voter2 valid edit')
 
@@ -1719,7 +1719,7 @@ class TestPartyForumElection(TestSimpleElection):
 
         # can delete reply
         delete_url = params.get('delete_url')
-        resp = self.c.post(delete_url, {'post': 4}, follow=True)
+        resp = self.c.post(delete_url, {'post': 5}, follow=True)
         self.assertContains(resp, 'Message deleted by')
         self.assertEqual(poll.post_set.filter(is_replaced=False, deleted=False).count(), 2)
 
@@ -1733,5 +1733,5 @@ class TestPartyForumElection(TestSimpleElection):
         self.assertContains(resp, 'spam reason')
 
         # cannot delete a reply of a deleted post
-        resp = self.c.post(delete_url, {'post': '3', 'reason': 'spam reason'}, follow=True)
+        resp = self.c.post(delete_url, {'post': '4', 'reason': 'spam reason'}, follow=True)
         self.assertEqual(resp.status_code, 403)
