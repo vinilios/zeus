@@ -7,7 +7,6 @@ election_patterns = patterns('zeus.views.election',
 
     url(r'^$', 'index', name="election_index"),
     url(r'^edit$', 'add_or_update', name='election_edit'),
-    url(r'^json$', 'json_data', name='election_json_data'),
     url(r'^polls/', include('zeus.urls.poll')),
     url(r'^polls/(?P<poll_uuid>[^/]+)$', 'index', name="election_poll_index"),
     url(r'^trustees/', include('zeus.urls.trustee')),
@@ -41,6 +40,11 @@ election_patterns = patterns('zeus.views.election',
         kwargs={'format': 'html'}),
     url(r'^stats$', 'public_stats',
         name="election_public_stats"),
+
+    # testing
+    url(r'^json$', 'json_data', name='election_json_data'),
+    url(r'^forum_notify_periodic$', 'forum_notify_periodic',
+        name='election_forum_notify_periodic'),
 
     # adding trustees
     #(r'^/trustees/$', list_trustees),

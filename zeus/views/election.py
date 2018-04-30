@@ -462,3 +462,23 @@ def remote_mix(request, election, mix_key):
 
     urls = map(lambda p: p.remote_mix_url, election.polls.all())
     return HttpResponse(json.dumps(urls), content_type="application/json")
+
+
+@auth.election_admin_required
+@require_http_methods(["GET"])
+def forum_notify_periodic(request, election):
+    if not election.trial:
+        raise PermissionDenied('33')
+
+    minutes = request.GET.get('minutes', 60 * 24)
+
+    try:
+        minutes = int(minutes)
+    except ValueError:
+        minutes = 60 * 24
+
+    for poll in election.polls.filter(forum_enabled=True):
+        tasks.forum_notify_poll_periodic.delay(poll.id, minutes/60)
+    messages.success(request, "Sending forum periodic notifications")
+    url = election_reverse(election, 'index')
+    return HttpResponseRedirect(url)
