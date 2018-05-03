@@ -72,7 +72,7 @@ def rename(request, election, poll):
     return HttpResponseRedirect(url)
 
 @transaction.atomic
-def _handle_batch(election, polls, vars, auto_link=False):
+def _handle_batch(election, polls, vars, auto_link=False, admin=None):
     errors = []
     existing = election.polls.filter()
     get_poll = lambda ref: election.polls.filter(linked_ref=ref).count() \
@@ -139,7 +139,7 @@ def _handle_batch(election, polls, vars, auto_link=False):
 
     form = polls_formset(polls_form_data,
                          queryset=election.polls.filter(),
-                         election=election)
+                         election=election, admin=admin)
     form.save(election)
 
     for i, poll in enumerate(election.polls.filter()):
@@ -237,7 +237,8 @@ def _add_batch(request, election):
 
     try:
         _handle_batch(election, data.get('polls'),
-                      data.get('vars', {}), data.get('auto_link', False))
+                      data.get('vars', {}), data.get('auto_link', False),
+                      admin=request.admin)
     except Exception, e:
         election.logger.exception(e)
         messages.error(request, str(e))
@@ -248,6 +249,7 @@ def _add_batch(request, election):
 @auth.election_admin_required
 @require_http_methods(["POST", "GET"])
 def add_edit(request, election, poll=None):
+    admin = request.admin
     if not poll and not election.feature_can_add_poll:
         raise PermissionDenied
     if poll and not poll.feature_can_edit:
@@ -257,7 +259,8 @@ def add_edit(request, election, poll=None):
     if poll:
         oldname = poll.name
     if request.method == "POST":
-        form = PollForm(request.POST, instance=poll, election=election)
+        form = PollForm(request.POST, instance=poll, election=election,
+                        admin=admin)
         if form.is_valid():
             new_poll = form.save()
             if form.has_changed():
@@ -274,7 +277,7 @@ def add_edit(request, election, poll=None):
             url = election_reverse(election, 'polls_list')
             return redirect(url)
     if request.method == "GET":
-        form = PollForm(instance=poll, election=election)
+        form = PollForm(instance=poll, election=election, admin=admin)
     context = {'election': election, 'poll': poll,  'form': form}
     set_menu('polls', context)
     if poll:

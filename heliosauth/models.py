@@ -81,6 +81,12 @@ class User(models.Model):
   token = JSONField(null = True)
 
   @property
+  def can_enable_forum(self):
+    groups = self.user_groups.values_list("name", flat=True)
+    # any group name contains forum
+    return any(filter(lambda x: "forum" in x, groups))
+
+  @property
   def eligible_election_types(self):
       valid = set()
       for group in self.user_groups.all():

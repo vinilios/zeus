@@ -78,6 +78,8 @@ def setup_editable_fields(form, **value_overrides):
                         f in features])
 
         field = form.fields.get(name)
+        if not field:
+            continue
         widget = field.widget
         if not editable:
             widget.attrs['readonly'] = True
@@ -692,6 +694,8 @@ class PollForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.election = kwargs.pop('election', None)
+        self.admin = kwargs.pop('admin', None)
+
         super(PollForm, self).__init__(*args, **kwargs)
         CHOICES = (
             ('public', 'public'),
@@ -755,7 +759,6 @@ class PollForm(forms.ModelForm):
         if self.election.feature_frozen:
             self.fields['name'].widget.attrs['readonly'] = True
 
-
         auth_title = _('2-factor authentication')
         auth_help = _('2-factor authentication help text')
         self.fieldsets = {'auth': [auth_title, auth_help, []]}
@@ -775,6 +778,10 @@ class PollForm(forms.ModelForm):
             self.fields[field].widget.attrs['field_class'] = 'fieldset-auth'
             if field == 'jwt_auth':
                 self.fields[field].widget.attrs['field_class'] = 'clearfix last'
+
+        if self.admin and not self.admin.can_enable_forum:
+            if not self.instance.forum_enabled:
+                del self.fields['forum_enabled']
         setup_editable_fields(self)
 
 
@@ -909,10 +916,12 @@ class PollFormSet(BaseModelFormSet):
 
     def __init__(self, *args, **kwargs):
         self.election = kwargs.pop('election', None)
+        self.admin = kwargs.pop('admin', None)
         super(PollFormSet, self).__init__(*args, **kwargs)
 
     def _construct_form(self, i, **kwargs):
         kwargs['election'] = kwargs.get('election', self.election)
+        kwargs['admin'] = kwargs.get('admin', self.admin)
         return super(PollFormSet, self)._construct_form(i, **kwargs)
 
     def clean(self):
