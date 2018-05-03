@@ -12,6 +12,7 @@
 {% trans "starting" %} {{election.voting_starts_at}},
 {% trans "and ending" %} {{election.voting_ends_at}}
 {% trans "Your registration ID is:" %} {{voter.voter_login_id}}.
+
 {% trans "To submit your vote, follow the link below" %}
 {% if poll.forum_enabled %}
 {% blocktrans%}Using the same link, you can also participate in the deliberative 

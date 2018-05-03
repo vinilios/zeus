@@ -451,31 +451,29 @@ msgid "Forum ended."
 msgstr "Η διαβούλευση έχει ολοκληρωθεί."
 
 msgid "Notifications (active)"
-msgstr ""
+msgstr "Ειδοποιήσεις (ενεργές)"
 
-#, fuzzy
-#| msgid "Voter actions"
 msgid "Notifications"
-msgstr "Επιλογές ψηφοφόρου"
+msgstr "Ειδοποιήσεις"
 
 msgid "Receive new posts notifications"
-msgstr ""
+msgstr "Ενημέρωση για κάθε νέα ανάρτηση"
 
 msgid "You will receive notifications for each new forum post. Are you sure?"
-msgstr ""
+msgstr "Είστε σίγουρος/η ότι επιθυμείτε να λαμβάνετε ειδοποίηση (e-mail) για κάθε νέα ανάρτηση;"
 
 msgid "Receive daily summary notifications"
-msgstr ""
+msgstr "Ημερήσια αναφορά δραστηριότητας διαβούλευσης"
 
 msgid ""
 "You will receive daily summary reports of new forum posts. Are you sure?"
-msgstr ""
+msgstr "Είστε σίγουρος/η ότι επιθυμείτε να λαμβάνετε ημερήσια αναφορά (e-mail) για τη δραστηριότητα της διαβούλευσης;"
 
 msgid "Unsubscribe from notifications"
-msgstr ""
+msgstr "Απενεργοποίηση ειδοποιήσεων"
 
 msgid "You will stop receiving forum notifications. Are you sure?"
-msgstr ""
+msgstr "Είστε σίγουρος/η ότι επιθυμείτε να μην λαμβάνετε πλέον ειδοποιήσεις (e-mail) για τη δραστηριότητα της διαβούλευσης;"
 
 msgid "Sort posts by"
 msgstr "Ταξινόμηση αναρτήσεων κατά"
@@ -768,7 +766,7 @@ msgid "SAVE"
 msgstr "Αποθήκευση"
 
 msgid "Are you sure you want to unsubscribe from forum updates notifications?"
-msgstr ""
+msgstr "Είστε σίγουρος/η ότι επιθυμείτε να μην λαμβάνετε πλέον ενημερώσεις για τη δραστηριότητα της διαβούλευσης;"
 
 msgid "You will receive notifications for each new forum post."
 msgstr ""
@@ -1466,6 +1464,11 @@ msgid ""
 "%(election_name)s\n"
 "%(poll_name)s\n"
 msgstr ""
+"\n"
+"Μια νέα ανάρτηση υποβλήθηκε στη διαβούλευση για την ακόλουθη ψηφοφορία:\n"
+"\n"
+"%(election_name)s\n"
+"%(poll_name)s\n"
 
 #, python-format
 msgid ""
@@ -1473,11 +1476,12 @@ msgid ""
 "Use the following link to read the content of the post:\n"
 "%(login_url)s?redirect_forum_post=%(post_id)s"
 msgstr ""
+"\n"
+"Για να διαβάσετε το περιεχόμενο της ανάρτησης, ακολουθήστε τον παρακάτω σύνδεσμο:\n"
+"%(login_url)s?redirect_forum_post=%(post_id)s"
 
-#, fuzzy
-#| msgid "Your vote has been cast"
 msgid "New forum post has been submitted"
-msgstr "Η ψήφος σας υποβλήθηκε."
+msgstr "Μια νέα ανάρτηση υποβλήθηκε"
 
 #, python-format
 msgid ""
@@ -1492,6 +1496,16 @@ msgid ""
 "New posts: %(posts)s\n"
 "New comments: %(comments)s"
 msgstr ""
+"\n"
+"Ημερήσια αναφορά δραστηριότητας διαβούλευσης για την ψηφοφορία:\n"
+"\n"
+"%(election_name)s\n"
+"%(poll_name)s\n"
+"\n"
+"Δραστηριότητα διαβούλευσης από '%(date_since)s'\n"
+"\n"
+"Νέες αναρτήσεις: %(posts)s\n"
+"Νέα σχόλια: %(comments)s"
 
 #, python-format
 msgid ""
@@ -1499,9 +1513,12 @@ msgid ""
 "Use the following link to access the forum:\n"
 "%(login_url)s"
 msgstr ""
+"\n"
+"Για να συμμετέχετε στη διαβούλευση, ακολουθήστε τον παρακάτω σύνδεσμο:\n"
+"%(login_url)s"
 
 msgid "Forum daily summary"
-msgstr ""
+msgstr "Ημερήσια αναφορά δραστηριότητας διαβούλευσης"
 
 msgid "Intended recipient"
 msgstr "Νόμιμος παραλήπτης"
@@ -1522,7 +1539,8 @@ msgid "Your registration ID is:"
 msgstr "Ο αριθμός καταχώρισής σας είναι:"
 
 msgid "To submit your vote, follow the link below"
-msgstr "Για να υποβάλετε ψήφο, ακολουθήστε τον παρακάτω σύνδεσμο"
+msgstr ""
+"Για να υποβάλετε ψήφο, ακολουθήστε τον παρακάτω σύνδεσμο"
 
 msgid ""
 "Using the same link, you can also participate in the deliberative \n"
@@ -1554,11 +1572,11 @@ msgstr "ή μέσω email,"
 msgid "If you want to initiate an audit vote, to certify system security"
 msgstr ""
 "Εάν επιθυμείτε να εκκινήσετε ψήφο ελέγχου, για την πιστοποίηση της "
-"ασφάλειας\n"
-"του συστήματος,"
+"ασφάλειας"
+"\n "
 
 msgid "the valid audit codes are"
-msgstr "οι έγκυροι κωδικοί ελέγχου είναι"
+msgstr "του συστήματος, οι έγκυροι κωδικοί ελέγχου είναι"
 
 msgid "Otherwise ignore those codes above."
 msgstr "Διαφορετικά αγνοήστε τους παραπάνω κωδικούς."

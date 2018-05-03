@@ -34,7 +34,7 @@ msgid "election admin"
 msgstr "διαχειριστής ψηφοφορίας"
 
 msgid "Daily"
-msgstr ""
+msgstr "Ημερήσιες"
 
 msgid "Instant"
-msgstr ""
+msgstr "Άμεσες"

@@ -495,10 +495,10 @@ msgid "BLANK"
 msgstr "ΛΕΥΚΟ"
 
 msgid "Wins"
-msgstr "Προτιμήσεις"
+msgstr "Νίκες"
 
 msgid "Beats"
-msgstr "Νίκες"
+msgstr "Ηττημένοι"
 
 msgid "Ballots"
 msgstr "Ψηφοδέλτια"
@@ -684,10 +684,10 @@ msgid "You cannot modify this post"
 msgstr "Δεν μπορείτε να επεξεργαστείτε την συγκεκριμένη ανάρτηση"
 
 msgid "You have successfully subscribed for forum notifications."
-msgstr ""
+msgstr "Οι ειδοποιήσεις για τη δραστηριότητα της διαβούλευσης έχουν ενεργοποιηθεί."
 
 msgid "You have successfully unsubscribed from forum notifications."
-msgstr ""
+msgstr "Οι ειδοποιήσεις για τη δραστηριότητα της διαβούλευσης έχουν απενεργοποιηθεί."
 
 msgid "Invalid batch file contents"
 msgstr "Μη αποδεκτό αρχείο"
