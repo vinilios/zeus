@@ -158,7 +158,7 @@
     {% if poll.feature_forum_posts_visible %}
         {% include "_election_forum_posts.html" %}
     {% else %}
-        <div class="forum-description warning">
+        <div class="forum-description warning clearfix" style="margin-top: 180px">
             {% blocktrans %}Forum is closed.{% endblocktrans %}
         </div>
     {% endif %}
