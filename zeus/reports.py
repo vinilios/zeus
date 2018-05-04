@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import csv
+from zeus.utils import defusedcsv as csv
 from functools import partial
 
 from cStringIO import StringIO

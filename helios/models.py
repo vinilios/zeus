@@ -16,7 +16,7 @@ import copy
 import base64
 import zipfile
 import os
-import csv
+from zeus.utils import defusedcsv as csv
 import tempfile
 import mmap
 import marshal
