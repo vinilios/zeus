@@ -277,7 +277,7 @@ def csv_from_preference_polls(election, polls, lang, outfile=None):
                       strforce(_("Beats"))])
             for index, result in poll.stv_results['wins_and_beats'].items():
                 beats = map(lambda x: indexed_cands[str(x)], result[1])
-                writerow([strforce(indexed_cands[index]), result[0], strforce(beats)])
+                writerow([strforce(indexed_cands[index]), result[0], strforce(u",".join(beats))])
 
             writerow([])
             writerow([])
