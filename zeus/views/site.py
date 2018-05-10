@@ -269,7 +269,6 @@ def _get_demo_user(email_address):
     return newuser, password
 
 
-@csrf_exempt
 def demo(request):
     user = request.zeususer
     if request.method != 'POST':
@@ -277,13 +276,15 @@ def demo(request):
 
     email_address = request.POST.get('email', '')
 
+    remote_addr = request.META.get("REMOTE_ADDR", None)
+    client_address = request.META.get('HTTP_X_FORWARDED_FOR', remote_addr)
+    client_address = filter(lambda s:s.strip(), client_address.split(","))[0]
+
     if not email_is_valid(email_address):
         msg = _("Invalid email address")
         messages.error(request, msg)
         return HttpResponseRedirect(reverse('home'))
 
-    remote_addr = request.META.get("REMOTE_ADDR", None)
-    client_address = request.META.get('HTTP_X_FORWARDED_FOR', remote_addr)
     if not client_address:
         msg = _("Client address unavailable")
         messages.error(request, msg)

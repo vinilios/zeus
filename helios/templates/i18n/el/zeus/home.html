@@ -45,6 +45,7 @@
           action="{{settings.URL_HOST}}{% url "site_demo" %}">
     Διεύθυνση email: <input type="text" value="" name="email"/>
     <input class="button" type="submit" value="Δημιουργία δοκιμαστικού λογαριασμού" />
+    {% csrf_token %}
   </form>
 </div>
 </div>

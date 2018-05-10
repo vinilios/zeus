@@ -40,6 +40,7 @@
           action="{{settings.URL_HOST}}{% url "site_demo" %}">
     Your email address: <input type="text" value="" name="email"/>
     <input class="button" type="submit" value="Send me a demo account" />
+    {% csrf_token %}
   </form>
 </div>
 <div class="columns four">
