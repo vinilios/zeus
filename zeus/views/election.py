@@ -427,34 +427,6 @@ def json_data(request, election):
     return HttpResponse(json_data, content_type="application/json")
 
 
-def test_cookie(request):
-    continue_url = request.GET['continue_url']
-    request.session.set_test_cookie()
-    next_url = "%s?%s" % (reverse('test_cookie_2'),
-                          urllib.urlencode({'continue_url': continue_url}))
-    return HttpResponseRedirect(next_url)
-
-
-def test_cookie_2(request):
-    continue_url = request.GET['continue_url']
-
-    if not request.session.test_cookie_worked():
-        return HttpResponseRedirect("%s?%s" % (reverse('nocookies'),
-                                               urllib.urlencode({
-                                                   'continue_url':
-                                                   continue_url})))
-
-    request.session.delete_test_cookie()
-    return HttpResponseRedirect(continue_url)
-
-
-def nocookies(request):
-    retest_url = "%s?%s" % (reverse('test_cookie'),
-                            urllib.urlencode({
-                            'continue_url' : request.GET['continue_url']}))
-    return render_template(request, 'nocookies', {'retest_url': retest_url})
-
-
 @auth.election_view(check_access=False)
 def remote_mix(request, election, mix_key):
     urls = []

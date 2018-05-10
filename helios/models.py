@@ -971,8 +971,7 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
             settings.SECURE_URL_HOST,
             settings.SERVER_PREFIX,
             urllib.urlencode(url_params))
-    return "%s?%s" % (reverse('test_cookie'),
-                      urllib.urlencode({'continue_url': vote_url}))
+    return vote_url
 
   def get_absolute_url(self):
       return reverse('election_poll_index', args=[self.election.uuid,

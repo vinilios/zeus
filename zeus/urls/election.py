@@ -107,10 +107,5 @@ election_patterns = patterns('zeus.views.election',
 
 urlpatterns = patterns('zeus.views.election',
     url(r'^new$', 'add_or_update', name='election_create'),
-    url(r'^(?P<election_uuid>[^/]+)/', include(election_patterns)),
-
-    url(r'^testcookie$', 'test_cookie', name='test_cookie'),
-    url(r'^testcookie_2$', 'test_cookie_2', name='test_cookie_2'),
-    url(r'^nocookies$', 'nocookies', name='nocookies'),
-
+    url(r'^(?P<election_uuid>[^/]+)/', include(election_patterns))
 )
