@@ -16,6 +16,7 @@ except ImportError:
   from django.utils.datastructures import SortedDict as OrderedDict
 
 def zeus_report(elections):
+    from helios.models import CastVote, Voter
     return {
         'elections': elections,
         'votes': CastVote.objects.filter(election__in=elections, voter__excluded_at__isnull=True).count(),
@@ -28,6 +29,8 @@ def zeus_report(elections):
 SENSITIVE_DATA = ['admin_user', 'trustees', 'last_view_at']
 
 def election_report(elections, votes_report=True, filter_sensitive=True):
+    from helios.models import CastVote, Voter
+
     for e in elections:
         entry = OrderedDict([
             ('name', e.name),
@@ -64,7 +67,7 @@ def election_report(elections, votes_report=True, filter_sensitive=True):
 
 
 def election_votes_report(elections, include_alias=False, filter_sensitive=True):
-    from helios.models import CastVote
+    from helios.models import CastVote, Voter
     for vote in CastVote.objects.filter(poll__election__in=elections,
                                     voter__excluded_at__isnull=True).values('voter__alias','voter',
                                                                            'cast_at').order_by('-cast_at'):
@@ -82,8 +85,11 @@ def election_votes_report(elections, include_alias=False, filter_sensitive=True)
 
 
 def election_voters_report(elections):
+    from helios.models import Voter
     for voter in Voter.objects.filter(poll__election__in=elections,
-                                      excluded_at__isnull=True).annotate(cast_count=Count('cast_votes')).order_by('voter_surname'):
+                                      excluded_at__isnull=True).annotate(
+                                          cast_count=Count('cast_votes')).order_by(
+                                              'voter_surname'):
         entry = OrderedDict([
             ('name', voter.voter_name),
             ('surname', voter.voter_surname),

@@ -308,14 +308,14 @@ def public_stats(request, election):
             return obj.isoformat()
         raise TypeError
 
-    return HttpResponse(json.dumps(stats, default=handler),
+    return HttpResponse(json.dumps(stats, default=handler, indent=4),
                         content_type="application/json")
 
 
 @auth.election_admin_required
 @auth.election_view()
 @require_http_methods(["GET"])
-def report(request, election, format):
+def report(request, election, format="json"):
     reports_list = request.GET.get('report',
                                    'election,voters,votes,results').split(",")
 
@@ -331,19 +331,13 @@ def report(request, election, format):
     if 'results' in reports_list:
         _reports['results'] = list(reports.election_results_report([election]))
 
-    if format == "html":
-        return render_template(request, "election_report", {
-            'election': election,
-            'reports': _reports,
-        })
-    else:
-        def handler(obj):
-            if hasattr(obj, 'isoformat'):
-                return obj.isoformat()
-            raise TypeError
+    def handler(obj):
+        if hasattr(obj, 'isoformat'):
+            return obj.isoformat()
+        raise TypeError
 
-        return HttpResponse(json.dumps(_reports, default=handler),
-                            content_type="application/json")
+    return HttpResponse(json.dumps(_reports, default=handler, indent=4),
+                        content_type="application/json")
 
 
 @auth.election_admin_required
