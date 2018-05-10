@@ -1156,10 +1156,6 @@ class Poll(PollTasks, HeliosModel, PollFeatures):
     expects a django uploaded_file data structure, which has filename, content,
     size...
     """
-    # now we're just storing the content
-    # random_filename = str(uuid.uuid4())
-    # new_voter_file.voter_file.save(random_filename, uploaded_file)
-
     new_voter_file = VoterFile(poll=self,
                                voter_file_content=\
                                base64.encodestring(uploaded_file.read()))
@@ -1507,8 +1503,6 @@ class VoterFile(models.Model):
 
   poll = models.ForeignKey(Poll)
 
-  # we move to storing the content in the DB
-  voter_file = models.FileField(upload_to=PATH, max_length=250,null=True)
   voter_file_content = models.TextField(null=True)
 
   uploaded_at = models.DateTimeField(auto_now_add=True)
@@ -1517,10 +1511,7 @@ class VoterFile(models.Model):
   num_voters = models.IntegerField(null=True)
 
   def itervoters(self, email_validator=validate_email, preferred_encoding=None):
-    if self.voter_file_content:
-      voter_data = base64.decodestring(self.voter_file_content)
-    else:
-      voter_data = open(self.voter_file.path, "r").read()
+    voter_data = base64.decodestring(self.voter_file_content)
 
     return iter_voter_data(voter_data, email_validator=email_validator,
                            preferred_encoding=preferred_encoding)
@@ -1553,10 +1544,7 @@ class VoterFile(models.Model):
     self.save()
 
     # now we're looking straight at the content
-    if self.voter_file_content:
-      voter_data = base64.decodestring(self.voter_file_content)
-    else:
-      voter_data = open(self.voter_file.path, "r").read()
+    voter_data = base64.decodestring(self.voter_file_content)
 
     reader = iter_voter_data(voter_data, preferred_encoding=preferred_encoding)
 
