@@ -77,7 +77,8 @@ def password_login_view(request):
 
 
 def logout(request):
-    return_url = request.GET.get('next', reverse('home'))
+    return_url = request.GET.get('return_url', reverse('home'))
+    return_url = sanitize_redirect(return_url)
     if not request.zeususer.is_authenticated():
         return HttpResponseRedirect(return_url)
 

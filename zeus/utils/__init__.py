@@ -2,6 +2,7 @@
 
 import json
 import bleach
+import urlparse
 
 from cStringIO import StringIO
 from csv import (Sniffer, excel, Error as csvError,
@@ -16,6 +17,8 @@ from django.shortcuts import render_to_response
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.core.validators import validate_email, ValidationError
+from django.core.exceptions import SuspiciousOperation
+
 
 ALLOWED_TAGS = [u'h1', u'h2', u'h3', u'h4', u'h5', u'table', u'thead', u'tbody',
                 u'td', u'tr', u'a', u'abbr', u'acronym', u'b', u'blockquote',
@@ -497,3 +500,20 @@ def ordered_dict_prepend(dct, key, value, dict_setitem=dict.__setitem__):
 
 def sanitize_html(html):
     return bleach.clean(html, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRIBUTES)
+
+
+def sanitize_redirect(url, valid_hosts=None):
+    decoded = urlparse.unquote(url).strip()
+    base = settings.SECURE_URL_HOST
+    valid_hosts = valid_hosts or [base]
+
+    # relative url
+    if decoded.startswith("/"):
+        return "/" + decoded.lstrip("/")
+    # absolute url, check url matches any of valid_hosts
+    else:
+        is_valid = any(map(lambda x: decoded.startswith(x), valid_hosts))
+        if is_valid:
+            return decoded
+        raise SuspiciousOperation('Invalid redirect url')
+    return url
