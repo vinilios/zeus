@@ -224,11 +224,16 @@ class TestHelpdeskWithClient(SetUpAdminAndClientMixin, TestCase):
         self.c.post(self.locations['login'], self.manager_creds, follow=True)
         u = User.objects.get(user_id='test_admin')
         old_pass = u.info['password']
-        self.c.get(
+        r = self.c.get(
             '/account_administration'
             '/reset_password_confirmed/'
-            '?uid=%s' % u.id
-            )
+            '?uid=%s' % u.id, follow=False)
+        self.assertEqual(r.status_code, 403)
+        r = self.c.post(
+            '/account_administration'
+            '/reset_password_confirmed/'
+            '?uid=%s' % u.id, follow=True)
+        self.assertEqual(r.status_code, 200)
         u = User.objects.get(user_id='test_admin')
         new_pass = u.info['password']
         self.assertNotEqual(old_pass, new_pass)
@@ -244,6 +249,11 @@ class TestHelpdeskWithClient(SetUpAdminAndClientMixin, TestCase):
             u = User.objects.get(user_id=user_id)
             old_pass = u.info['password']
             r = self.c.get(
+                '/account_administration'
+                '/reset_password_confirmed/'
+                '?uid=%s' % u.id, follow=False)
+            self.assertEqual(r.status_code, 403)
+            r = self.c.post(
                 '/account_administration'
                 '/reset_password_confirmed/'
                 '?uid=%s' % u.id,
@@ -267,7 +277,7 @@ class TestHelpdeskWithClient(SetUpAdminAndClientMixin, TestCase):
 
     def test_reset_password_of_nonexistent_user(self):
         self.c.post(self.locations['login'], self.manager_creds, follow=True)
-        r = self.c.get(
+        r = self.c.post(
             '/account_administration'
             '/reset_password_confirmed/'
             '?uid=756',
@@ -289,7 +299,7 @@ class TestHelpdeskWithClient(SetUpAdminAndClientMixin, TestCase):
     def test_password_after_reset(self):
         self.c.post(self.locations['login'], self.manager_creds, follow=True)
         u = User.objects.get(user_id='test_admin')
-        r = self.c.get(
+        r = self.c.post(
             '/account_administration'
             '/reset_password_confirmed/'
             '?uid=%s' % u.id,

@@ -192,6 +192,8 @@ def reset_password(request):
 
 @manager_or_superadmin_required
 def reset_password_confirmed(request):
+    if request.method != 'POST':
+        raise PermissionDenied
     uid = request.GET.get('uid')
     uid = sanitize_get_param(uid)
     logged_user = request.zeususer._user
