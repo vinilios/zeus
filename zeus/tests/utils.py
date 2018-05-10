@@ -17,6 +17,7 @@ class SetUpAdminAndClientMixin():
 
     def setUp(self):
         self.group = UserGroup.objects.create(name="ZEUS")
+        self.group_forum = UserGroup.objects.create(name="ZEUS_FORUM")
         self.institution = Institution.objects.create(name="test_inst")
         self.admin = User.objects.create(
             user_type="password",
@@ -25,7 +26,7 @@ class SetUpAdminAndClientMixin():
             admin_p=True,
             institution=self.institution
             )
-        self.admin.user_groups.add(self.group)
+        self.admin.user_groups.add(self.group, self.group_forum)
         self.locations = {
             'home': '/',
             'logout': '/auth/auth/logout',

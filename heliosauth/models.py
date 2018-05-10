@@ -84,7 +84,7 @@ class User(models.Model):
   def can_enable_forum(self):
     groups = self.user_groups.values_list("name", flat=True)
     # any group name contains forum
-    return any(filter(lambda x: "forum" in x, groups))
+    return any(filter(lambda x: "forum" in x.lower(), groups))
 
   @property
   def eligible_election_types(self):

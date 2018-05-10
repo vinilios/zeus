@@ -106,3 +106,89 @@ class TestAdminsPermissions(SetUpAdminAndClientMixin, TestCase):
         self.c.post(self.locations['login'], self.login_data2)
         r = self.c.get('/elections/%s/edit'% self.pairs['test_admin'])
         self.assertEqual(r.status_code, 403)
+
+
+class TestSecurity(SetUpAdminAndClientMixin, TestCase):
+
+    def make_election(self, election_kwargs=None, polls_kwargs=None):
+        default_election_kwargs = {
+            'institution': Institution(name="INST"),
+            'election_module': 'simple'
+        }
+        default_poll_kwargs = {
+            'questions_data': [
+                {
+                    'question': 'question a',
+                    'max_answers': 1,
+                    'min_answers': 1,
+                    'answers': ['a', 'b'],
+                    'answer_0': 'a',
+                    'answer_1': 'b'
+                }
+            ],
+            'result': [[1,1,1]]
+        }
+
+        election_kwargs = election_kwargs or {}
+        polls_kwargs = polls_kwargs or [{}]
+
+        kwargs = {}
+        kwargs.update(default_election_kwargs)
+        kwargs.update(election_kwargs)
+
+        polls = []
+        e = Election(**kwargs)
+        for poll_kwargs in polls_kwargs:
+            kwargs = {}
+            kwargs.update(default_poll_kwargs)
+            kwargs.update(poll_kwargs)
+            kwargs['election'] = e
+            poll = Poll(**kwargs)
+            poll.get_module().update_answers()
+            polls.append(poll)
+
+        return e, polls
+
+    def test_csv_writer(self):
+        from zeus.reports import csv_from_polls
+        from StringIO import StringIO
+        buffer = StringIO()
+
+        for char in ["=", "+", "-", "@"]:
+            election, polls = self.make_election({
+                'name': '%sINJECTION()' % char
+            })
+
+            csv_from_polls(election, polls, "el", buffer)
+            # injection escaped with '
+            self.assertTrue(",'%sINJECTION" % char in buffer.getvalue())
+
+
+    def test_redirect(self):
+        from zeus.utils import sanitize_redirect, SuspiciousOperation
+        url = "https://adversary.com"
+        with self.assertRaises(SuspiciousOperation):
+            sanitize_redirect(url)
+
+        url = "/404"
+        assert sanitize_redirect(url) == url
+
+        url = "https://127.0.0.1:8000/zeus"
+        assert sanitize_redirect(url) == url
+
+        url = "ftp://127.0.0.1:8000/zeus"
+        with self.assertRaises(SuspiciousOperation):
+            sanitize_redirect(url)
+
+        url = "////adversary.com"
+        assert sanitize_redirect(url) == "/adversary.com" # thus 404
+
+        url = "http%3A%2F%2Fadversary.com"
+        with self.assertRaises(SuspiciousOperation):
+            sanitize_redirect(url)
+
+        url = "%68%74%74%70%25%33%41%25%32%" + \
+              "46%25%32%46%61%64%76%65%72%73" + \
+              "%61%72%79%2e%63%6f%6d"
+        with self.assertRaises(SuspiciousOperation):
+            sanitize_redirect(url)

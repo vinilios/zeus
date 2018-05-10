@@ -3,12 +3,12 @@ from zeus.utils import defusedcsv as csv
 from functools import partial
 
 from cStringIO import StringIO
-from helios.models import *
 from collections import defaultdict
 from zeus.core import gamma_decode
 from zeus.utils import CSVReader
 from django.db.models import Count
 from django.utils.translation import ugettext as _
+from django.utils import translation
 
 try:
   from collections import OrderedDict
