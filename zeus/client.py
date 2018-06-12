@@ -136,11 +136,11 @@ def get_poll_info(url):
     html = response.read()
 
     try:
-        parsed = urlparse(html.split('<a id="booth-link"')[1].split('href="')[1].split('"')[0])
+        poll_url = html.split('<div id="booth-link"')[1].split('href="')[1].split('"')[0]
     except:
         print html
+        import pdb; pdb.set_trace()
         raise
-    poll_url = dict(parse_qsl(parsed.query))['continue_url']
     parsed = urlparse(poll_url)
     booth_path = parsed.path
     poll_info = dict(parse_qsl(parsed.query))
