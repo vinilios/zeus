@@ -80,6 +80,8 @@ class UniGovGrResults():
             results[g]['counts'] = OrderedDict()
             results[g]['counts_rounded'] = OrderedDict()
             for question, answers in self.questions.iteritems():
+                question = question.replace("\r\n", "{newline}")
+                question = question.replace("\n", "{newline}")
                 results[g]['counts'][question] = {}
                 results[g]['counts_rounded'][question] = {}
                 for answer in answers:
