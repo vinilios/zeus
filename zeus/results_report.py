@@ -754,7 +754,9 @@ def build_preferences_doc(title, name, institution_name, voting_start, voting_en
                 counter += 1
             elected = [[escape(_('Candidates List')), escape(_('Wins'))]]
 
-            for candidate, beats in poll_results['wins_and_beats'].items():
+            wins_and_beats = list(poll_results['wins_and_beats'].items())
+            _results = sorted(wins_and_beats, key=lambda x: x[1][0])
+            for candidate, beats in _results:
                 elected.append([indexed_cands[candidate], beats[0]])
             t = Table(elected)
             my_table_style = TableStyle([('FONT', (0, 0), (-1, -1),'LinLibertine'),
