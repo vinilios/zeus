@@ -181,7 +181,7 @@ class PreferencesElection(ElectionModuleBase):
         ballots_data = self.poll.result[0]
         ballots = []
         for ballot in ballots_data:
-            if not ballot:
+            if ballot is None:
                 continue
 
             decoded = gamma_decode(ballot, candidates_count, candidates_count)
