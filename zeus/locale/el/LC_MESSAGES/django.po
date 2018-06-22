@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-30 11:32+0300\n"
+"POT-Creation-Date: 2018-06-22 20:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,6 +79,16 @@ msgstr "Δεν υπάρχουν ερωτήσεις ακόμη"
 msgid "Single transferable vote election"
 msgstr "Ψηφοφορία με ταξινομική ψήφο"
 
+msgid "Maximum elected from the same constituency"
+msgstr "Μέγιστος αριθμός εκλεγόμενων από την ίδια Εκλογική Περιφέρεια"
+
+msgid "Greek Universities Governing Councils election"
+msgstr ""
+"Ανάδειξη Των Εσωτερικών Μελών Συμβουλίων Διοίκησης AEI"
+
+msgid "Maximum elected from the same department"
+msgstr "Περιορισμός εκλεγόμενων ανά Σχολή ή Ανεξάρτητο Τμήμα"
+
 msgid "Electors: Group A"
 msgstr "Εκλέκτορες: Ομάδα Α"
 
@@ -124,6 +134,23 @@ msgstr "Ενημέρωση ψηφοφόρων μέσω SMS (%d αποστολέ�
 msgid "Mobile SMS notifications enabled"
 msgstr "Ενεργοποίηση μηνυμάτων SMS"
 
+msgid "Departments"
+msgstr "Τμήματα"
+
+msgid "Constituencies"
+msgstr "Εκλογικές Περιφέρειες"
+
+msgid ""
+"University Schools. e.g.<br/><br/> School of Engineering <br />School of "
+"Medicine<br />School ofInformatics<br />"
+msgstr ""
+
+msgid ""
+"List of constituencies. e.g.<br/><br/>District A<br />District B<br /"
+">District C<br />"
+msgstr "Λίστα εκλογικών περιφεριών π.χ.<br/><br/>Α' Αθηνών<br />Β' Αθηνών<br /"
+">Α' Πειραιώς<br />"
+
 msgid "Invalid voting end date"
 msgstr "Η ημερομηνία λήξης δεν είναι σωστή."
 
@@ -164,17 +191,23 @@ msgstr ""
 "Ο αριθμός απαντήσεων πρέπει να είναι μεγαλύτερος ή ίσως του μέγιστου αριθμού "
 "απαντήσεων"
 
+msgid "https://en.wikipedia.org/wiki/Droop_quota"
+msgstr ""
+
+msgid "Droop quota"
+msgstr "Αναλογία Droop"
+
 msgid "maximum number of elected from the same constituency"
-msgstr "Μέγιστος αριθμός εκλεγόμενων από την ίδια Σχολή ή Ανεξάρτητο Τμήμα"
+msgstr "Μέγιστος αριθμός εκλεγόμενων από την ίδια περιφέρεια"
 
 msgid "Constituency limit"
-msgstr "Όριο ανά Σχολή ή Ανεξάρτητο Τμήμα"
+msgstr "Όριο ανά Εκλογική Περιφέρεια"
 
 msgid "enable limiting the elections from the same constituency"
 msgstr "Ενεργοποίηση περιορισμού εκλεγόμενων από την ίδια περιφέρεια"
 
 msgid "Limit elected per constituency"
-msgstr "Περιορισμός εκλεγόμενων ανά Σχολή ή Ανεξάρτητο Τμήμα"
+msgstr "Περιορισμός εκλεγόμενων ανά περιφέρεια"
 
 msgid "set the eligibles count of the election"
 msgstr "Ορίστε το πλήθος των εκλεγόμενων"
@@ -187,6 +220,18 @@ msgstr "Αυτό το πεδίο είναι απαραίτητο."
 
 msgid "Value must be a positve integer"
 msgstr "Η τιμή πρέπει να είναι θετικός ακέραιος"
+
+msgid "enable limiting the elections from the same department"
+msgstr "Ενεργοποίηση περιορισμού εκλεγόμενων από την ίδια Σχολή ή Ανεξάρτητο Τμήμα"
+
+msgid "Limit elected per department"
+msgstr "Περιορισμός εκλεγόμενων ανά Σχολή ή Ανεξάρτητο Τμήμα"
+
+msgid "maximum number of elected from the same department"
+msgstr "Μέγιστος αριθμός εκλεγόμενων από την ίδια Σχολή ή Ανεξάρτητο Τμήμα"
+
+msgid "Department limit"
+msgstr "Όριο ανά Σχολή ή Ανεξάρτητο Τμήμα"
 
 msgid "Username"
 msgstr "Όνομα χρήστη"
@@ -515,9 +560,6 @@ msgstr "Αποκλεισμός λόγω περιορισμού"
 msgid "Elected"
 msgstr "Εκλεγμένοι"
 
-msgid "Departments"
-msgstr "Τμήματα"
-
 msgid "Round "
 msgstr "Γύρος "
 
@@ -684,10 +726,12 @@ msgid "You cannot modify this post"
 msgstr "Δεν μπορείτε να επεξεργαστείτε την συγκεκριμένη ανάρτηση"
 
 msgid "You have successfully subscribed for forum notifications."
-msgstr "Οι ειδοποιήσεις για τη δραστηριότητα της διαβούλευσης έχουν ενεργοποιηθεί."
+msgstr ""
+"Οι ειδοποιήσεις για τη δραστηριότητα της διαβούλευσης έχουν ενεργοποιηθεί."
 
 msgid "You have successfully unsubscribed from forum notifications."
-msgstr "Οι ειδοποιήσεις για τη δραστηριότητα της διαβούλευσης έχουν απενεργοποιηθεί."
+msgstr ""
+"Οι ειδοποιήσεις για τη δραστηριότητα της διαβούλευσης έχουν απενεργοποιηθεί."
 
 msgid "Invalid batch file contents"
 msgstr "Μη αποδεκτό αρχείο"
