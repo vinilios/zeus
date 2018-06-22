@@ -29,7 +29,9 @@
     XSendFilePath /srv/zeus-data/
 
     RequestHeader set X-Forwarded-Proto 'https' env=HTTPS
-    RequestHeader set X-Forwarded-For '' # prevent custom x-forwarded-for values
+
+    # prevent custom x-forwarded-for values
+    RequestHeader set X-Forwarded-For ''
 
     ProxyPass               /server/zeus/   http://127.0.0.1:<%= @gunicornport %>/ retry=0
     ProxyPassReverse        /        http://127.0.0.1:<%= @gunicornport %>/
