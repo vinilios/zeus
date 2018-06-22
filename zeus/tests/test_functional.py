@@ -1271,10 +1271,10 @@ class TestSTVElection(TestElectionBase):
         self.election_process()
 
 
-class TestUniCouncilsGr(TestSTVElection):
+class TestUniCouncilsGrElection(TestSTVElection):
 
     def setUp(self):
-        super(TestUniCouncilsGr, self).setUp()
+        super(TestUniCouncilsGrElection, self).setUp()
         self.election_type = 'unicouncilsgr'
         if self.local_verbose:
             print '* Starting unicounclisgr election *'
