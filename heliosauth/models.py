@@ -31,7 +31,8 @@ def election_types_choices():
 
 class UserGroup(models.Model):
     name = models.CharField(max_length=255)
-    election_types = SeparatedValuesField(max_length=255, default=default_election_types_modules)
+    election_types = SeparatedValuesField(max_length=255,
+                                          default=default_election_types_modules)
 
     @property
     def election_types_display(self):

@@ -14,53 +14,60 @@ from zeus.election_modules import ElectionModuleBase, election_module
 from zeus.views.utils import set_menu
 
 from helios.view_utils import render_template
+from stv.stv import count_stv, Ballot
 from zeus.core import gamma_decode, to_absolute_answers
-from zeus.election_modules.preference.schulze import count as schulze_count
+
 
 @election_module
-class PreferencesElection(ElectionModuleBase):
-
-    def get_count_method(self):
-        return schulze_count
-
-    module_id = 'preference'
-    results_module = 'preference'
-    description = _('Preferential voting')
+class UniCouncilsGr(ElectionModuleBase):
+    module_id = 'unicouncilsgr'
+    booth_module_id = 'stv'
+    results_module = "stv"
+    description = _('Greek Universities Governing Councils election')
+    department_limit_label = _("Maximum elected from the same department")
     messages = {
         'answer_title': _('Candidate'),
         'question_title': _('Candidates List')
     }
     auto_append_answer = True
     count_empty_question = False
-    booth_questions_tpl = 'question_preference'
-    no_questions_added_message = _('No candidates set')
-    manage_questions_title = _('Manage candidates')
-    override_question_title = _('Candidates List')
+    booth_questions_tpl = 'question_ecounting'
+    no_questions_added_message = _('No questions set')
+    manage_questions_title = _('Manage ballot')
     module_params = {
         'ranked': True
     }
 
-    results_template = "election_modules/preference/election_results.html"
+    results_template = "election_modules/stv/results.html"
 
     pdf_result = True
     csv_result = True
     json_result = True
 
-    def questions_update_view(self, request, election, poll):
-        from zeus.utils import poll_reverse
-        from zeus.forms import PreferencesForm, DEFAULT_ANSWERS_COUNT, \
-                MAX_QUESTIONS_LIMIT
+    @property
+    def questions_form_cls(self):
+        from zeus.forms import UniCouncilsGrForm
+        return UniCouncilsGrForm
 
+    def questions_form_initial(self, poll):
         if not poll.questions_data:
             poll.questions_data = [{}]
 
+        poll.questions_data[0]['departments_data'] = poll.election.departments
         initial = poll.questions_data
+        return initial
+
+    def questions_update_view(self, request, election, poll):
+        from zeus.utils import poll_reverse
+        from zeus.forms import DEFAULT_ANSWERS_COUNT, MAX_QUESTIONS_LIMIT
+
+        initial = self.questions_form_initial(poll)
 
         extra = 1
         if poll.questions_data:
             extra = 0
 
-        questions_formset = formset_factory(PreferencesForm, extra=extra,
+        questions_formset = formset_factory(self.questions_form_cls, extra=extra,
                                             can_delete=True, can_order=True)
 
 
@@ -82,9 +89,13 @@ class PreferencesElection(ElectionModuleBase):
                     answer_values = filter(isanswer, question.iteritems())
                     sorted_answers = sorted(answer_values, key=answer_index)
 
-                    answers = [x[1] for x in sorted_answers]
+                    answers = [json.loads(x[1])[0] for x in sorted_answers]
+                    departments = [json.loads(x[1])[1] for x in sorted_answers]
 
-                    question['answers'] = answers
+                    final_answers = []
+                    for a,d in zip(answers, departments):
+                        final_answers.append(a+':'+d)
+                    question['answers'] = final_answers
                     for k in question.keys():
                         if k in ['DELETE', 'ORDER']:
                             del question[k]
@@ -94,6 +105,10 @@ class PreferencesElection(ElectionModuleBase):
                 poll.questions_data = questions_data
                 poll.update_answers()
                 poll.logger.info("Poll ballot updated")
+                poll.eligibles_count = int(formset.cleaned_data[0]['eligibles'])
+                poll.has_department_limit = formset.cleaned_data[0]['has_department_limit']
+                poll.department_limit = int(formset.cleaned_data[0]['department_limit'])
+                poll.stv_droop = bool(formset.cleaned_data[0].get('droop_quota', False))
                 poll.save()
 
                 url = poll_reverse(poll, 'questions')
@@ -111,7 +126,7 @@ class PreferencesElection(ElectionModuleBase):
         }
         set_menu('questions', context)
 
-        tpl = 'election_modules/preference/election_poll_questions_manage'
+        tpl = 'election_modules/stv/election_poll_questions_manage'
         return render_template(request, tpl, context)
 
     def update_answers(self):
@@ -121,7 +136,7 @@ class PreferencesElection(ElectionModuleBase):
         if self.auto_append_answer:
             prepend_empty_answer = True
         for index, q in enumerate(questions_data):
-            q_answers = ["%s" % (ans,) for ans in \
+            q_answers = ["%s" % (ans) for ans in \
                          q['answers']]
             group = index
             if prepend_empty_answer:
@@ -142,9 +157,9 @@ class PreferencesElection(ElectionModuleBase):
             (self.poll.name, self.poll.zeus.get_results(), self.poll.questions,
              self.poll.voters.all())
             ]
-        from zeus.results_report import build_preferences_doc
+        from zeus.results_report import build_stv_doc
         results_json = self.poll.zeus.get_results()
-        build_preferences_doc(_(u'Results'), self.election.name,
+        build_stv_doc(_(u'Results'), self.election.name,
                     self.election.institution.name,
                     self.election.voting_starts_at, self.election.voting_ends_at,
                     self.election.voting_extended_until,
@@ -153,14 +168,14 @@ class PreferencesElection(ElectionModuleBase):
                     self.get_poll_result_file_path('pdf', 'pdf', lang[0]))
 
     def generate_election_result_docs(self, lang):
-        from zeus.results_report import build_preferences_doc
+        from zeus.results_report import build_stv_doc
         pdfpath = self.get_election_result_file_path('pdf', 'pdf', lang[0])
         polls_data = []
 
         for poll in self.election.polls.filter():
             polls_data.append((poll.name, poll.zeus.get_results(), poll.questions, poll.voters.all()))
 
-        build_preferences_doc(_(u'Results'), self.election.name,
+        build_stv_doc(_(u'Results'), self.election.name,
             self.election.institution.name,
             self.election.voting_starts_at, self.election.voting_ends_at,
             self.election.voting_extended_until,
@@ -175,33 +190,55 @@ class PreferencesElection(ElectionModuleBase):
             self.generate_election_zip_file(lang)
 
     def compute_results(self):
-        candidates = self.poll.questions_data[0]['answers']
-        candidates_count =  len(candidates)
+        cands_data = self.poll.questions_data[0]['answers']
+        cands_count =  len(cands_data)
+        constituencies = {}
         count_id = 0
 
+        for item in cands_data:
+            cand_and_dep = item.split(':')
+            constituencies[str(count_id)] = cand_and_dep[1]
+            count_id += 1
+
+        seats = self.poll.eligibles_count
+        droop = self.poll.stv_droop
+        rnd_gen = None # TODO: should be generated and stored on poll freeze
+        if self.poll.has_department_limit:
+            quota_limit = self.poll.department_limit
+        else:
+            quota_limit = 0
         ballots_data = self.poll.result[0]
         ballots = []
         for ballot in ballots_data:
-            if ballot is None:
+            if not ballot:
                 continue
+            ballot = to_absolute_answers(gamma_decode(ballot, cands_count,cands_count),
+                                         cands_count)
+            ballot = [str(i) for i in ballot]
+            ballots.append(Ballot(ballot))
 
-            decoded = gamma_decode(ballot, candidates_count, candidates_count)
-            ballot = to_absolute_answers(decoded, candidates_count)
-            ballots.append(ballot)
-
-        computed = self.get_count_method()(ballots, range(candidates_count))
-        results = {
-            'wins_and_beats': computed[1],
-            'ballots': ballots,
-            'blanks': len(filter(lambda x: len(x) == 0, ballots))
-        }
-
+        stv_stream = StringIO.StringIO()
+        stv_logger = logging.Logger(self.poll.uuid)
+        handler = logging.StreamHandler(stv_stream)
+        stv_logger.addHandler(handler)
+        stv_logger.setLevel(logging.DEBUG)
+        self.poll.logger.info(
+            "Count STV results [seats:{} droop:{} quota_limit:{}]".format(
+                seats, droop, quota_limit))
+        results = count_stv(ballots, seats, droop, constituencies, quota_limit,
+                            rnd_gen, logger=stv_logger)
+        results = list(results[0:2])
+        handler.close()
+        stv_stream.seek(0)
+        results.append(stv_stream.read())
+        stv_stream.close()
         self.poll.stv_results = json.dumps(results)
         self.poll.save()
 
         # build docs
         self.generate_json_file()
         for lang in settings.LANGUAGES:
+            #self.generate_csv_file(lang)
             self.generate_result_docs(lang)
             self.generate_csv_file(lang)
 

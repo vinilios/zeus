@@ -100,7 +100,7 @@ class TestElectionBase(SetUpAdminAndClientMixin, TestCase):
             print "Election form without trustees was not accepted"
         '''
 
-        if self.election_type == 'stv':
+        if self.election_type in ['unicouncilsgr', 'stv']:
 
             self.assertRaises(
                 IndexError,
@@ -1203,7 +1203,6 @@ class TestScoreElection(TestElectionBase):
     def test_election_process(self):
         self.election_process()
 
-
 class TestSTVElection(TestElectionBase):
 
     def setUp(self):
@@ -1271,6 +1270,51 @@ class TestSTVElection(TestElectionBase):
     def test_election_process(self):
         self.election_process()
 
+
+class TestUniCouncilsGr(TestSTVElection):
+
+    def setUp(self):
+        super(TestUniCouncilsGr, self).setUp()
+        self.election_type = 'unicouncilsgr'
+        if self.local_verbose:
+            print '* Starting unicounclisgr election *'
+
+    def create_questions(self):
+        nr_candidates = randint(2, self.stv_election_max_answers_number)
+        eligibles = randint(1, nr_candidates)
+        # choose randomly if has department limit
+        post_data = {
+            'form-MAX_NUM_FORMS': 1000,
+            'form-TOTAL_FORMS': 1,
+            'form-INITIAL_FORMS': 1,
+            'form-0-ORDER': 1,
+            'form-0-eligibles': eligibles,
+            }
+        post_data_with_duplicate_answers = post_data.copy()
+        e = Election.objects.get(uuid=self.e_uuid)
+        departments = e.departments.split('\n')
+        extra_data = {}
+        duplicate_extra_data = {}
+
+        for i in range(0, nr_candidates):
+            extra_data['form-0-answer_%s_0' % i] = 'test candidate %s' % i
+            dep_choice = choice(departments)
+            extra_data['form-0-answer_%s_1' % i] = dep_choice
+            duplicate_extra_data['form-0-answer_%s_0' % i] = \
+                'test candidate 0'
+            duplicate_extra_data['form-0-answer_%s_1' % i] = dep_choice
+            duplicate_extra_data['form-0-answer_%s_0' % (i+1)] = \
+                'test candidate 0'
+            duplicate_extra_data['form-0-answer_%s_1' % (i+1)] = dep_choice
+        # randomize department limit, if 0, has limit
+        limit = randint(0, 4)
+        if limit == 0:
+            post_data['form-0-has_department_limit'] = 'on'
+            post_data['form-0-department_limit'] = 2
+        post_data_with_duplicate_answers.update(duplicate_extra_data)
+        post_data.update(extra_data)
+        # 1 is the number of max questions, used for assertion
+        return post_data, 1, post_data_with_duplicate_answers
 
 class TestWeightElection(TestSimpleElection):
 

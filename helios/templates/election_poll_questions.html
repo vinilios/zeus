@@ -16,11 +16,13 @@
 <div class="columns twelve">
   <div class="panel">
 
-{% if poll.election.election_module == "stv" %}
+{% if module.results_module == "stv" %}
     {%trans "Eligibles count"%} : {{poll.eligibles_count}}
-    <br/>
         {% if poll.has_department_limit %}
-            {%trans "Maximum elected from the same constituency" %} : {{poll.department_limit}}
+        <br />{{ module.department_limit_label }} : {{poll.department_limit}}
+        {% endif %}
+        {% if poll.stv_droop %}
+        <br />{% trans "Droop quota" %}: {% trans "Enabled" %}
         {% endif %}
 {% endif %}
     {% for q in poll.questions_data %}

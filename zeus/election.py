@@ -567,7 +567,7 @@ class ZeusDjangoElection(ZeusCoreElection):
         return excluded_voters
 
     def get_results(self):
-        if self.poll.get_module().module_id == 'score':
+        if self.poll.get_module().results_module == 'score':
             # last entry should be question min/max params
             # catch untagged entries for backwards compatibility
             candidates = self.do_get_candidates()
@@ -579,11 +579,11 @@ class ZeusDjangoElection(ZeusCoreElection):
 
             return gamma_count_range(self.do_get_results(), candidates, params)
 
-        if self.poll.get_module().module_id == 'stv':
+        if self.poll.get_module().results_module == 'stv':
             # we expect cached stv results
             return self.poll.stv_results
 
-        if self.poll.get_module().module_id == 'preference':
+        if self.poll.get_module().results_module == 'preference':
             # we expect cached stv results
             return self.poll.stv_results
 
@@ -626,10 +626,10 @@ class ZeusDjangoElection(ZeusCoreElection):
         return pretty
 
     def get_results_pretty(self):
-        if self.poll.get_module().module_id == 'score':
+        if self.poll.get_module().results_module == 'score':
             return self.get_results_pretty_score()
 
-        if self.poll.get_module().module_id == 'stv':
+        if self.poll.get_module().results_module == 'stv':
             return self.get_results_pretty_stv()
 
         results = self.get_results()

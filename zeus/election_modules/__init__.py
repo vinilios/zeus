@@ -49,6 +49,7 @@ class ElectionHooks(object):
 class ElectionModuleBase(ElectionHooks):
 
     module_id =  None
+    results_module = None
     pdf_result = True
     csv_result = True
     json_result = True
@@ -82,6 +83,8 @@ class ElectionModuleBase(ElectionHooks):
         self.poll = poll
         self.election_hooks = self.election_hooks_cls(self)
         self.poll_hooks = self.poll_hooks_cls(self)
+        if not self.results_module:
+            self.results_module = self.module_id
 
         self._messages = copy.copy(self.default_messages)
         self._messages.update(self.messages)
@@ -154,7 +157,7 @@ class ElectionModuleBase(ElectionHooks):
         csvfile = file(self.get_poll_result_file_path('csv', 'csv', lang[0]), "w")
         if self.module_id == "score":
             csv_from_score_polls(self.election, [self.poll], lang[0], csvfile)
-        elif self.module_id == "stv":
+        elif self.results_module == "stv":
             csv_from_stv_polls(self.election, [self.poll], lang[0], csvfile)
         elif self.module_id == "preference":
             csv_from_preference_polls(self.election, [self.poll], lang[0], csvfile)
@@ -165,13 +168,13 @@ class ElectionModuleBase(ElectionHooks):
     def generate_election_csv_file(self, lang):
         csvpath = self.get_election_result_file_path('csv', 'csv', lang[0])
         csvfile = file(self.get_election_result_file_path('csv', 'csv', lang[0]), "w")
-        if self.module_id == "score":
+        if self.results_module == "score":
             csv_from_score_polls(self.election, self.election.polls.all(),\
                 lang[0], csvfile)
-        elif self.module_id == "stv":
+        elif self.results_module == "stv":
             csv_from_stv_polls(self.election, self.election.polls.all(),\
                                lang[0], csvfile)
-        elif self.module_id == "preference":
+        elif self.results_module == "preference":
             csv_from_preference_polls(self.election, self.election.polls.all(),
                                       lang[0], csvfile)
         else:
@@ -305,6 +308,7 @@ class ElectionModuleBase(ElectionHooks):
 from zeus.election_modules.simple import *
 from zeus.election_modules.parties import *
 from zeus.election_modules.score import *
-from zeus.election_modules.stv import *
+from zeus.election_modules.unicouncilsgr import *
 from zeus.election_modules.unigovgr import *
 from zeus.election_modules.preference import *
+from zeus.election_modules.stv import *

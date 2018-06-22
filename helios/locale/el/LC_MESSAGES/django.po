@@ -321,15 +321,6 @@ msgstr "Επιβεβαίωση κωδικού ψηφοφορίας"
 msgid "Partially decrypt votes"
 msgstr "Μερική αποκρυπτογράφηση ψήφων"
 
-msgid "Choice"
-msgstr "Απλή επιλογή"
-
-msgid "Ranked"
-msgstr "Με σειρά προτίμησης"
-
-msgid "STV"
-msgstr "Ταξινομική"
-
 msgid "Elections list"
 msgstr "Ψηφοφορίες"
 

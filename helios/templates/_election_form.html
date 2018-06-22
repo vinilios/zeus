@@ -32,8 +32,15 @@ $(function() {
     var module = $("select[name=election_module]").val();
     var depts = $("label[for=id_departments]").parent();
     if (depts.hasClass("error")) { depts.show(); return; }
-    if (module == "stv") {
+    if (module == "unicouncilsgr" || module == "stv") {
       depts.show();
+        function getData(key) {
+          return depts.find("textarea").data(key)
+        }
+      let labels = getData('labels');
+      let help_texts = getData('help');
+      depts.find("label").text(labels[module]);
+      depts.find("label").next().html(help_texts[module]);
     } else {
       depts.hide();
     }

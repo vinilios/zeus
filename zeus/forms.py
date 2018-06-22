@@ -193,8 +193,24 @@ class ElectionForm(forms.ModelForm):
                                         ELECTION_MODULES_CHOICES)
 
         self.fields['election_module'].choices = eligible_types_choices
+        deps_labels = {
+            'unicouncilsgr': unicode(_('Departments')),
+            'stv': unicode(_('Constituencies')),
+        }
+        deps_help_texts = {
+            'unicouncilsgr': unicode(_("University Schools. e.g."
+                                   "<br/><br/> School of Engineering <br />"
+                                   "School of Medicine<br />School of"
+                                   "Informatics<br />")),
+            'stv': unicode(_("List of constituencies. e.g."
+                                   "<br/><br/>District A<br />"
+                                   "District B<br />District C"
+                                   "<br />")),
+        }
+        self.fields['departments'].widget.attrs['data-labels'] = json.dumps(deps_labels)
+        self.fields['departments'].widget.attrs['data-help'] = json.dumps(deps_help_texts)
         if 'election_module' in self.data:
-            if self.data['election_module'] != 'stv':
+            if self.data['election_module'] not in ['unicouncilsgr', 'stv']:
                 self.fields['departments'].required = False
         if self.instance and self.instance.pk:
             self.fields.get('trustees').initial = \
@@ -503,6 +519,7 @@ class StvForm(QuestionBaseForm):
 
     def __init__(self, *args, **kwargs):
         deps = kwargs['initial'].get('departments_data', '').split('\n')
+
         DEPARTMENT_CHOICES = []
         for dep in deps:
             DEPARTMENT_CHOICES.append((dep.strip(),dep.strip()))
@@ -531,6 +548,15 @@ class StvForm(QuestionBaseForm):
                                               required=True,
                                               widget=_widget,
                                               label=('Candidate'))
+
+        elig_help_text = _("https://en.wikipedia.org/wiki/Droop_quota")
+        label_text = _("Droop quota")
+        ordered_dict_prepend(self.fields, 'droop_quota',
+                             forms.BooleanField(
+                                 required=False,
+                                 label=label_text,
+                                 initial=True,
+                                 help_text=elig_help_text))
 
         widget=forms.TextInput(attrs={'hidden': 'True'})
         dep_lim_help_text = _("maximum number of elected from the same constituency")
@@ -628,6 +654,24 @@ class StvForm(QuestionBaseForm):
         except ValueError:
             raise forms.ValidationError(message)
 
+
+class UniCouncilsGrForm(StvForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UniCouncilsGrForm, self).__init__(*args, **kwargs)
+        has_limit_help_text = \
+            _("enable limiting the elections from the same department")
+        has_limit_label = \
+            _("Limit elected per department")
+        self.fields['has_department_limit'].label = has_limit_label
+        self.fields['has_department_limit'].help_text = has_limit_label
+        dep_lim_help_text = \
+            _("maximum number of elected from the same department")
+        dep_lim_label = \
+            _("Department limit")
+        self.fields['department_limit'].label = dep_lim_label
+        self.fields['department_limit'].help_text =  dep_lim_help_text
+        del self.fields['droop_quota']
 
 
 class PreferencesForm(StvForm):
