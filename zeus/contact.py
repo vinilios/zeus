@@ -148,7 +148,7 @@ class SMSBackend(ContactBackend):
                 self.logger.error("SMS notification to voter '%s' failed (uid: %r, resp: %r)", voter.voter_login_id, msg_uid,
                                 error_or_code)
             else:
-                self.logger.info("SMS notification to voter '%s' sent (uid: %r, resp: %r)", msg_uid, msg_uid,
+                self.logger.info("SMS notification to voter '%s' sent (uid: %r, resp: %r)", voter.voter_login_id, msg_uid,
                                 error_or_code)
             if sent:
                 # store last notification date
