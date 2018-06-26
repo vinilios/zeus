@@ -157,4 +157,5 @@ class SMSBackend(ContactBackend):
                 if not client.remote_status:
                     voter.last_sms_status = 'sent'
                 data.increase_sent(body)
+                voter.save()
             return sent, error_or_code if not sent else None
