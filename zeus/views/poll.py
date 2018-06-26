@@ -411,7 +411,7 @@ def voters_clear(request, election, poll):
         for voter in voters:
             if not voter.cast_votes.count():
                 voter.delete()
-            p.logger.info("Poll voters cleared")
+        p.logger.info("Poll voters cleared")
 
     url = poll_reverse(poll, 'voters')
     return HttpResponseRedirect(url)
