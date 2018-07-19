@@ -148,7 +148,7 @@ msgstr ""
 msgid ""
 "List of constituencies. e.g.<br/><br/>District A<br />District B<br /"
 ">District C<br />"
-msgstr "Λίστα εκλογικών περιφεριών π.χ.<br/><br/>Α' Αθηνών<br />Β' Αθηνών<br /"
+msgstr "Λίστα εκλογικών περιφερειών π.χ.<br/><br/>Α' Αθηνών<br />Β' Αθηνών<br /"
 ">Α' Πειραιώς<br />"
 
 msgid "Invalid voting end date"
