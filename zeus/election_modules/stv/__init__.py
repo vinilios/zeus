@@ -22,7 +22,7 @@ from zeus.election_modules.unicouncilsgr import UniCouncilsGr
 @election_module
 class StvElection(UniCouncilsGr):
     module_id = 'stv'
-    description = _('Single transferable vote election')
+    description = _('Ranked choice election (RCV/STV/IRV)')
     department_limit_label = _("Maximum elected from the same constituency")
 
     booth_module_id = 'stv'

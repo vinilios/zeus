@@ -25,7 +25,7 @@ class PreferencesElection(ElectionModuleBase):
 
     module_id = 'preference'
     results_module = 'preference'
-    description = _('Preferential voting')
+    description = _('Preferential voting election (Schulze method)')
     messages = {
         'answer_title': _('Candidate'),
         'question_title': _('Candidates List')
