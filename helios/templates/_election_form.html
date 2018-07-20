@@ -31,7 +31,6 @@ $(function() {
   function updateDeptsVisible() {
     var module = $("select[name=election_module]").val();
     var depts = $("label[for=id_departments]").parent();
-    if (depts.hasClass("error")) { depts.show(); return; }
     if (module == "unicouncilsgr" || module == "stv") {
       depts.show();
         function getData(key) {
@@ -44,6 +43,7 @@ $(function() {
     } else {
       depts.hide();
     }
+    if (depts.hasClass("error")) { depts.show(); return; }
   }
   updateDeptsVisible();
 });
