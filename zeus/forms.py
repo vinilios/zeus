@@ -593,6 +593,7 @@ class StvForm(QuestionBaseForm):
         return CandidateWidget(departments=departments)
 
     def _clean_answer(self, answer):
+        from django.forms.util import ErrorList
         answer_lst = json.loads(answer)
         if '%' in answer_lst[0]:
             raise forms.ValidationError(INVALID_CHAR_MSG % "%")
@@ -602,7 +603,6 @@ class StvForm(QuestionBaseForm):
         return answer_lst[0], json.dumps(answer_lst)
 
     def clean(self):
-        from django.forms.util import ErrorList
         message = _("This field is required.")
         answers = len(
             filter(
