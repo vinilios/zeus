@@ -557,6 +557,8 @@ class StvForm(QuestionBaseForm):
                                  label=label_text,
                                  initial=True,
                                  help_text=elig_help_text))
+        self.fields['droop_quota'].widget.attrs['readonly'] = True
+        self.fields['droop_quota'].widget.attrs['disabled'] = True
 
         widget=forms.TextInput(attrs={'hidden': 'True'})
         dep_lim_help_text = _("maximum number of elected from the same constituency")
@@ -623,6 +625,7 @@ class StvForm(QuestionBaseForm):
         if len(candidates_list) > len(set(candidates_list)):
             raise forms.ValidationError(_("No duplicate choices allowed"))
 
+        self.cleaned_data['droop_quota'] = True
         return self.cleaned_data
 
     def clean_eligibles(self):
@@ -673,6 +676,11 @@ class UniCouncilsGrForm(StvForm):
         self.fields['department_limit'].help_text =  dep_lim_help_text
         del self.fields['droop_quota']
 
+    def clean(self):
+        super(UniCouncilsGrForm, self).clean()
+        self.cleaned_data['droop_quota'] = False
+        return self.cleaned_data
+
 
 class PreferencesForm(StvForm):
 
@@ -683,6 +691,7 @@ class PreferencesForm(StvForm):
         del self.fields['department_limit']
         del self.fields['has_department_limit']
         del self.fields['eligibles']
+        del self.fields['droop_quota']
 
     def _make_candidate_widget(self, departments):
         return AnswerWidget(attrs={'class': 'answer_input'})
