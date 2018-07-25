@@ -568,7 +568,7 @@ class StvForm(QuestionBaseForm):
                                  widget=widget,
                                  required=False))
 
-        widget=forms.CheckboxInput(attrs={'onclick':'enable_limit()'})
+        widget=forms.CheckboxInput()
         limit_help_text = _("enable limiting the elections from the same constituency")
         limit_label = _("Limit elected per constituency")
         ordered_dict_prepend(self.fields, 'has_department_limit',
