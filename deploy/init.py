@@ -27,11 +27,13 @@ def main(institution_name, username, password):
     user.management_p = True
     user.institution = inst
     user.ecounting_account = False
-    user.user_groups = UserGroup.objects.all()
     user.info = {
         "name": username,
         "password": make_password(password)
     }
+    if not user.pk:
+        user.save()
+    user.user_groups = UserGroup.objects.all()
     user.save()
 
 main(*sys.argv[1:])

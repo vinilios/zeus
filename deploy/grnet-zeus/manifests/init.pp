@@ -118,6 +118,7 @@ class zeus (
         owner => 'www-data',
         group => 'celery',
         recurse => true,
+        ignore => '.git',
         require => Package['celeryd']
     }
 
@@ -176,9 +177,10 @@ class zeus (
         require => File['zeus_settings']
     }
 
-    $collectcmd = "python manage.py collectstatic --noinput"
     if $dev {
         $collectcmd = "python manage.py collectstatic --noinput -l"
+    } else {
+        $collectcmd = "python manage.py collectstatic --noinput"
     }
 
     exec {'zeus_collectstatic':
@@ -250,9 +252,7 @@ class zeus (
         cwd => $appdir,
         path => ["/usr/bin", "/usr/sbin"],
         require => [File['zeus_settings'], Exec['zeus_migrations']],
-        creates => '/srv/zeus-data/zeus.log',
-        user => 'www-data',
-        group => 'celery'
+        notify  => File['zeus_zeus_log']
     }
 
     apache::listen { $port: }
