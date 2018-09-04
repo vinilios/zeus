@@ -147,9 +147,11 @@ def voters_email(poll_id,
     ))
 
     poll.logger.info("Notifying %d voters via %r" % (voters.count(), contact_methods))
-    if len(poll.linked_polls) > 1 and 'vote_body' in body_template:
-        body_template_email = body_template_email.replace("_body.txt", "_linked_body.txt")
-        #TODO: Handle linked polls sms notification
+    if len(poll.linked_polls) > 1:
+        if 'vote_body' in body_template_email:
+            body_template_email = body_template_email.replace("_body.txt", "_linked_body.txt")
+        if 'vote_body' in body_template_sms:
+            body_template_sms = body_template_sms.replace("_body.txt", "_linked_body.txt")
 
     for voter in voters:
         single_voter_email.delay(voter.uuid,

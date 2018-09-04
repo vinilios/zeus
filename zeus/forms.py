@@ -137,8 +137,8 @@ class ElectionForm(forms.ModelForm):
         'remote_mixes': ['edit_remote_mixes'],
         'trial': ['edit_trial'],
         'departments': ['edit_departments'],
-        'linked_polls': ['edit_linked_polls'],
         'cast_consent_text': ['edit_cast_consent_text'],
+        'linked_polls': ['edit_linked_polls'],
     }
 
     class Meta:
@@ -147,8 +147,8 @@ class ElectionForm(forms.ModelForm):
                   'departments', 'voting_starts_at', 'voting_ends_at',
                   'voting_extended_until',
                   'trustees', 'help_email', 'help_phone',
-                  'communication_language', 'linked_polls',
-                  'sms_api_enabled', 'cast_consent_text')
+                  'communication_language',
+                  'sms_api_enabled', 'cast_consent_text','linked_polls')
 
     def __init__(self, owner, institution, *args, **kwargs):
         self.institution = institution
@@ -167,7 +167,7 @@ class ElectionForm(forms.ModelForm):
                                                     choices=choices,
                                                     initial=lang,
                                                     help_text = help_text)
-        self.fields['linked_polls'].widget = forms.HiddenInput()
+        #self.fields['linked_polls'].widget = forms.HiddenInput()
         if owner.sms_data:
             help_text = _("Notify voters using SMS (%d deliveries available for your account)") % owner.sms_data.left
             self.fields['sms_api_enabled'] = forms.BooleanField(
