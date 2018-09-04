@@ -249,7 +249,10 @@ class zeus (
         command => "python deploy/init.py ${institution} ${adminuser} ${adminpassword}",
         cwd => $appdir,
         path => ["/usr/bin", "/usr/sbin"],
-        require => [File['zeus_settings'], Exec['zeus_migrations']]
+        require => [File['zeus_settings'], Exec['zeus_migrations']],
+        creates => '/srv/zeus-data/zeus.log',
+        user => 'www-data',
+        group => 'celery'
     }
 
     apache::listen { $port: }
