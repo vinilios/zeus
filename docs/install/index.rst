@@ -37,4 +37,4 @@ Run Zeus using Docker
 5. Wait for a few seconds for initialization scripts to complete and login as 
    administrator using credentials set in `config.yaml`::
 
-    $ open https://globa.nudis.co:8000/zeus/auth/auth/login
+    $ open https://127.0.0.1:8000/zeus/auth/auth/login
