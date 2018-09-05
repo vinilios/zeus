@@ -25,13 +25,13 @@
           class="button enabled small">{$T.answer}</span></li>
         {#/if}
         {#else}
-      <li class="stv-choice column seven choice-{$T.answer$index}">
+      <li class="stv-choice column six choice-{$T.answer$index}" style="clear: left;">
       <span
         data-question="{$T.question$index}"
         data-absolute-index="{$T.answer$index + $T.question.answers_index}"
         class="button enabled small">
         <span class="answer_text">{$T.answer}</span></span></li>
-        <li class="score-answer-{$T.answer$index} score-answer stv-choice column five last choice-{$T.answer$index}-scores">
+        <li class="score-answer-{$T.answer$index} score-answer stv-choice column six last choice-{$T.answer$index}-scores">
         {#foreach $T.question.scores as score}
         <span 
           data-question="{$T.question$index}"
@@ -45,7 +45,7 @@
           <input 
             data-score="{$T.score}"
             type="checkbox" id="score-choice-{$T.question$index}-{$T.answer$index}-{$T.score}" 
-            class="score-choice-input column one"/>
+            class="score-choice-input column one" style="width: 5.5%"/>
         {#/foreach}
         <div class="column one"></div>
         </li>
