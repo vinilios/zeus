@@ -1,0 +1,13 @@
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+before_install:
+  - cp deploy/config.tests.yaml deploy/config/yaml
+  - docker build -t grnet/zeus .
+
+script:
+  - docker run -ti -e ZEUS_TESTS_VERBOSE=1 --user root grnet/zeus test zeus account_administration --failfast --settings=test_settings
