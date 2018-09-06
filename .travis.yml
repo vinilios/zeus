@@ -6,7 +6,7 @@ services:
   - docker
 
 before_install:
-  - cp deploy/config.tests.yaml deploy/config/yaml
+  - cp deploy/config.tests.yaml deploy/config.yaml
   - docker build -t grnet/zeus .
 
 script:
